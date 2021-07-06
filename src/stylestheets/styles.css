@@ -1,0 +1,122 @@
+
+.log_pane{
+
+    -fx-background-color: #001224;
+    -fx-background-radius: 50 0 0 50;
+    -fx-border-radius: 50 0 0 50;
+}
+
+.sign_pane{
+
+    -fx-background-color: #001224;
+    -fx-background-radius: 0 50 50 0;
+    -fx-border-radius: 0 50 50 0;
+}
+
+.base{
+
+    -fx-background-color: #00172D;
+}
+
+.field{
+
+    -fx-background-color: transparent;
+    -fx-border-color: #007EfC;
+    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 5 5 5 5;
+    -fx-border-width: 2px;
+    -fx-text-fill: #FFF;
+}
+
+.btn{
+
+    -fx-background-color: #007EfC;
+    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 5 5 5 5;
+    -fx-text-fill: #FFF;
+    -fx-border-width: 2px;
+    -fx-border-color: #007EFC;
+}
+
+.btn:hover{
+
+    -fx-background-color: #00172D;
+    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 5 5 5 5;
+    -fx-text-fill: #007EFC;
+}
+
+.btn:pressed{
+
+    -fx-background-color: #007EfC;
+    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 5 5 5 5;
+    -fx-text-fill: #FFF;
+    -fx-border-width: 2px;
+    -fx-border-color: #007EFC;
+}
+
+.cross_button{
+
+    -fx-background-color: #001224;
+    -fx-text-fill: #FFF;
+}
+
+.cross_button:hover{
+
+    -fx-background-color: Red;
+    -fx-text-fill: #FFF;
+}
+
+.cross_button:pressed{
+
+    -fx-background-color: #00172D;
+    -fx-text-fill: #FFF;
+}
+
+.header_pane{
+
+    -fx-background-color: #001224;
+}
+
+.tgl_btn_right{
+
+    -fx-background-color: #007EfC;
+    -fx-background-radius: 0 5 5 0;
+    -fx-border-radius: 0 5 5 0;
+    -fx-text-fill: #FFF;
+    -fx-border-width: 2px;
+    -fx-border-color: #007EFC;
+}
+
+.tgl_btn_right:hover{
+
+    -fx-background-color: #001224
+}
+
+.tgl_btn_right:selected{
+
+    -fx-background-color: #00172D;
+    -fx-text-fill: #007EFC;
+}
+
+.tgl_btn_left{
+
+    -fx-background-color: #007EfC;
+    -fx-background-radius: 5 0 0 5;
+    -fx-border-radius: 5 0 0 5;
+    -fx-text-fill: #FFF;
+    -fx-border-width: 2px;
+    -fx-border-color: #007EFC;
+}
+
+.tgl_btn_left:hover{
+
+    -fx-background-color: #001224
+}
+
+.tgl_btn_left:selected{
+
+    -fx-background-color: #00172D;
+    -fx-text-fill: #007EFC;
+}
