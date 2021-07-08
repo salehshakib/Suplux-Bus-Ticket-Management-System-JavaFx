@@ -2,30 +2,40 @@ package controllers;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
 
     @FXML
-    public Button crossButton;
+    public Button crossButton, logInBtn, signUpBtn;
     public ToggleButton logInAnimBtn, signUpAnimBtn;
     public Pane logInPane, signUpPane;
     public Text welcome, to, sup, dash;
 
+    //this method is to close the application
     public void onClickCrossButton(){
 
         System.exit(0);
     }
 
+    //this method is to animate the log in pane left to right
     public void logInPaneAnimation(){
 
         TranslateTransition logTransition = new TranslateTransition(Duration.millis(500), logInPane);
@@ -60,6 +70,7 @@ public class HomeController implements Initializable {
         logTransition.play();
     }
 
+    //this method is to animate the sign up pane form left to right
     public void signUpPaneAnimation(){
 
         TranslateTransition signTransition = new TranslateTransition(Duration.millis(500), signUpPane);
@@ -93,6 +104,32 @@ public class HomeController implements Initializable {
         signTransition.play();
     }
 
+    //this method is to switch from home page to dashboard page
+    public void onClickLogInButton(javafx.event.ActionEvent actionEvent) throws IOException {
+
+        //TODO database log in credentials should be checked here...
+
+        Parent dashboard = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/dashboard.fxml")));
+        Scene dashboardScene = new Scene(dashboard);
+
+        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+        window.setScene(dashboardScene);
+        window.show();
+    }
+
+    //this method is to switch from home page to sign up page
+    public void onClickSignUpButton(ActionEvent actionEvent) throws IOException {
+
+        Parent dashboard = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/signUpForm.fxml")));
+        Scene dashboardScene = new Scene(dashboard);
+
+        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+        window.setScene(dashboardScene);
+        window.show();
+    }
+
+
+    //this method is to show the initial animation
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -159,4 +196,5 @@ public class HomeController implements Initializable {
         });
 
     }
+
 }

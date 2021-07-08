@@ -6,18 +6,19 @@
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="835.0" prefWidth="1300.0" styleClass="base" stylesheets="@../stylestheets/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
-   <Pane id="headerPane" prefHeight="35.0" prefWidth="1300.0" styleClass="header_pane" stylesheets="@../stylestheets/styles.css">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="837.0" prefWidth="1300.0" styleClass="base" stylesheets="@../stylestheets/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
+   <Pane id="headerPane" prefHeight="37.0" prefWidth="1300.0" styleClass="header_pane" stylesheets="@../stylestheets/styles.css">
       <children>
          <Text fill="WHITE" layoutX="10.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUPLUX Paribahan DASHBOARD">
             <font>
                <Font name="Microsoft YaHei" size="18.0" />
             </font>
          </Text>
-         <Button id="crossButton" fx:id="crossButton" layoutX="1240.0" layoutY="-1.0" maxHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#onClickCrossButton" prefHeight="30.0" prefWidth="60.0" styleClass="cross_button" stylesheets="@../stylestheets/styles.css" text="X" textAlignment="CENTER">
+         <Button id="crossButton" fx:id="crossButton" layoutX="1240.0" maxHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#onClickCrossButton" prefHeight="35.0" prefWidth="60.0" styleClass="cross_button" stylesheets="@../stylestheets/styles.css" textAlignment="CENTER">
             <font>
                <Font name="Microsoft Yi Baiti" size="18.5" />
             </font>
@@ -25,7 +26,7 @@
       </children>
    </Pane>
 
-    <Pane fx:id="logInPane" layoutX="1300.0" layoutY="35.0" prefHeight="800.0" prefWidth="455.0" styleClass="log_pane" stylesheets="@../stylestheets/styles.css">
+    <Pane fx:id="logInPane" layoutX="1300.0" layoutY="37.0" prefHeight="800.0" prefWidth="455.0" styleClass="log_pane" stylesheets="@../stylestheets/styles.css">
       <children>
          <TextField layoutX="78.0" layoutY="280.0" maxWidth="-Infinity" prefHeight="40.0" prefWidth="300.0" promptText="Enter your E mail ID" styleClass="field" stylesheets="@../stylestheets/styles.css">
             <font>
@@ -42,7 +43,7 @@
                <Font name="Microsoft YaHei" size="15.0" />
             </font>
          </PasswordField>
-         <Button layoutX="153.0" layoutY="475.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="150.0" styleClass="btn" stylesheets="@../stylestheets/styles.css" text="Log In">
+         <Button fx:id="logInBtn" layoutX="153.0" layoutY="475.0" mnemonicParsing="false" onAction="#onClickLogInButton" prefHeight="45.0" prefWidth="150.0" styleClass="btn" stylesheets="@../stylestheets/styles.css" text="Log In">
             <font>
                <Font name="Microsoft YaHei Light" size="20.0" />
             </font>
@@ -73,17 +74,17 @@
          <Font name="Microsoft YaHei" size="70.0" />
       </font>
    </Text>
-   <ToggleButton fx:id="logInAnimBtn" layoutX="656.0" layoutY="-50.0" mnemonicParsing="false" onAction="#logInPaneAnimation" prefHeight="45.0" prefWidth="100.0" styleClass="tgl_btn_right" stylesheets="@../stylestheets/styles.css" text="Log In">
+   <ToggleButton fx:id="logInAnimBtn" layoutX="670.0" layoutY="-50.0" mnemonicParsing="false" onAction="#logInPaneAnimation" prefHeight="45.0" prefWidth="100.0" styleClass="tgl_btn_right" stylesheets="@../stylestheets/styles.css" text="Log In">
       <font>
          <Font name="Microsoft YaHei Light" size="15.0" />
       </font>
    </ToggleButton>
-   <ToggleButton fx:id="signUpAnimBtn" layoutX="536.0" layoutY="-50.0" mnemonicParsing="false" onAction="#signUpPaneAnimation" prefHeight="45.0" prefWidth="100.0" styleClass="tgl_btn_left" stylesheets="@../stylestheets/styles.css" text="Sign Up">
+   <ToggleButton fx:id="signUpAnimBtn" layoutX="530.0" layoutY="-50.0" mnemonicParsing="false" onAction="#signUpPaneAnimation" prefHeight="45.0" prefWidth="100.0" styleClass="tgl_btn_left" stylesheets="@../stylestheets/styles.css" text="Sign Up">
       <font>
          <Font name="Microsoft YaHei Light" size="15.0" />
       </font>
    </ToggleButton>
-   <Pane fx:id="signUpPane" layoutX="-455.0" layoutY="35.0" prefHeight="800.0" prefWidth="455.0" styleClass="sign_pane" stylesheets="@../stylestheets/styles.css">
+   <Pane fx:id="signUpPane" layoutX="-455.0" layoutY="37.0" prefHeight="800.0" prefWidth="455.0" styleClass="sign_pane" stylesheets="@../stylestheets/styles.css">
       <children>
          <TextField layoutX="78.0" layoutY="280.0" maxWidth="-Infinity" prefHeight="40.0" prefWidth="300.0" promptText="Enter your E mail ID" styleClass="field" stylesheets="@../stylestheets/styles.css">
             <font>
@@ -100,7 +101,7 @@
                <Font name="Microsoft YaHei" size="15.0" />
             </font>
          </PasswordField>
-         <Button layoutX="153.0" layoutY="551.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="150.0" styleClass="btn" stylesheets="@../stylestheets/styles.css" text="Sign Up">
+         <Button fx:id="signUpBtn" layoutX="153.0" layoutY="551.0" mnemonicParsing="false" onAction="#onClickSignUpButton" prefHeight="45.0" prefWidth="150.0" styleClass="btn" stylesheets="@../stylestheets/styles.css" text="Sign Up">
             <font>
                <Font name="Microsoft YaHei Light" size="20.0" />
             </font>
@@ -117,4 +118,5 @@
          </PasswordField>
       </children>
    </Pane>
+   <SVGPath content="M15.898,4.045c-0.271-0.272-0.713-0.272-0.986,0l-4.71,4.711L5.493,4.045c-0.272-0.272-0.714-0.272-0.986,0s-0.272,0.714,0,0.986l4.709,4.711l-4.71,4.711c-0.272,0.271-0.272,0.713,0,0.986c0.136,0.136,0.314,0.203,0.492,0.203c0.179,0,0.357-0.067,0.493-0.203l4.711-4.711l4.71,4.711c0.137,0.136,0.314,0.203,0.494,0.203c0.178,0,0.355-0.067,0.492-0.203c0.273-0.273,0.273-0.715,0-0.986l-4.711-4.711l4.711-4.711C16.172,4.759,16.172,4.317,15.898,4.045z" fill="WHITE" layoutX="1260.0" layoutY="7.0" scaleX="1.2" scaleY="1.2" />
 </AnchorPane>

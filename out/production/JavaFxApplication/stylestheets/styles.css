@@ -120,3 +120,34 @@
     -fx-background-color: #00172D;
     -fx-text-fill: #007EFC;
 }
+
+.side_bar{
+
+    -fx-background-color: #001224
+}
+
+.bg_cover{
+
+    -fx-background-color: #000b1c
+}
+
+.radio_button>.radio{
+
+    -fx-background-color: #000b1c;
+    -fx-background-radius: 50%;
+    -fx-border-width: 1px;
+    -fx-border-color: #007EFC;
+    -fx-border-radius: 50%;
+}
+
+.radio_button:selected .radio{
+
+    -fx-background-color: #00172D;
+    -fx-background-insets: 0;
+}
+
+.radio_button:selected .radio>.dot{
+
+    -fx-background-color: #007EFC;
+    -fx-background-insets: 0;
+}

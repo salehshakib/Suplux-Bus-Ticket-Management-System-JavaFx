@@ -1,4 +1,5 @@
 
+/* this class is to design the log in pane */
 .log_pane{
 
     -fx-background-color: #001224;
@@ -6,6 +7,7 @@
     -fx-border-radius: 50 0 0 50;
 }
 
+/* this class is to design the sign up pane */
 .sign_pane{
 
     -fx-background-color: #001224;
@@ -13,11 +15,13 @@
     -fx-border-radius: 0 50 50 0;
 }
 
+/* this class is to select the base color */
 .base{
 
     -fx-background-color: #00172D;
 }
 
+/* this class is to design the text and password fields */
 .field{
 
     -fx-background-color: transparent;
@@ -28,6 +32,7 @@
     -fx-text-fill: #FFF;
 }
 
+/* this class is to design the default buttons */
 .btn{
 
     -fx-background-color: #007EfC;
@@ -38,6 +43,7 @@
     -fx-border-color: #007EFC;
 }
 
+/* this class is to design the buttons when user hovers on it */
 .btn:hover{
 
     -fx-background-color: #00172D;
@@ -46,6 +52,7 @@
     -fx-text-fill: #007EFC;
 }
 
+/* this class is to design the buttons it is pressed */
 .btn:pressed{
 
     -fx-background-color: #007EfC;
@@ -56,29 +63,34 @@
     -fx-border-color: #007EFC;
 }
 
+/* this class is to design the cross button on the top right */
 .cross_button{
 
     -fx-background-color: #001224;
     -fx-text-fill: #FFF;
 }
 
+/* this class is to design the cross button's hover effect which is on the top right */
 .cross_button:hover{
 
     -fx-background-color: Red;
     -fx-text-fill: #FFF;
 }
 
+/* this class is to design the cross button pressed effect which is on the top right */
 .cross_button:pressed{
 
     -fx-background-color: #00172D;
     -fx-text-fill: #FFF;
 }
 
+/* this class is to design the header */
 .header_pane{
 
     -fx-background-color: #001224;
 }
 
+/* this class is to design the log in toggle button*/
 .tgl_btn_right{
 
     -fx-background-color: #007EfC;
@@ -89,17 +101,20 @@
     -fx-border-color: #007EFC;
 }
 
+/* this class is to design the log in toggle button's hover effect */
 .tgl_btn_right:hover{
 
     -fx-background-color: #001224
 }
 
+/* this class is to design the log in toggle button's pressed effect */
 .tgl_btn_right:selected{
 
     -fx-background-color: #00172D;
     -fx-text-fill: #007EFC;
 }
 
+/* this class is to design the sign up toggle button */
 .tgl_btn_left{
 
     -fx-background-color: #007EfC;
@@ -110,13 +125,51 @@
     -fx-border-color: #007EFC;
 }
 
+/* this class is to design the sign up toggle button's hover effect */
 .tgl_btn_left:hover{
 
     -fx-background-color: #001224
 }
 
+/* this class is to design the sign up toggle button's pressed effect */
 .tgl_btn_left:selected{
 
     -fx-background-color: #00172D;
     -fx-text-fill: #007EFC;
+}
+
+/* this class is to design the side navigation bar of the dashboard page */
+.side_bar{
+
+    -fx-background-color: #001224
+}
+
+/* this class is to design the page headline's background */
+.bg_cover{
+
+    -fx-background-color: #000b1c
+}
+
+/* this class is for the radio button default design */
+.radio_button>.radio{
+
+    -fx-background-color: #000b1c;
+    -fx-background-radius: 50%;
+    -fx-border-width: 1px;
+    -fx-border-color: #007EFC;
+    -fx-border-radius: 50%;
+}
+
+/* this class is for the radio button design when it is selected */
+.radio_button:selected .radio{
+
+    -fx-background-color: #00172D;
+    -fx-background-insets: 0;
+}
+
+/* this class is for the radio button's inner dot's design when the radio button is selected */
+.radio_button:selected .radio>.dot{
+
+    -fx-background-color: #007EFC;
+    -fx-background-insets: 0;
 }
