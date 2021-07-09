@@ -23,6 +23,9 @@ import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
 
+    /*
+    * variable initialization
+    */
     @FXML
     public Button crossButton, logInBtn, signUpBtn;
     public ToggleButton logInAnimBtn, signUpAnimBtn;
