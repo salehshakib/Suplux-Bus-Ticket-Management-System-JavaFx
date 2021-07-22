@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="837.0" prefWidth="1300.0" styleClass="base" stylesheets="@../stylestheets/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReservationPageController">
+   <children>
+      <Pane prefHeight="250.0" prefWidth="1300.0" styleClass="bg_cover" stylesheets="@../stylestheets/styles.css">
+         <children>
+            <Text fx:id="reservation" fill="WHITE" layoutX="957.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RESERVATION">
+               <font>
+                  <Font name="Microsoft YaHei Light" size="50.0" />
+               </font>
+            </Text>
+            <Text fx:id="page" fill="WHITE" layoutX="1101.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PAGE">
+               <font>
+                  <Font name="Microsoft YaHei" size="70.0" />
+               </font>
+            </Text>
+            <Pane id="headerPane" prefHeight="37.0" prefWidth="1300.0" styleClass="header_pane" stylesheets="@../stylestheets/styles.css">
+               <children>
+                  <Text fill="WHITE" layoutX="10.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUPLUX Paribahan DASHBOARD">
+                     <font>
+                        <Font name="Microsoft YaHei" size="18.0" />
+                     </font>
+                  </Text>
+                  <Button id="crossButton" fx:id="crossButton" layoutX="1240.0" maxHeight="-Infinity" mnemonicParsing="false" onAction="#onClickCrossButton" prefHeight="35.0" prefWidth="60.0" styleClass="cross_button" stylesheets="@../stylestheets/styles.css" textAlignment="CENTER">
+                     <font>
+                        <Font name="Microsoft Yi Baiti" size="18.5" />
+                     </font>
+                  </Button>
+                  <SVGPath content="M15.898,4.045c-0.271-0.272-0.713-0.272-0.986,0l-4.71,4.711L5.493,4.045c-0.272-0.272-0.714-0.272-0.986,0s-0.272,0.714,0,0.986l4.709,4.711l-4.71,4.711c-0.272,0.271-0.272,0.713,0,0.986c0.136,0.136,0.314,0.203,0.492,0.203c0.179,0,0.357-0.067,0.493-0.203l4.711-4.711l4.71,4.711c0.137,0.136,0.314,0.203,0.494,0.203c0.178,0,0.355-0.067,0.492-0.203c0.273-0.273,0.273-0.715,0-0.986l-4.711-4.711l4.711-4.711C16.172,4.759,16.172,4.317,15.898,4.045z" fill="WHITE" layoutX="1259.0" layoutY="6.0" scaleX="1.2" scaleY="1.2" />
+               </children>
+            </Pane>
+            <Button fx:id="homeBtn" alignment="CENTER" layoutX="105.0" layoutY="70.0" mnemonicParsing="false" onAction="#onClickHomeButton" prefHeight="60.0" prefWidth="60.0" styleClass="back_btn" stylesheets="@../stylestheets/styles.css">
+               <graphic>
+                  <SVGPath content="M18.121,9.88l-7.832-7.836c-0.155-0.158-0.428-0.155-0.584,0L1.842,9.913c-0.262,0.263-0.073,0.705,0.292,0.705h2.069v7.042c0,0.227,0.187,0.414,0.414,0.414h3.725c0.228,0,0.414-0.188,0.414-0.414v-3.313h2.483v3.313c0,0.227,0.187,0.414,0.413,0.414h3.726c0.229,0,0.414-0.188,0.414-0.414v-7.042h2.068h0.004C18.331,10.617,18.389,10.146,18.121,9.88 M14.963,17.245h-2.896v-3.313c0-0.229-0.186-0.415-0.414-0.415H8.342c-0.228,0-0.414,0.187-0.414,0.415v3.313H5.032v-6.628h9.931V17.245z M3.133,9.79l6.864-6.868l6.867,6.868H3.133z" fill="#007efc" scaleX="2.0" scaleY="2.0" />
+               </graphic>
+            </Button>
+         </children>
+      </Pane>
+      <Label fx:id="reserveInfo" alignment="CENTER" layoutX="-160.0" layoutY="467.0" prefHeight="40.0" prefWidth="220.0" styleClass="side_bar_options_info" stylesheets="@../stylestheets/styles.css" text="RESERVTION" textFill="WHITE">
+         <font>
+            <Font name="Microsoft YaHei Light" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="cancelInfo" alignment="CENTER" layoutX="-160.0" layoutY="547.0" prefHeight="40.0" prefWidth="220.0" styleClass="side_bar_options_info" stylesheets="@../stylestheets/styles.css" text="CANCELLATION" textFill="WHITE">
+         <font>
+            <Font name="Microsoft YaHei Light" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="tranLogInfo" alignment="CENTER" layoutX="-160.0" layoutY="627.0" prefHeight="40.0" prefWidth="220.0" styleClass="side_bar_options_info" stylesheets="@../stylestheets/styles.css" text="TRANSACTION LOG" textFill="WHITE">
+         <font>
+            <Font name="Microsoft YaHei Light" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="logOutInfo" alignment="CENTER" layoutX="-160.0" layoutY="707.0" prefHeight="40.0" prefWidth="220.0" styleClass="side_bar_options_info" stylesheets="@../stylestheets/styles.css" text="LOG OUT" textFill="WHITE">
+         <font>
+            <Font name="Microsoft YaHei Light" size="18.0" />
+         </font>
+      </Label>
+      <Pane layoutY="37.0" prefHeight="800.0" prefWidth="60.0" styleClass="side_bar" stylesheets="@../stylestheets/styles.css">
+         <children>
+            <Pane layoutY="430.0" prefHeight="40.0" prefWidth="60.0" styleClass="side_bar_options_selected" stylesheets="@../stylestheets/styles.css">
+               <children>
+                  <SVGPath content="M424 160H152c-13.255 0-24 10.745-24 24v144c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V184c0-13.255-10.745-24-24-24zm-8 160H160V192h256v128zm128-96h32V112c0-26.51-21.49-48-48-48H48C21.49 64 0 85.49 0 112v112h32c17.673 0 32 14.327 32 32s-14.327 32-32 32H0v112c0 26.51 21.49 48 48 48h480c26.51 0 48-21.49 48-48V288h-32c-17.673 0-32-14.327-32-32s14.327-32 32-32zm0 96v80c0 8.823-7.177 16-16 16H48c-8.823 0-16-7.177-16-16v-80c35.29 0 64-28.71 64-64s-28.71-64-64-64v-80c0-8.823 7.177-16 16-16h480c8.823 0 16 7.177 16 16v80c-35.29 0-64 28.71-64 64s28.71 64 64 64z" fill="#007efc" layoutX="-258.0" layoutY="-236.0" scaleX="0.05" scaleY="0.05" />
+               </children>
+            </Pane>
+            <Pane fx:id="cancelBtn" layoutY="510.0" onMouseClicked="#onClickCancellationButton" onMouseEntered="#onHoverCancellationButton" onMouseExited="#onExitCancellationButton" prefHeight="40.0" prefWidth="60.0" styleClass="side_bar_options" stylesheets="@../stylestheets/styles.css">
+               <children>
+                  <SVGPath content="M464 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm16 400c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V80c0-8.8 7.2-16 16-16h416c8.8 0 16 7.2 16 16v352zM348.6 188.3L280.9 256l67.7 67.7c4.6 4.6 4.6 12 0 16.6l-8.3 8.3c-4.6 4.6-12 4.6-16.6 0L256 280.9l-67.7 67.7c-4.6 4.6-12 4.6-16.6 0l-8.3-8.3c-4.6-4.6-4.6-12 0-16.6l67.7-67.7-67.7-67.7c-4.6-4.6-4.6-12 0-16.6l8.3-8.3c4.6-4.6 12-4.6 16.6 0l67.7 67.7 67.7-67.7c4.6-4.6 12-4.6 16.6 0l8.3 8.3c4.5 4.6 4.5 12 0 16.6z" fill="#007efc" layoutX="-226.0" layoutY="-236.0" scaleX="0.05" scaleY="0.05" />
+               </children>
+            </Pane>
+            <Pane fx:id="transBtn" layoutY="590.0" onMouseClicked="#onClickTransactionLogButton" onMouseEntered="#onHoverTransactionLogButton" onMouseExited="#onExitTransactionLogButton" prefHeight="40.0" prefWidth="60.0" styleClass="side_bar_options" stylesheets="@../stylestheets/styles.css">
+               <children>
+                  <SVGPath content="M464 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zM160 448H48c-8.837 0-16-7.163-16-16v-80h128v96zm0-128H32v-96h128v96zm0-128H32V96h128v96zm160 256H192v-96h128v96zm0-128H192v-96h128v96zm0-128H192V96h128v96zm160 160v80c0 8.837-7.163 16-16 16H352v-96h128zm0-32H352v-96h128v96zm0-128H352V96h128v96z" fill="#007efc" layoutX="-226.0" layoutY="-236.0" scaleX="0.05" scaleY="0.05" />
+               </children>
+            </Pane>
+            <Pane fx:id="logOutBtn" layoutY="670.0" onMouseClicked="#onClickLogOutButton" onMouseEntered="#onHoverLogOutButton" onMouseExited="#onExitLogOutButton" prefHeight="40.0" prefWidth="60.0" styleClass="side_bar_options" stylesheets="@../stylestheets/styles.css">
+               <children>
+                  <SVGPath content="M48 64h132c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H48c-8.8 0-16 7.2-16 16v288c0 8.8 7.2 16 16 16h132c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48zm279 19.5l-7.1 7.1c-4.7 4.7-4.7 12.3 0 17l132 131.4H172c-6.6 0-12 5.4-12 12v10c0 6.6 5.4 12 12 12h279.9L320 404.4c-4.7 4.7-4.7 12.3 0 17l7.1 7.1c4.7 4.7 12.3 4.7 17 0l164.5-164c4.7-4.7 4.7-12.3 0-17L344 83.5c-4.7-4.7-12.3-4.7-17 0z" fill="#007efc" layoutX="-226.0" layoutY="-236.0" scaleX="0.05" scaleY="0.05" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

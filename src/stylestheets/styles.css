@@ -68,6 +68,7 @@
 
     -fx-background-color: #001224;
     -fx-text-fill: #FFF;
+    -fx-border-radius: 0px;
 }
 
 /* this class is to design the cross button's hover effect which is on the top right */
@@ -75,6 +76,8 @@
 
     -fx-background-color: Red;
     -fx-text-fill: #FFF;
+    -fx-border-radius: 0px;
+    -fx-background-radius: 0px;
 }
 
 /* this class is to design the cross button pressed effect which is on the top right */
@@ -217,14 +220,155 @@
 
 .scroll-bar:vertical .thumb {
 
-    -fx-background-color: #000b1c;
+    -fx-background-color: #007EFC;
     -fx-background-insets: 2.0, 0.0, 0.0;
     -fx-background-radius: 2.0em;
 }
 
 .scroll-bar:vertical .thumb:hover {
 
-    -fx-background-color: #007EFC;
+    -fx-background-color: #000b1c;
     -fx-background-insets: 2.0, 0.0, 0.0;
     -fx-background-radius: 2.0em;
+}
+
+.scroll-bar:vertical .thumb:pressed {
+
+    -fx-background-color: #000b1c;
+    -fx-background-insets: 2.0, 0.0, 0.0;
+    -fx-background-radius: 2.0em;
+}
+
+/* this class is to design the side bar menu option's background */
+.side_bar_options{
+
+    -fx-background-color: transparent;
+}
+
+/* this class is to design the side bar menu option's background when hovered */
+.side_bar_options:hover{
+
+    -fx-background-color: #007EFC;
+}
+
+/* this class is to design the side bar menu option's background when pressed */
+.side_bar_options:pressed{
+
+    -fx-background-color: transparent;
+}
+
+/* this class is to design the side bar menu option's SVG icons when hovered */
+.side_bar_options:hover SVGPath{
+
+    -fx-fill: #001224;
+}
+
+/* this class is to design the side bar menu option's SVG icons when pressed */
+.side_bar_options:pressed SVGPath{
+
+    -fx-fill: #007EFC;
+}
+
+.side_bar_options_info{
+
+    -fx-background-color: #007EFC;
+    -fx-background-radius: 0 20 20 0;
+    -fx-border-radius: 0 20 20 0;
+}
+
+/* this class is to design the default back button */
+.back_btn{
+
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+    -fx-border-width: 2px;
+    -fx-border-color: #007EFC;
+    -fx-background-color: transparent;
+}
+
+/* this class is to design the back button's hover effect */
+.back_btn:hover{
+
+    -fx-background-color: #007EFC;
+}
+
+/* this class is to design the back button's SVG icon's hover effect */
+.back_btn:hover SVGPath{
+
+    -fx-fill: #001224;
+}
+
+/* this class is to design the back button's press effect */
+.back_btn:pressed{
+
+    -fx-background-color: #00172D;
+}
+
+/* this class is to design the back button's SVG icon's press effect */
+.back_btn:pressed SVGPath{
+
+    -fx-fill: #007EFC;
+}
+
+/* this class is to design the progress indicator */
+.progress_indicator{
+
+    -fx-color: #007EFC;
+}
+
+/* this class is to design the card pane */
+.card_pane{
+
+    -fx-border-radius: 15 15 15 15;
+    -fx-background-radius: 15 15 15 15;
+    -fx-background-color: #000b1c;
+}
+
+/* this class is to design the edit button */
+.edit_btn{
+
+    -fx-border-radius: 5 5 5 5;
+    -fx-background-radius: 5 5 5 5;
+    -fx-background-color: transparent;
+
+}
+
+/* this class is to design the edit button's hover effect */
+.edit_btn:hover{
+
+    -fx-background-color: #007EFC;
+
+}
+
+/* this class is to design the edit button's SVG icon's hover effect */
+.edit_btn:hover SVGPath{
+
+    -fx-fill: #000b1c;
+
+}
+
+/* this class is to design the edit button's press effect */
+.edit_btn:pressed{
+
+    -fx-background-color: #001224;
+
+}
+
+/* this class is to design the edit button's SVG icon's press effect */
+.edit_btn:pressed SVGPath{
+
+    -fx-fill: #007EFC;
+
+}
+
+/* this class is to design the side bar's selected menu */
+.side_bar_options_selected{
+
+    -fx-background-color: #007EFC;
+}
+
+/* this class is to design the side bar's selected menu's SVG icon */
+.side_bar_options_selected SVGPath{
+
+    -fx-fill: #001224;
 }

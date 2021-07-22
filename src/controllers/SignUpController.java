@@ -2,29 +2,32 @@ package controllers;
 
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class SignUpController implements Initializable {
 
-    /*
+    /**
     * variable initialization
     */
     @FXML
-    public Button crossButton, profileImageUploadBtn, proceedBtn;
+    public Button crossButton, profileImageUploadBtn, proceedBtn, backBtn;
     @FXML
     public RadioButton radioMale, radioFemale, radioOthers;
     @FXML
@@ -34,13 +37,16 @@ public class SignUpController implements Initializable {
     public SVGPath rightArrowSvg;
     public Text signUp, form;
 
-    //this method is to close the application
+    /**
+     * this method is to close the application
+     */
+
     public void onClickCrossButton(){
 
         System.exit(0);
     }
 
-    /*
+    /**
     * this method opens the fileChooser window when "Upload a Profile Image" button
     * is clicked so the user can select an image for profile picture
     */
@@ -57,7 +63,9 @@ public class SignUpController implements Initializable {
         }
     }
 
-    //this method shows the selected image in the image view
+    /**
+     * this method shows the selected image in the image view
+     */
     public void showImageInImageView(String imagePath) throws FileNotFoundException {
 
         InputStream s = new FileInputStream(imagePath);
@@ -67,7 +75,9 @@ public class SignUpController implements Initializable {
         profileImageView.setImage(pic);
     }
 
-    //this method centers the image in the frame
+    /**
+     * this method centers the image in the frame
+     */
     public void centerTheImage(Image img) {
 
         if (img != null) {
@@ -89,7 +99,7 @@ public class SignUpController implements Initializable {
         }
     }
 
-    /*
+    /**
     * this method is to disable the birth registration number field as user
     * just give the information only for their NID or registration number
     */
@@ -98,7 +108,7 @@ public class SignUpController implements Initializable {
         bRegField.setDisable(!nidField.getText().isEmpty());
     }
 
-    /*
+    /**
     * this method is to disable the NID number field as user
     * just give the information only for their NID or registration number
     */
@@ -107,19 +117,28 @@ public class SignUpController implements Initializable {
         nidField.setDisable(!bRegField.getText().isEmpty());
     }
 
-    //this method changes color of the right arrow on hovering on the "Proceed" button
+    /**
+     * this method changes color of the right arrow on
+     * hovering on the "Proceed" button
+     */
+
     public void onHoverProceedButton(){
 
         rightArrowSvg.setFill(Color.rgb(0, 126, 252));
     }
 
-    //this method changes color of the right arrow on exiting on the "Proceed" button
+    /**
+     * this method changes color of the right arrow
+     *  on exiting on the "Proceed" button
+     */
     public void onExitProceedButton(){
 
         rightArrowSvg.setFill(Color.WHITE);
     }
 
-    //this method is called on clicking the "Proceed" button
+    /**
+     * this method is called on clicking the "Proceed" button
+     */
     public void onClickProceedButton(){
 
         //TODO database sign up uploading credentials should be done here...
@@ -127,7 +146,28 @@ public class SignUpController implements Initializable {
         rightArrowSvg.setFill(Color.WHITE);
     }
 
-    //this method is to set the initial stage
+    /**
+     * this method executes return from the page option
+     */
+    public void onClickBackButton(javafx.event.Event actionEvent){
+
+        try{
+
+            Parent homePage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/home.fxml")));
+            Scene homePageScene = new Scene(homePage);
+
+            Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+            window.setScene(homePageScene);
+            window.show();
+
+        } catch (IOException ignored){
+
+        }
+    }
+
+    /**
+     * this method is to set the initial stage
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -144,13 +184,16 @@ public class SignUpController implements Initializable {
         TranslateTransition sTransition = new TranslateTransition(Duration.millis(500), signUp);
         TranslateTransition fTransition = new TranslateTransition(Duration.millis(500), form);
         TranslateTransition scrollTransition = new TranslateTransition(Duration.millis(500), signUpForm);
+        TranslateTransition backButtonTransition = new TranslateTransition(Duration.millis(500), backBtn);
 
         sTransition.setToX(-207);
         fTransition.setToX(-223);
         scrollTransition.setToX(1300);
+        backButtonTransition.setToX(120);
 
         sTransition.play();
         fTransition.play();
         scrollTransition.play();
+        backButtonTransition.play();
     }
 }

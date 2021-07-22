@@ -11,6 +11,16 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="837.0" prefWidth="1300.0" styleClass="base" stylesheets="@../stylestheets/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
+   <ToggleButton fx:id="signUpAnimBtn" layoutX="530.0" layoutY="-50.0" mnemonicParsing="false" onAction="#signUpPaneAnimation" prefHeight="45.0" prefWidth="100.0" styleClass="tgl_btn_left" stylesheets="@../stylestheets/styles.css" text="Sign Up">
+      <font>
+         <Font name="Microsoft YaHei Light" size="15.0" />
+      </font>
+   </ToggleButton>
+   <ToggleButton fx:id="logInAnimBtn" layoutX="670.0" layoutY="-50.0" mnemonicParsing="false" onAction="#logInPaneAnimation" prefHeight="45.0" prefWidth="100.0" styleClass="tgl_btn_right" stylesheets="@../stylestheets/styles.css" text="Log In">
+      <font>
+         <Font name="Microsoft YaHei Light" size="15.0" />
+      </font>
+   </ToggleButton>
    <Pane id="headerPane" prefHeight="37.0" prefWidth="1300.0" styleClass="header_pane" stylesheets="@../stylestheets/styles.css">
       <children>
          <Text fill="WHITE" layoutX="10.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUPLUX Paribahan DASHBOARD">
@@ -74,16 +84,6 @@
          <Font name="Microsoft YaHei" size="70.0" />
       </font>
    </Text>
-   <ToggleButton fx:id="logInAnimBtn" layoutX="670.0" layoutY="-50.0" mnemonicParsing="false" onAction="#logInPaneAnimation" prefHeight="45.0" prefWidth="100.0" styleClass="tgl_btn_right" stylesheets="@../stylestheets/styles.css" text="Log In">
-      <font>
-         <Font name="Microsoft YaHei Light" size="15.0" />
-      </font>
-   </ToggleButton>
-   <ToggleButton fx:id="signUpAnimBtn" layoutX="530.0" layoutY="-50.0" mnemonicParsing="false" onAction="#signUpPaneAnimation" prefHeight="45.0" prefWidth="100.0" styleClass="tgl_btn_left" stylesheets="@../stylestheets/styles.css" text="Sign Up">
-      <font>
-         <Font name="Microsoft YaHei Light" size="15.0" />
-      </font>
-   </ToggleButton>
    <Pane fx:id="signUpPane" layoutX="-455.0" layoutY="37.0" prefHeight="800.0" prefWidth="455.0" styleClass="sign_pane" stylesheets="@../stylestheets/styles.css">
       <children>
          <TextField layoutX="78.0" layoutY="280.0" maxWidth="-Infinity" prefHeight="40.0" prefWidth="300.0" promptText="Enter your E mail ID" styleClass="field" stylesheets="@../stylestheets/styles.css">
