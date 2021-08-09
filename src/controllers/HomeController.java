@@ -32,7 +32,7 @@ public class HomeController implements Initializable {
     public Pane logInPane, signUpPane;
     public Text welcome, to, sup, dash;
 
-    private static int stage = 0;
+    private static boolean stage = false;
 
     /**
      * this method is to close the application
@@ -47,22 +47,12 @@ public class HomeController implements Initializable {
      */
     public void logInPaneAnimation(){
 
+        translateIt(500, welcome, 473, 1);
+        translateIt(500, to, 596, 1);
+        translateIt(500, sup, 312, 1);
+        translateIt(500, dash, 423, 1);
+
         TranslateTransition logTransition = new TranslateTransition(Duration.millis(500), logInPane);
-
-        TranslateTransition wTransition = new TranslateTransition(Duration.millis(500), welcome);
-        TranslateTransition tTransition = new TranslateTransition(Duration.millis(500), to);
-        TranslateTransition sTransition = new TranslateTransition(Duration.millis(500), sup);
-        TranslateTransition dTransition = new TranslateTransition(Duration.millis(500), dash);
-
-        wTransition.setToX(473);
-        tTransition.setToX(596);
-        sTransition.setToX(312);
-        dTransition.setToX(423);
-
-        wTransition.play();
-        tTransition.play();
-        sTransition.play();
-        dTransition.play();
 
         if(logInAnimBtn.isSelected()){
 
@@ -84,21 +74,12 @@ public class HomeController implements Initializable {
      */
     public void signUpPaneAnimation(){
 
+        translateIt(500, welcome, -467, 1);
+        translateIt(500, to, -591, 1);
+        translateIt(500, sup, -308, 1);
+        translateIt(500, dash, -416, 1);
+
         TranslateTransition signTransition = new TranslateTransition(Duration.millis(500), signUpPane);
-        TranslateTransition wTransition = new TranslateTransition(Duration.millis(500), welcome);
-        TranslateTransition tTransition = new TranslateTransition(Duration.millis(500), to);
-        TranslateTransition sTransition = new TranslateTransition(Duration.millis(500), sup);
-        TranslateTransition dTransition = new TranslateTransition(Duration.millis(500), dash);
-
-        wTransition.setToX(-467);
-        tTransition.setToX(-591);
-        sTransition.setToX(-308);
-        dTransition.setToX(-416);
-
-        wTransition.play();
-        tTransition.play();
-        sTransition.play();
-        dTransition.play();
 
         if(signUpAnimBtn.isSelected()){
 
@@ -150,71 +131,36 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        TranslateTransition wTransition = new TranslateTransition(Duration.millis(1000), welcome);
-        TranslateTransition tTransition = new TranslateTransition(Duration.millis(1000), to);
-        TranslateTransition sTransition = new TranslateTransition(Duration.millis(1000), sup);
-        TranslateTransition dTransition = new TranslateTransition(Duration.millis(1000), dash);
-        TranslateTransition logTransition = new TranslateTransition(Duration.millis(1000), logInPane);
-        TranslateTransition logBtnTransition = new TranslateTransition(Duration.millis(1000), logInAnimBtn);
-        TranslateTransition signBtnTransition = new TranslateTransition(Duration.millis(1000), signUpAnimBtn);
+        if(!stage){
 
-        if(stage == 0){
+            fadeIt(1000, welcome, 0f, 1f, 5, true);
+            fadeIt(1000, to, 0f, 1f, 5, true);
+            fadeIt(1000, sup, 0f, 1f, 5, true);
 
-            FadeTransition welcomeTransition = new FadeTransition(Duration.millis(1000), welcome);
-            FadeTransition toTransition = new FadeTransition(Duration.millis(1000), to);
-            FadeTransition supTransition = new FadeTransition(Duration.millis(1000), sup);
             FadeTransition dashTransition = new FadeTransition(Duration.millis(1000), dash);
-
-            welcomeTransition.setFromValue(0f);
-            toTransition.setFromValue(0f);
-            supTransition.setFromValue(0f);
             dashTransition.setFromValue(0f);
-
-            welcomeTransition.setToValue(1.0f);
-            toTransition.setToValue(1.0f);
-            supTransition.setToValue(1.0f);
             dashTransition.setToValue(1.0f);
-
-            welcomeTransition.setCycleCount(5);
-            toTransition.setCycleCount(5);
-            supTransition.setCycleCount(5);
             dashTransition.setCycleCount(5);
-
-            welcomeTransition.setAutoReverse(true);
-            toTransition.setAutoReverse(true);
-            supTransition.setAutoReverse(true);
             dashTransition.setAutoReverse(true);
-
-            welcomeTransition.play();
-            toTransition.play();
-            supTransition.play();
             dashTransition.play();
 
             dashTransition.setOnFinished((e)->{
 
-                wTransition.setToX(-467);
-                tTransition.setToX(-591);
-                sTransition.setToX(-308);
-                dTransition.setToX(-416);
+                translateIt(1000, welcome, -467, 1);
+                translateIt(1000, to, -591, 1);
+                translateIt(1000, sup, -308, 1);
+                translateIt(1000, dash, -416, 1);
 
                 logInAnimBtn.setSelected(true);
                 logInAnimBtn.setDisable(true);
 
-                logTransition.setToX(-455);
+                translateIt(1000, logInPane, -455, 1);
+                translateIt(1000, logInAnimBtn, 93, 2);
+                translateIt(1000, signUpAnimBtn, 93, 2);
 
-                logBtnTransition.setToY(93);
-                signBtnTransition.setToY(93);
-
-                wTransition.play();
-                tTransition.play();
-                sTransition.play();
-                dTransition.play();
-                logTransition.play();
-                logBtnTransition.play();
-                signBtnTransition.play();
             });
 
-            stage++;
+            stage = true;
         } else{
 
             welcome.setOpacity(1.0f);
@@ -222,27 +168,47 @@ public class HomeController implements Initializable {
             sup.setOpacity(1.0f);
             dash.setOpacity(1.0f);
 
-            wTransition.setToX(-467);
-            tTransition.setToX(-591);
-            sTransition.setToX(-308);
-            dTransition.setToX(-416);
+            translateIt(1000, welcome, -467, 1);
+            translateIt(1000, to, -591, 1);
+            translateIt(1000, sup, -308, 1);
+            translateIt(1000, dash, -416, 1);
 
             logInAnimBtn.setSelected(true);
             logInAnimBtn.setDisable(true);
 
-            logTransition.setToX(-455);
+            translateIt(1000, logInPane, -455, 1);
+            translateIt(1000, logInAnimBtn, 93, 2);
+            translateIt(1000, signUpAnimBtn, 93, 2);
 
-            logBtnTransition.setToY(93);
-            signBtnTransition.setToY(93);
-
-            wTransition.play();
-            tTransition.play();
-            sTransition.play();
-            dTransition.play();
-            logTransition.play();
-            logBtnTransition.play();
-            signBtnTransition.play();
         }
+    }
+
+    public void translateIt(double duration, Node node, double translateTo, int type){
+
+        TranslateTransition transition = new TranslateTransition(Duration.millis(duration), node);
+
+        if(type == 1){
+
+            transition.setToX(translateTo);
+        } else if(type == 2){
+
+            transition.setToY(translateTo);
+        }
+
+        transition.play();
+
+    }
+
+    public void fadeIt(double duration, Node node, double fromValue, double toValue, int cycleCount, boolean autoReverse){
+
+        FadeTransition transition = new FadeTransition(Duration.millis(duration), node);
+
+        transition.setFromValue(fromValue);
+        transition.setToValue(toValue);
+        transition.setCycleCount(cycleCount);
+        transition.setAutoReverse(autoReverse);
+
+        transition.play();
     }
 
 }

@@ -118,25 +118,6 @@ public class SignUpController implements Initializable {
     }
 
     /**
-     * this method changes color of the right arrow on
-     * hovering on the "Proceed" button
-     */
-
-    public void onHoverProceedButton(){
-
-        rightArrowSvg.setFill(Color.rgb(0, 126, 252));
-    }
-
-    /**
-     * this method changes color of the right arrow
-     *  on exiting on the "Proceed" button
-     */
-    public void onExitProceedButton(){
-
-        rightArrowSvg.setFill(Color.WHITE);
-    }
-
-    /**
      * this method is called on clicking the "Proceed" button
      */
     public void onClickProceedButton(){
@@ -181,19 +162,26 @@ public class SignUpController implements Initializable {
 
         //to animate the form
 
-        TranslateTransition sTransition = new TranslateTransition(Duration.millis(500), signUp);
-        TranslateTransition fTransition = new TranslateTransition(Duration.millis(500), form);
-        TranslateTransition scrollTransition = new TranslateTransition(Duration.millis(500), signUpForm);
-        TranslateTransition backButtonTransition = new TranslateTransition(Duration.millis(500), backBtn);
+        translateIt(500, signUp, -207, 1);
+        translateIt(500, form, -223, 1);
+        translateIt(500, signUpForm, 1300, 1);
+        translateIt(500, backBtn, 120, 1);
 
-        sTransition.setToX(-207);
-        fTransition.setToX(-223);
-        scrollTransition.setToX(1300);
-        backButtonTransition.setToX(120);
+    }
 
-        sTransition.play();
-        fTransition.play();
-        scrollTransition.play();
-        backButtonTransition.play();
+    public void translateIt(double duration, Node node, double translateTo, int type){
+
+        TranslateTransition transition = new TranslateTransition(Duration.millis(duration), node);
+
+        if(type == 1){
+
+            transition.setToX(translateTo);
+        } else if(type == 2){
+
+            transition.setToY(translateTo);
+        }
+
+        transition.play();
+
     }
 }

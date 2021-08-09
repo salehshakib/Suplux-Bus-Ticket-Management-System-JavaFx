@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox alignment="CENTER" prefHeight="100.0" prefWidth="330.0" styleClass="seat_table_row_bg" stylesheets="@../stylestheets/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FirstRowDDController">
+   <children>
+      <BorderPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+      <BorderPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+      <BorderPane layoutX="228.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+      <BorderPane layoutX="254.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+   </children>
+</HBox>

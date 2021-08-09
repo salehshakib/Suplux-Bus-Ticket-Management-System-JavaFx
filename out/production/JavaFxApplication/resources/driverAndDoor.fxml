@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Point3D?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxHeight="100.0" prefHeight="100.0" prefWidth="200.0" styleClass="seat_table_row_bg" stylesheets="@../stylestheets/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DriverAndDoorController">
+   <children>
+      <VBox alignment="BOTTOM_LEFT" prefHeight="394.0" prefWidth="512.0">
+         <children>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <SVGPath content="M477.681,277.819c-21.996-52.05-53.489-98.781-93.604-138.896S297.23,67.315,245.181,45.319    C195.869,24.481,143.736,13.049,90,11.256V11H0v450h45h45V41.27c49.699,1.779,97.905,12.414,143.502,31.683    c48.471,20.483,91.994,49.816,129.361,87.183c37.367,37.367,66.7,80.891,87.184,129.361C471.249,339.669,482,392.998,482,448h30    C512,388.964,500.453,331.707,477.681,277.819z M60,431H30V41h30V431z" fill="#007efc" layoutX="-223.0" layoutY="-193.0" rotate="180.0" scaleX="0.13" scaleY="0.13">
+                     <rotationAxis>
+                        <Point3D x="1.0" />
+                     </rotationAxis>
+                  </SVGPath>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+      <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="163.0">
+         <children>
+            <ImageView fitHeight="61.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../img/SteeringWheel.png" />
+               </image>
+               <VBox.margin>
+                  <Insets right="10.0" />
+               </VBox.margin>
+            </ImageView>
+            <Label styleClass="field" stylesheets="@../stylestheets/styles.css" text="DRIVER" textFill="WHITE">
+               <font>
+                  <Font name="Microsoft YaHei Light" size="15.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="5.0" right="13.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+         <HBox.margin>
+            <Insets top="5.0" />
+         </HBox.margin>
+      </VBox>
+   </children>
+</HBox>

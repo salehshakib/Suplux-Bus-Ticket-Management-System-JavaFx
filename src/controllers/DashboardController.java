@@ -73,9 +73,8 @@ public class DashboardController implements Initializable {
      */
     public void onHoverLogOutButton(){
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(100), logOutInfo);
-        transition.setToX(220);
-        transition.play();
+        translateIt(100, logOutInfo, 220, 1);
+
     }
 
     /**
@@ -83,9 +82,8 @@ public class DashboardController implements Initializable {
      */
     public void onExitLogOutButton(){
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(100), logOutInfo);
-        transition.setToX(0);
-        transition.play();
+        translateIt(100, logOutInfo, 0, 1);
+
     }
 
     /**
@@ -112,9 +110,7 @@ public class DashboardController implements Initializable {
      */
     public void onHoverTransactionLogButton(){
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(100), tranLogInfo);
-        transition.setToX(220);
-        transition.play();
+        translateIt(100, tranLogInfo, 220, 1);
 
     }
 
@@ -123,9 +119,7 @@ public class DashboardController implements Initializable {
      */
     public void onExitTransactionLogButton(){
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(100), tranLogInfo);
-        transition.setToX(0);
-        transition.play();
+        translateIt(100, tranLogInfo, 0, 1);
 
     }
 
@@ -153,9 +147,7 @@ public class DashboardController implements Initializable {
      */
     public void onHoverCancellationButton(){
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(100), cancelInfo);
-        transition.setToX(220);
-        transition.play();
+        translateIt(100, cancelInfo, 220, 1);
 
     }
 
@@ -164,9 +156,7 @@ public class DashboardController implements Initializable {
      */
     public void onExitCancellationButton(){
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(100), cancelInfo);
-        transition.setToX(0);
-        transition.play();
+        translateIt(100, cancelInfo, 0, 1);
 
     }
 
@@ -177,8 +167,11 @@ public class DashboardController implements Initializable {
 
         try{
 
-            Parent page = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/reservationPage.fxml")));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/reservationPage.fxml"));
+            Parent page = loader.load();
             Scene scene = new Scene(page);
+
+            ReservationPageController.setRpc(loader.getController());
 
             Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
             window.setScene(scene);
@@ -194,9 +187,7 @@ public class DashboardController implements Initializable {
      */
     public void onHoverReservationButton(){
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(100), reserveInfo);
-        transition.setToX(220);
-        transition.play();
+        translateIt(100, reserveInfo, 220, 1);
 
     }
 
@@ -205,9 +196,7 @@ public class DashboardController implements Initializable {
      */
     public void onExitReservationButton(){
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(100), reserveInfo);
-        transition.setToX(0);
-        transition.play();
+        translateIt(100, reserveInfo, 0, 1);
 
     }
 
@@ -225,25 +214,15 @@ public class DashboardController implements Initializable {
         new ProgressThread(cancelProg, cancelLabel, 0.3, 1).start();
         new ProgressThread(tripProg, tripLabel, 0.85, 2).start();
 
+        translateIt(500, passenger, -329, 1);
+        translateIt(500, dashboard, -461, 1);
+        translateIt(500, userName, 651, 1);
+        translateIt(500, innerCircle, 689, 1);
+        translateIt(500, outerCircle, 689, 1);
+
+
         TranslateTransition scrollTransition = new TranslateTransition(Duration.millis(500), dashScroll);
-        TranslateTransition passTransition = new TranslateTransition(Duration.millis(500), passenger);
-        TranslateTransition dashTransition = new TranslateTransition(Duration.millis(500), dashboard);
-        TranslateTransition nameTransition = new TranslateTransition(Duration.millis(500), userName);
-        TranslateTransition innerTransition = new TranslateTransition(Duration.millis(500), innerCircle);
-        TranslateTransition outerTransition = new TranslateTransition(Duration.millis(500), outerCircle);
-
-        innerTransition.setToX(689);
-        outerTransition.setToX(689);
-        nameTransition.setToX(651);
         scrollTransition.setToX(1300);
-        passTransition.setToX(-329);
-        dashTransition.setToX(-461);
-
-        innerTransition.play();
-        outerTransition.play();
-        nameTransition.play();
-        dashTransition.play();
-        passTransition.play();
         scrollTransition.play();
 
         scrollTransition.setOnFinished((er)->{
@@ -272,22 +251,49 @@ public class DashboardController implements Initializable {
 
                     ratingTransition.setOnFinished((ef)->{
 
-                        ScaleTransition firstTransition = new ScaleTransition(Duration.millis(500), firstNamePane);
-                        ScaleTransition lastTransition = new ScaleTransition(Duration.millis(500), lastNamePane);
-
-                        firstTransition.setToX(1);
-                        firstTransition.setToY(1);
-                        lastTransition.setToX(1);
-                        lastTransition.setToY(1);
-
-                        firstTransition.play();
-                        lastTransition.play();
+                        scaleIt(500, firstNamePane, 1, 3);
+                        scaleIt(500, lastNamePane, 1, 3);
 
                     });
                 });
             });
         });
 
+    }
+
+    public void translateIt(double duration, Node node, double translateTo, int type){
+
+        TranslateTransition transition = new TranslateTransition(Duration.millis(duration), node);
+
+        if(type == 1){
+
+            transition.setToX(translateTo);
+        } else if(type == 2){
+
+            transition.setToY(translateTo);
+        }
+
+        transition.play();
+
+    }
+
+    public void scaleIt(double duration, Node node, double scaleTo, int type){
+
+        ScaleTransition transition = new ScaleTransition(Duration.millis(duration), node);
+
+        if(type == 1){
+
+            transition.setToX(scaleTo);
+        } else if(type == 2){
+
+            transition.setToY(scaleTo);
+        } else if(type == 3){
+
+            transition.setToX(scaleTo);
+            transition.setToY(scaleTo);
+        }
+
+        transition.play();
     }
 
     /**this inner class will show retrieved data of reservation, cancellation and rating

@@ -126,8 +126,11 @@ public class TransactionLogPageController implements Initializable {
 
         try{
 
-            Parent page = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/reservationPage.fxml")));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/reservationPage.fxml"));
+            Parent page = loader.load();
             Scene scene = new Scene(page);
+
+            ReservationPageController.setRpc(loader.getController());
 
             Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
             window.setScene(scene);
@@ -136,6 +139,7 @@ public class TransactionLogPageController implements Initializable {
         } catch (IOException ignored){
 
         }
+
     }
 
     /**

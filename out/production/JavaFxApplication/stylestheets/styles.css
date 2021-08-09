@@ -372,3 +372,492 @@
 
     -fx-fill: #001224;
 }
+
+/* this class is to design the error message label when no UTK will be found*/
+.cancellation_error_msg{
+
+    -fx-background-color: #e01f1f;
+    -fx-background-radius: 10 10;
+}
+
+/* this class is to design the ticket details background */
+.cancellation_ticket_details_bg{
+
+    -fx-background-color: #000b1c;
+    -fx-background-radius: 30 30;
+}
+
+/* this class is to design the warning message if the ticket is not eligible for cancellation */
+.warning_error_msg{
+
+    -fx-background-color: #faca2f;
+    -fx-background-radius: 10 10;
+}
+
+/* this class is to design the auto complete FROM and TO combo boxes */
+.combo-box{
+
+    -fx-background-color: transparent;
+    -fx-border-color: #007EfC;
+    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 5 5 5 5;
+    -fx-border-width: 2px;
+    -fx-font-family: "Microsoft YaHei";
+    -fx-font-size: 15px;
+}
+
+.combo_box_base .text{
+    -fx-fill: white;
+}
+
+.combo-box-base:editable > .text-field{
+
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFF;
+    -fx-font-family: "Microsoft YaHei";
+    -fx-font-size: 15px;
+}
+
+.combo-box-base:editable .arrow, .combo-box-base:editable .arrow-button{
+
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.combo-box-base .arrow{
+
+    -fx-background-color: #007EfC;
+}
+
+.combo-box-base .arrow-button{
+
+    -fx-border-color: #007EfC;
+    -fx-background-color: #000b1c;
+}
+
+.combo-box-popup > .list-view {
+    -fx-background-color: #000b1c;
+    -fx-background-insets: 0, 1;
+    -fx-font-family: "Microsoft YaHei";
+    -fx-font-size: 15px;
+    -fx-background-radius: 0 0 5 5;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.2) , 12, 0.0 , 0 , 8 );
+}
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
+    -fx-padding: 4 0 4 5;
+    -fx-background: #000b1c;
+}
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:hover {
+    -fx-background: -fx-accent;
+    -fx-background-color: #00172D;
+}
+.combo-box-popup  > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected,
+.combo-box-popup  > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected:hover {
+    -fx-background: -fx-accent;
+    -fx-background-color: #007EfC;
+    -fx-background-insets: 0, 1, 2;
+}
+.combo-box-popup > .list-view > .placeholder > .label {
+
+    -fx-text-fill: white;
+}
+
+/* date picker styles */
+.date-picker {
+
+    -fx-background-color: transparent;
+    -fx-border-color: #007EfC;
+    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 5 5 5 5;
+    -fx-border-width: 2px;
+    -fx-text-fill: #FFF;
+    -fx-font-family: "Microsoft YaHei";
+    -fx-font-size: 15px;
+}
+
+.date-picker > .text-field{
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFF;
+    -fx-font-family: "Microsoft YaHei";
+    -fx-font-size: 15px;
+}
+
+.date-picker > .arrow-button {
+    -fx-background-color: #000b1c;
+    -fx-border-color: #007EfC;
+    -fx-background-radius: 0px;
+}
+
+.date-picker > .arrow-button:hover {
+
+    -fx-background-color:  #007EfC;
+}
+
+.date-picker > .arrow-button > .arrow {
+
+    -fx-background-color: #000b1c, #007EfC;
+}
+
+.date-picker > .arrow-button:hover > .arrow{
+
+    -fx-background-color: #007EfC,  #000b1c;
+}
+
+.date-picker-popup {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 0;
+    -fx-alignment: CENTER;
+    -fx-spacing: 0;
+    -fx-padding: 0.083333em;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.2) , 12, 0.0 , 0 , 8 );
+}
+
+.date-picker-popup > .month-year-pane {
+
+    -fx-base: #000b1c;
+    -fx-mark-highlight-color: -fx-light-text-color;
+}
+
+.date-picker-popup > * > .spinner > .button {
+    -fx-background-color: #000b1c;
+}
+
+.date-picker-popup > * > .spinner > .button > .left-arrow,
+.date-picker-popup > * > .spinner > .button > .right-arrow {
+
+    -fx-background-color: #007EfC;
+}
+
+.date-picker-popup > * > .spinner > .button:hover {
+
+    -fx-background-color: #00172D;
+}
+.date-picker-popup > * > .spinner > .button:pressed {
+
+    -fx-background-color:  #000b1c ;
+}
+
+.date-picker-popup > .calendar-grid {
+
+    -fx-background-color: #000b1c;
+    -fx-border-color: transparent;
+}
+
+.date-picker-popup > * > .day-name-cell,
+.date-picker-popup > * > .week-number-cell {
+
+    -fx-font-size: 15px;
+    -fx-text-fill: #FFF;
+    -fx-font-family: "Microsoft YaHei";
+}
+
+.date-picker-popup > * > .day-cell {
+    -fx-padding: 7 7 7 7;
+    -fx-border-color: transparent;
+    -fx-border-radius: 50%;
+    -fx-font-size: 1em;
+    -fx-background-color: #000b1c;
+    -fx-text-fill: white;
+}
+
+.date-picker-popup > * > .today{
+
+    -fx-background-color: transparent;
+}
+
+.date-picker-popup > * > .selected {
+
+    -fx-background-color: #007EfC;
+    -fx-background-radius: 50%;
+    -fx-text-fill: #000b1c;
+}
+
+.date-picker-popup > * > .day-cell:hover {
+
+    -fx-border-color: #007EfC;
+}
+
+.date-picker-popup > * > .previous-month:hover,
+.date-picker-popup > * > .next-month:hover {
+
+    -fx-border-color: transparent;
+}
+
+.date-picker-popup > * > .day-cell:disabled {
+
+    -fx-text-fill: #007EfC;
+}
+
+.date-picker-popup > * > .previous-month,
+.date-picker-popup > * > .previous-month:disabled,
+.date-picker-popup > * > .next-month {
+
+    -fx-text-fill: transparent;
+}
+
+/* default properties of check boxes */
+.check-box {
+
+    selected-box-color: #000b1c;
+    box-color: #00172D;
+    mark-color: #007EfC;
+}
+
+/* background color for selected checkbox */
+.check-box:selected > .box {
+
+    -fx-background-color: selected-box-color;
+    -fx-background-radius: 5 5 5 5;
+}
+
+/* background color of unselected checkbox */
+.check-box > .box {
+
+    -fx-background-color: box-color;
+    -fx-border-color: #007EfC;
+    -fx-border-radius: 5 5 5 5;
+    -fx-background-radius: 5 5 5 5;
+}
+
+/* check box hover effect */
+.check-box:hover > .box {
+
+    -fx-background-color: box-color;
+    -fx-border-color: #007EfC;
+    -fx-border-width: 2px;
+    -fx-cursor: hand;
+    -fx-border-radius: 5 5 5 5;
+    -fx-background-radius: 5 5 5 5;
+}
+
+/* modify mark color */
+.check-box:selected > .box > .mark,
+.check-box:indeterminate  > .box > .mark {
+
+    -fx-background-color: mark-color;
+}
+
+/* designing coach info background*/
+.coach_info_bg{
+
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-background-color: #000b1c;
+}
+
+/* designing coach info background*/
+.coach_info_pane{
+
+    -fx-background-color: #0e284e;
+}
+
+/* designing from to icon*/
+.from_to_icon{
+
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+    -fx-border-width: 2px;
+    -fx-border-color: #007EFC;
+    -fx-background-color: transparent;
+}
+
+.seat_map_bg{
+
+    -fx-background-color: #000b1c;
+    -fx-border-color: #007EfC;
+    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 5 5 5 5;
+    -fx-border-width: 2px;
+}
+
+.seat_table_row_bg{
+
+    -fx-background-color: #000b1c;
+}
+
+.seat SVGPath{
+
+    -fx-fill: #007EfC;
+}
+
+
+.seat:hover Label{
+
+    -fx-text-fill: #007EFC;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.seat:hover SVGPath{
+
+    -fx-fill: #013e76;
+    -fx-scale-x: 0.7;
+    -fx-scale-y: 0.7;
+}
+
+.seat_selected SVGPath{
+
+    -fx-fill: green;
+}
+
+.seat_selected Label{
+
+    -fx-text-fill: green;
+}
+
+.seat_selected:hover SVGPath{
+
+    -fx-scale-x: 0.7;
+    -fx-scale-y: 0.7;
+}
+
+.seat_selected:hover Label{
+
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.seat_table_bg{
+
+    -fx-background-color: #00172D;
+    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 5 5 5 5;
+}
+
+/* this class is to design the default buttons with SVG icon in it */
+.btn_with_svg{
+
+    -fx-background-color: #007EfC;
+    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 5 5 5 5;
+    -fx-text-fill: #FFF;
+    -fx-border-width: 2px;
+    -fx-border-color: #007EFC;
+    -fx-content-display: right;
+}
+
+/* this class is to design the buttons with SVG icon in it when user hovers on it */
+.btn_with_svg:hover{
+
+    -fx-background-color: #00172D;
+    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 5 5 5 5;
+    -fx-text-fill: #007EFC;
+}
+
+/* this class is to design the SVG icon when buttons with SVG icon in it being hovered */
+.btn_with_svg:hover SVGPath{
+
+    -fx-fill: #007EFC;
+}
+
+/* this class is to design the buttons with SVG icon in it it is pressed */
+.btn_with_svg:pressed{
+
+    -fx-background-color: #007EfC;
+    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 5 5 5 5;
+    -fx-text-fill: #FFF;
+    -fx-border-width: 2px;
+    -fx-border-color: #007EFC;
+}
+
+/* this class is to design the SVG icon when buttons with SVG icon in it being pressed */
+.btn_with_svg:pressed SVGPath{
+
+    -fx-fill: #FFF;
+}
+
+.sleeper_seat SVGPath{
+
+    -fx-fill: #007EfC;
+}
+
+
+.sleeper_seat:hover Label{
+
+    -fx-text-fill: #007EFC;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.sleeper_seat:hover SVGPath{
+
+    -fx-fill: #013e76;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.sleeper_seat_selected SVGPath{
+
+    -fx-fill: green;
+}
+
+.sleeper_seat_selected Label{
+
+    -fx-text-fill: green;
+}
+
+.sleeper_seat_selected:hover SVGPath{
+
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.sleeper_seat_selected:hover Label{
+
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.dialog_bg{
+
+    -fx-background-color: #000b1c;
+    -fx-border-width: 3px;
+    -fx-border-color: #007EfC;
+}
+
+.pay_option_bg{
+
+    -fx-background-color: #007EfC;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.pay_option_bg SVGPath{
+
+    -fx-fill: #000b1c;
+}
+
+.pay_option_bg:hover{
+
+    -fx-background-color: #000b1c;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-border-width: 2px;
+    -fx-border-color: #007EFC;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.pay_option_bg:hover SVGPath{
+
+    -fx-fill: #007EFC;
+}
+
+.pay_option_bg:pressed{
+
+    -fx-background-color: #007EFC;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-border-width: 2px;
+    -fx-border-color: #007EFC;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.pay_option_bg:pressed SVGPath{
+
+    -fx-fill: #000b1c;
+}

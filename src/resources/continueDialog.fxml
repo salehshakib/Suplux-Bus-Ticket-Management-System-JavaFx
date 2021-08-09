@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="300.0" prefWidth="600.0" styleClass="dialog_bg" stylesheets="@../stylestheets/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ContinueDialogController">
+   <children>
+      <Button fx:id="dialogYesButton" layoutX="180.0" layoutY="219.0" mnemonicParsing="false" onAction="#onClickDialogYesButton" prefHeight="47.0" prefWidth="100.0" styleClass="btn" stylesheets="@../stylestheets/styles.css" text="Yes">
+         <font>
+            <Font name="Microsoft YaHei Light" size="16.0" />
+         </font>
+      </Button>
+      <Label fx:id="dialogBody" layoutX="14.0" layoutY="61.0" prefHeight="135.0" prefWidth="550.0" text="You will have to pay 20% of the fare right now in order to book the ticket and have to arrive at the counter 30 minutes before the departure time and pay the rest of the fare. Do you wish to continue?" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Microsoft YaHei Light" size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="dialogNoButton" layoutX="320.0" layoutY="219.0" mnemonicParsing="false" onAction="#onClickDialogNoButton" prefHeight="47.0" prefWidth="100.0" styleClass="btn" stylesheets="@../stylestheets/styles.css" text="No">
+         <font>
+            <Font name="Microsoft YaHei Light" size="16.0" />
+         </font>
+      </Button>
+      <Text fx:id="dialogTitle" fill="WHITE" layoutX="10.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Booking the tickets?">
+         <font>
+            <Font name="Microsoft YaHei" size="25.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

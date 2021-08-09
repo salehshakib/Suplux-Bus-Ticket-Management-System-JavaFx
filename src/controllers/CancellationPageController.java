@@ -1,6 +1,9 @@
 package controllers;
 
+import com.gluonhq.charm.glisten.control.ProgressBar;
+import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -25,11 +30,13 @@ public class CancellationPageController implements Initializable {
      * variable initialization
      */
     @FXML
-    public Button crossButton;
+    public Button crossButton, homeBtn, searchBtn, cancelTicketBtn;
     public Pane logOutBtn, transBtn, reserveBtn;
-    public Label logOutInfo, tranLogInfo, cancelInfo, reserveInfo;
-    public Text cancellation, page;
-    public Button homeBtn;
+    public Label logOutInfo, tranLogInfo, cancelInfo, reserveInfo, searchErrorMsg, cancelWarningMsg;
+    public Text cancellation, page, UTKNumber, tripDate, coachNumber, boardingPoint, reportingTime, seats, reservationStatus, totalFare, coachType, destination, departureTime;
+    public TextField UTKSearchField;
+    public HBox ticketDetails;
+    public ProgressBar fetchProg;
 
     /**
      *  this method is to close the application
@@ -63,9 +70,7 @@ public class CancellationPageController implements Initializable {
      */
     public void onHoverLogOutButton(){
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(100), logOutInfo);
-        transition.setToX(220);
-        transition.play();
+        translateIt(100, logOutInfo, 220, 1);
     }
 
     /**
@@ -73,9 +78,7 @@ public class CancellationPageController implements Initializable {
      */
     public void onExitLogOutButton(){
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(100), logOutInfo);
-        transition.setToX(0);
-        transition.play();
+        translateIt(100, logOutInfo, 0, 1);
     }
 
     /**
@@ -102,10 +105,7 @@ public class CancellationPageController implements Initializable {
      */
     public void onHoverTransactionLogButton(){
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(100), tranLogInfo);
-        transition.setToX(220);
-        transition.play();
-
+        translateIt(100, tranLogInfo, 220, 1);
     }
 
     /**
@@ -113,10 +113,7 @@ public class CancellationPageController implements Initializable {
      */
     public void onExitTransactionLogButton(){
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(100), tranLogInfo);
-        transition.setToX(0);
-        transition.play();
-
+        translateIt(100, tranLogInfo, 0, 1);
     }
 
     /**
@@ -126,8 +123,11 @@ public class CancellationPageController implements Initializable {
 
         try{
 
-            Parent page = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/reservationPage.fxml")));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/reservationPage.fxml"));
+            Parent page = loader.load();
             Scene scene = new Scene(page);
+
+            ReservationPageController.setRpc(loader.getController());
 
             Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
             window.setScene(scene);
@@ -143,10 +143,7 @@ public class CancellationPageController implements Initializable {
      */
     public void onHoverReservationButton(){
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(100), reserveInfo);
-        transition.setToX(220);
-        transition.play();
-
+        translateIt(100, reserveInfo, 220, 1);
     }
 
     /**
@@ -154,10 +151,7 @@ public class CancellationPageController implements Initializable {
      */
     public void onExitReservationButton(){
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(100), reserveInfo);
-        transition.setToX(0);
-        transition.play();
-
+        translateIt(100, reserveInfo, 0, 1);
     }
 
     /**
@@ -179,8 +173,181 @@ public class CancellationPageController implements Initializable {
         }
     }
 
+    /**
+     * this method is used to search the ticket details in the database
+     */
+    public void onClickSearchButton(){
+
+        //this task object is letting us to get the time for fetching the data from database
+        Task<Void> task = new Task<>() {
+            @Override
+            public Void call() {
+
+                if(cancelWarningMsg.getScaleY() == 1){
+
+                    scaleIt(300, cancelWarningMsg, 0, 2);
+                }
+
+                scaleIt(200, fetchProg, 1, 2);
+
+                //TODO search the database for ticket details here
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                scaleIt(200, fetchProg, 0, 2);
+
+                return null;
+            }
+        };
+        task.setOnSucceeded(e -> {
+
+            if(UTKSearchField.getText().equals(UTKNumber.getText())){
+
+                ScaleTransition detailsTransition = new ScaleTransition(Duration.millis(300), ticketDetails);
+
+                if(ticketDetails.getScaleX() == 1){
+
+                    detailsTransition.setFromY(0);
+                    detailsTransition.setFromX(0);
+
+                }
+
+                detailsTransition.setToX(1);
+               detailsTransition.setToY(1);
+               detailsTransition.play();
+            } else{
+
+                ScaleTransition errorTransition = new ScaleTransition(Duration.millis(200), searchErrorMsg);
+
+                if(searchErrorMsg.getScaleX() == 1){
+
+                    errorTransition.setFromY(0);
+                    errorTransition.setFromX(0);
+
+                }
+
+                errorTransition.setToY(1);
+                errorTransition.setToX(1);
+                errorTransition.play();
+            }
+
+        });
+        new Thread(task).start();
+
+    }
+
+    /**
+     * this method will erase the error message when a key is pressed in the text field
+     */
+    public void onKeyPressedSearchField(){
+
+        if(searchErrorMsg.getScaleX() == 1){
+
+            scaleIt(200, searchErrorMsg, 0, 3);
+        } else if(ticketDetails.getScaleX() == 1){
+
+            if(cancelWarningMsg.getScaleY() == 1){
+
+                scaleIt(300, cancelWarningMsg, 0, 2);
+            }
+
+            scaleIt(300, ticketDetails, 0, 3);
+        }
+    }
+
+    /**
+     * this method will execute the cancellation process when cancel ticket button is clicked
+     */
+    public void onClickCancelTicketButton(){
+
+        //this task object is letting us to get the time for fetching the data from database
+        Task<Void> task = new Task<>() {
+            @Override
+            public Void call() {
+
+                scaleIt(200, fetchProg, 1, 2);
+
+                //TODO here the database must be checked if the ticket is eligible for cancellation or not
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                scaleIt(200, fetchProg, 0, 2);
+
+                return null;
+            }
+        };
+        task.setOnSucceeded(e -> {
+
+            if(UTKNumber.getText().equals("230720211158-M4055D3-240720212200")){
+
+                ScaleTransition warningTransition = new ScaleTransition(Duration.millis(200), cancelWarningMsg);
+
+                if(cancelWarningMsg.getScaleY() == 1){
+
+                    warningTransition.setFromY(0);
+
+                }
+                warningTransition.setToY(1);
+                warningTransition.play();
+
+            }
+
+        });
+        new Thread(task).start();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        translateIt(500, cancellation, -384, 1);
+        translateIt(500, page, -199, 1);
+        translateIt(500, homeBtn, 175, 1);
+        translateIt(500, UTKSearchField, 820, 1);
+        translateIt(500, searchBtn, 695, 1);
+
     }
+
+    public void translateIt(double duration, Node node, double translateTo, int type){
+
+        TranslateTransition transition = new TranslateTransition(Duration.millis(duration), node);
+
+        if(type == 1){
+
+            transition.setToX(translateTo);
+        } else if(type == 2){
+
+            transition.setToY(translateTo);
+        }
+
+        transition.play();
+
+    }
+
+    public void scaleIt(double duration, Node node, double scaleTo, int type){
+
+        ScaleTransition transition = new ScaleTransition(Duration.millis(duration), node);
+
+        if(type == 1){
+
+            transition.setToX(scaleTo);
+        } else if(type == 2){
+
+            transition.setToY(scaleTo);
+        } else if(type == 3){
+
+            transition.setToX(scaleTo);
+            transition.setToY(scaleTo);
+        }
+
+        transition.play();
+    }
+
 }

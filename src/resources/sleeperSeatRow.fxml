@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="CENTER" prefHeight="120.0" prefWidth="330.0" styleClass="seat_table_row_bg" stylesheets="@../stylestheets/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SleeperSeatRowController">
+   <children>
+      <BorderPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
+         <center>
+            <Pane fx:id="seatPane1" onMouseClicked="#onClickSeatPane1" prefHeight="200.0" prefWidth="200.0" styleClass="sleeper_seat" stylesheets="@../stylestheets/styles.css" BorderPane.alignment="CENTER">
+               <children>
+                  <SVGPath fx:id="seatSVG1" content="M89,18.7c-0.6-3.1-3.4-5.4-6.8-5.4H46.7c-3.3,0-6.1,2.3-6.8,5.4H10.6c-3.1,0-5.6,2.5-5.6,5.5v51.4c0,3,2.5,5.5,5.6,5.5h29.3  c0.6,3.2,3.4,5.7,6.8,5.7h35.4c3.1,0,5.8-2.1,6.6-4.9c3.5-0.4,6.2-3.3,6.2-6.8V25.4C95.1,22,92.5,19.1,89,18.7z M46.7,15.6h35.4  c2,0,3.8,1.3,4.3,3.2c-2.7,0.6-4.8,2.9-5.3,5.6H46.7c-2.5,0-4.5-2-4.5-4.4S44.2,15.6,46.7,15.6z M39.9,78.5H10.6  c-1.7,0-3.2-1.4-3.2-3.1V24.1c0-1.7,1.4-3.1,3.2-3.1h29.3c0.5,3.3,3.4,5.8,6.8,5.8h34.4v46.1H46.7C43.3,72.9,40.5,75.3,39.9,78.5z   M82.3,84.2H46.7c-2.5,0-4.5-2-4.5-4.4c0-2.4,2-4.4,4.5-4.4h34.4c0.2,3,2.3,5.4,5.1,6.2C85.7,83.1,84.1,84.2,82.3,84.2z M92.7,74.9  c0,2.4-2,4.4-4.5,4.4c-2.5,0-4.5-2-4.5-4.4V25.4c0-2.4,2-4.4,4.5-4.4c2.5,0,4.5,2,4.5,4.4V74.9z" fill="#007efc" layoutX="-9.0" layoutY="10.0" rotate="90.0" scaleX="0.9" scaleY="0.9" />
+                  <Label fx:id="seatLabel1" alignment="CENTER" layoutX="26.0" layoutY="49.0" maxWidth="30.0" prefWidth="30.0" text="A-1" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Microsoft YaHei" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </center>
+      </BorderPane>
+      <BorderPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+      <BorderPane layoutX="228.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
+         <center>
+            <Pane fx:id="seatPane2" onMouseClicked="#onClickSeatPane2" prefHeight="200.0" prefWidth="200.0" styleClass="sleeper_seat" stylesheets="@../stylestheets/styles.css" BorderPane.alignment="CENTER">
+               <children>
+                  <SVGPath fx:id="seatSVG2" content="M89,18.7c-0.6-3.1-3.4-5.4-6.8-5.4H46.7c-3.3,0-6.1,2.3-6.8,5.4H10.6c-3.1,0-5.6,2.5-5.6,5.5v51.4c0,3,2.5,5.5,5.6,5.5h29.3  c0.6,3.2,3.4,5.7,6.8,5.7h35.4c3.1,0,5.8-2.1,6.6-4.9c3.5-0.4,6.2-3.3,6.2-6.8V25.4C95.1,22,92.5,19.1,89,18.7z M46.7,15.6h35.4  c2,0,3.8,1.3,4.3,3.2c-2.7,0.6-4.8,2.9-5.3,5.6H46.7c-2.5,0-4.5-2-4.5-4.4S44.2,15.6,46.7,15.6z M39.9,78.5H10.6  c-1.7,0-3.2-1.4-3.2-3.1V24.1c0-1.7,1.4-3.1,3.2-3.1h29.3c0.5,3.3,3.4,5.8,6.8,5.8h34.4v46.1H46.7C43.3,72.9,40.5,75.3,39.9,78.5z   M82.3,84.2H46.7c-2.5,0-4.5-2-4.5-4.4c0-2.4,2-4.4,4.5-4.4h34.4c0.2,3,2.3,5.4,5.1,6.2C85.7,83.1,84.1,84.2,82.3,84.2z M92.7,74.9  c0,2.4-2,4.4-4.5,4.4c-2.5,0-4.5-2-4.5-4.4V25.4c0-2.4,2-4.4,4.5-4.4c2.5,0,4.5,2,4.5,4.4V74.9z" fill="#007efc" layoutX="-8.0" layoutY="10.0" rotate="90.0" scaleX="0.9" scaleY="0.9" />
+                  <Label fx:id="seatLabel2" alignment="CENTER" layoutX="27.0" layoutY="49.0" maxWidth="30.0" prefWidth="30.0" text="A-2" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Microsoft YaHei" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </center>
+      </BorderPane>
+      <BorderPane layoutX="254.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
+         <center>
+            <Pane fx:id="seatPane3" onMouseClicked="#onClickSeatPane3" prefHeight="200.0" prefWidth="200.0" styleClass="sleeper_seat" stylesheets="@../stylestheets/styles.css" BorderPane.alignment="CENTER">
+               <children>
+                  <SVGPath fx:id="seatSVG3" content="M89,18.7c-0.6-3.1-3.4-5.4-6.8-5.4H46.7c-3.3,0-6.1,2.3-6.8,5.4H10.6c-3.1,0-5.6,2.5-5.6,5.5v51.4c0,3,2.5,5.5,5.6,5.5h29.3  c0.6,3.2,3.4,5.7,6.8,5.7h35.4c3.1,0,5.8-2.1,6.6-4.9c3.5-0.4,6.2-3.3,6.2-6.8V25.4C95.1,22,92.5,19.1,89,18.7z M46.7,15.6h35.4  c2,0,3.8,1.3,4.3,3.2c-2.7,0.6-4.8,2.9-5.3,5.6H46.7c-2.5,0-4.5-2-4.5-4.4S44.2,15.6,46.7,15.6z M39.9,78.5H10.6  c-1.7,0-3.2-1.4-3.2-3.1V24.1c0-1.7,1.4-3.1,3.2-3.1h29.3c0.5,3.3,3.4,5.8,6.8,5.8h34.4v46.1H46.7C43.3,72.9,40.5,75.3,39.9,78.5z   M82.3,84.2H46.7c-2.5,0-4.5-2-4.5-4.4c0-2.4,2-4.4,4.5-4.4h34.4c0.2,3,2.3,5.4,5.1,6.2C85.7,83.1,84.1,84.2,82.3,84.2z M92.7,74.9  c0,2.4-2,4.4-4.5,4.4c-2.5,0-4.5-2-4.5-4.4V25.4c0-2.4,2-4.4,4.5-4.4c2.5,0,4.5,2,4.5,4.4V74.9z" fill="#007efc" layoutX="-8.0" layoutY="10.0" rotate="90.0" scaleX="0.9" scaleY="0.9" />
+                  <Label fx:id="seatLabel3" alignment="CENTER" layoutX="27.0" layoutY="49.0" maxWidth="30.0" prefWidth="30.0" text="A-3" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Microsoft YaHei" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </center>
+      </BorderPane>
+   </children>
+</HBox>
