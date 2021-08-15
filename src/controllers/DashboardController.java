@@ -1,9 +1,13 @@
 package controllers;
 
+import com.gluonhq.charm.glisten.control.ProgressBar;
 import com.gluonhq.charm.glisten.control.ProgressIndicator;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.events.JFXDialogEvent;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,7 +17,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
@@ -32,14 +39,15 @@ public class DashboardController implements Initializable {
      */
     @FXML
     public Button crossButton;
-    public Pane logOutBtn, transBtn, cancelBtn, reserveBtn, reservePane, cancelPane, ratingsPane, firstNamePane, lastNamePane;
-    public Label logOutInfo, tranLogInfo, cancelInfo, reserveInfo, reserveLabel, cancelLabel, tripLabel;
+    public Pane rootPane, logOutBtn, transBtn, cancelBtn, reserveBtn, reservePane, cancelPane, ratingsPane, firstNamePane, lastNamePane, updateFirstNameBtn, updateLastNameBtn, updateGenderBtn, updatePhoneNoBtn, updateNIDBtn, updateBirthRegBtn, updatePassportBtn;
+    public Label logOutInfo, tranLogInfo, cancelInfo, reserveInfo, reserveLabel, cancelLabel, tripLabel, firstNameLabel, lastNameLabel, emailLabel, genderLabel, phoneNoLabel, NIDLabel, birthRegLabel, passportLabel;
     public ProgressIndicator reserveProg, cancelProg, tripProg;
     public ScrollPane dashScroll;
+    public StackPane rootStack;
     public Text passenger, dashboard, userName;
     public Circle innerCircle, outerCircle;
     public SVGPath userPic;
-
+    public ProgressBar fetchProg;
 
     /**
      *  this method is to close the application
@@ -201,6 +209,270 @@ public class DashboardController implements Initializable {
     }
 
     /**
+     * this method updates the first name section
+     */
+    public void onClickUpdateFirstNameBtn(){
+
+        updateUserData("Update First Name", "Enter a first name", "First Name");
+        UpdateUserInfoDialogController.checkData(firstNameLabel.getText());
+    }
+
+    /**
+     * this method updates the last name section
+     */
+    public void onClickUpdateLastNameBtn(){
+
+        updateUserData("Update Last Name", "Enter a last name", "Last Name");
+        UpdateUserInfoDialogController.checkData(lastNameLabel.getText());
+    }
+
+    /**
+     * this method updates the gender section
+     */
+    public void onClickUpdateGenderBtn(){
+
+        UpdateGenderDialogController.checkData(genderLabel.getText());
+        updateUserData("Update Gender", "Enter a gender", "Gender");
+    }
+
+    /**
+     * this method updates the phone number section
+     */
+    public void onClickUpdatePhoneNoBtn(){
+
+        updateUserData("Update Phone Number", "Enter a phone number", "Phone No");
+        UpdateUserInfoDialogController.checkData(phoneNoLabel.getText());
+    }
+
+    /**
+     * this method updates the NID number section
+     */
+    public void onClickUpdateNIDBtn(){
+
+        updateUserData("Update NID Number", "Enter a NID Number", "NID No");
+        UpdateUserInfoDialogController.checkData(NIDLabel.getText());
+    }
+
+    /**
+     * this method updates the birth registration number section
+     */
+    public void onClickUpdateBirthRegBtn(){
+
+        updateUserData("Update Birth Reg No", "Enter a birth reg number", "Birth Reg No");
+        UpdateUserInfoDialogController.checkData(birthRegLabel.getText());
+    }
+
+    /**
+     * this method updates the passport number section
+     */
+    public void onClickUpdatePassportBtn(){
+
+        updateUserData("Update Passport No", "Enter a Passport Number", "Passport No");
+        UpdateUserInfoDialogController.checkData(passportLabel.getText());
+    }
+
+    /**
+     * this method updates the user data onto the database section
+     */
+    private void updateUserData(String title, String promptText, String field){
+
+        BoxBlur blur = new BoxBlur(6, 6, 6);
+
+        if(field.equals("Gender")){
+
+            try {
+
+                FXMLLoader updateGender = new FXMLLoader(getClass().getResource("/resources/updateGenderDialog.fxml"));
+                Region updateGenderLoader = updateGender.load();
+
+                UpdateGenderDialogController ugidc = updateGender.getController();
+
+                JFXDialog updateGenderDialog = new JFXDialog(rootStack, updateGenderLoader, JFXDialog.DialogTransition.TOP);
+
+                ugidc.setDialog(updateGenderDialog);
+
+                updateGenderDialog.show();
+                updateGenderDialog.setOnDialogClosed((JFXDialogEvent eve) -> {
+
+                    rootPane.setEffect(null);
+
+                    //this task object is letting us to get the time to push the data to the database
+                    Task<Void> task = new Task<>() {
+                        @Override
+                        public Void call() {
+
+                            if(ugidc.isConfirmButtonPressed()){
+
+                                scaleIt(200, fetchProg, 1, 2);
+
+                                //TODO update the database with new gender data here...
+
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+                                scaleIt(200, fetchProg, 0, 2);
+                            }
+
+                            return null;
+                        }
+                    };
+                    task.setOnSucceeded(e -> {
+
+                        if(ugidc.isConfirmButtonPressed()){
+
+                            successDialog(ugidc.getData(), field);
+                        }
+
+                    });
+                    new Thread(task).start();
+
+                });
+                rootPane.setEffect(blur);
+
+            } catch (IOException ignored) {
+
+            }
+        } else{
+
+            FXMLLoader updateInfo = new FXMLLoader(getClass().getResource("/resources/updateUserInfoDialog.fxml"));
+
+            try {
+
+                Region updateInfoLoaderLoader = updateInfo.load();
+
+                UpdateUserInfoDialogController uuidc = updateInfo.getController();
+
+                JFXDialog updateDialog = new JFXDialog(rootStack, updateInfoLoaderLoader, JFXDialog.DialogTransition.TOP);
+
+                uuidc.setDialog(updateDialog);
+                uuidc.setDialogTitle(title);
+                uuidc.setTextFieldPromptText(promptText);
+                updateDialog.show();
+                updateDialog.setOnDialogClosed((JFXDialogEvent event) -> {
+
+                    rootPane.setEffect(null);
+
+                    //this task object is letting us to get the time to push the data to the database
+                    Task<Void> task = new Task<>() {
+                        @Override
+                        public Void call() {
+
+                            if(uuidc.isConfirmButtonPressed()){
+
+                                scaleIt(200, fetchProg, 1, 2);
+
+                                //TODO update the database with new user data here...
+
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+                                scaleIt(200, fetchProg, 0, 2);
+                            }
+
+                            return null;
+                        }
+                    };
+                    task.setOnSucceeded(e -> {
+
+                        if(uuidc.isConfirmButtonPressed()){
+
+                            successDialog(uuidc.getData(), field);
+                        }
+
+                    });
+                    new Thread(task).start();
+
+                });
+                rootPane.setEffect(blur);
+
+            } catch (IOException ignored) {
+
+            }
+        }
+
+    }
+
+    /**
+     * this method shows the update is successful dialog
+     */
+    private void successDialog(String data, String field){
+
+        BoxBlur blur = new BoxBlur(6, 6, 6);
+
+        // success dialog box is generated here
+
+        FXMLLoader successMsg = new FXMLLoader(getClass().getResource("/resources/infoDialog.fxml"));
+        try {
+
+            Region sucLoader = successMsg.load();
+
+            InfoDialogController idc = successMsg.getController();
+            idc.setDialogBody(field + " " + "Updated Successfully!!!");
+            idc.setDialogButtonText("Okay, Thank you");
+
+            JFXDialog contDialog = new JFXDialog(rootStack, sucLoader, JFXDialog.DialogTransition.TOP);
+
+            idc.setDialog(contDialog);
+            contDialog.show();
+            contDialog.setOnDialogClosed((JFXDialogEvent ev) -> {
+
+                updateDashboardField(data, field);
+                rootPane.setEffect(null);
+
+            });
+            rootPane.setEffect(blur);
+
+        } catch (IOException ignored) {
+
+        }
+    }
+
+    /**
+     * this method updates the sections in the dashboard page
+     */
+    private void updateDashboardField(String data, String field){
+
+        switch (field) {
+            case "First Name":
+
+                firstNameLabel.setText(data);
+                userName.setText(firstNameLabel.getText() + " " + lastNameLabel.getText());
+                break;
+            case "Last Name":
+
+                lastNameLabel.setText(data);
+                userName.setText(firstNameLabel.getText() + " " + lastNameLabel.getText());
+                break;
+            case "Gender":
+
+                genderLabel.setText(data);
+                break;
+            case "Phone No":
+
+                phoneNoLabel.setText(data);
+                break;
+            case "NID No":
+
+                NIDLabel.setText(data);
+                break;
+            case "Birth Reg No":
+
+                birthRegLabel.setText(data);
+                break;
+            case "Passport No":
+
+                passportLabel.setText(data);
+                break;
+        }
+    }
+
+    /**
      * this method initializes every components in this scene
      */
     @Override
@@ -217,8 +489,8 @@ public class DashboardController implements Initializable {
         translateIt(500, passenger, -329, 1);
         translateIt(500, dashboard, -461, 1);
         translateIt(500, userName, 651, 1);
-        translateIt(500, innerCircle, 689, 1);
-        translateIt(500, outerCircle, 689, 1);
+        translateIt(500, innerCircle, 520, 1);
+        translateIt(500, outerCircle, 520, 1);
 
 
         TranslateTransition scrollTransition = new TranslateTransition(Duration.millis(500), dashScroll);

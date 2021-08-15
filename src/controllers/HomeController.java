@@ -1,7 +1,13 @@
 package controllers;
 
+import com.gluonhq.charm.glisten.control.ProgressBar;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.events.JFXDialogEvent;
 import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,16 +15,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
@@ -29,8 +36,13 @@ public class HomeController implements Initializable {
     @FXML
     public Button crossButton, logInBtn, signUpBtn;
     public ToggleButton logInAnimBtn, signUpAnimBtn;
-    public Pane logInPane, signUpPane;
+    public TextField logInEmail, signUpEmail;
+    public PasswordField logInPassword, signUpPassword, signUpConfirm;
+    public Pane logInPane, signUpPane, rootPane;
     public Text welcome, to, sup, dash;
+    public ProgressBar fetchProg;
+    public StackPane rootStack;
+    public Label logInErrorMsg, signUpErrorMsg;
 
     private static boolean stage = false;
 
@@ -99,31 +111,199 @@ public class HomeController implements Initializable {
     /**
      * this method is to switch from home page to dashboard page
      */
-    public void onClickLogInButton(javafx.event.ActionEvent actionEvent) throws IOException {
+    public void onClickLogInButton(javafx.event.ActionEvent actionEvent) {
 
-        //TODO database log in credentials should be checked here...
+        if(!logInEmail.getText().isBlank() && !logInEmail.getText().isEmpty()
+                && !logInPassword.getText().isBlank() && !logInPassword.getText().isEmpty()){
 
-        Parent dashboard = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/dashboard.fxml")));
-        Scene dashboardScene = new Scene(dashboard);
+            //this task object is letting us to get the time for fetching the data from database
+            Task<Void> task = new Task<>() {
+                @Override
+                public Void call() {
 
-        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-        window.setScene(dashboardScene);
-        window.show();
+                    scaleIt(200, fetchProg, 1, 2);
+
+                    Platform.runLater(() ->{
+
+                        //TODO database log in credentials should be checked here...
+
+
+                    });
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    scaleIt(200, fetchProg, 0, 2);
+
+                    return null;
+                }
+            };
+            task.setOnSucceeded(e -> {
+
+                try {
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/dashboard.fxml"));
+                    Parent dashboard = loader.load();
+
+                    Scene dashboardScene = new Scene(dashboard);
+
+                    Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+                    window.setScene(dashboardScene);
+                    window.show();
+
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
+            });
+            new Thread(task).start();
+
+        } else{
+
+            scaleIt(200, logInErrorMsg, 1, 2);
+            logInEmail.setStyle("-fx-border-color: red");
+            logInPassword.setStyle("-fx-border-color: red");
+        }
+
     }
 
     /**
      * this method is to switch from home page to sign up page
      */
-    public void onClickSignUpButton(ActionEvent actionEvent) throws IOException {
+    public void onClickSignUpButton(ActionEvent actionEvent) {
 
-        Parent dashboard = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/signUpForm.fxml")));
-        Scene dashboardScene = new Scene(dashboard);
+        if(!signUpEmail.getText().isBlank() && !signUpEmail.getText().isEmpty()
+                && !signUpPassword.getText().isBlank() && !signUpPassword.getText().isEmpty()
+                && !signUpConfirm.getText().isBlank() && !signUpConfirm.getText().isEmpty()
+                && isValidEmailAddress(signUpEmail.getText()) && signUpPassword.getText().equals(signUpConfirm.getText())){
 
-        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-        window.setScene(dashboardScene);
-        window.show();
+            //this task object is letting us to get the time for fetching the data from database
+            Task<Void> task = new Task<>() {
+                @Override
+                public Void call() {
+
+                    scaleIt(200, fetchProg, 1, 2);
+
+                    Platform.runLater(() ->{
+
+                        //TODO send e mail with OTP here...
+
+
+                    });
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    scaleIt(200, fetchProg, 0, 2);
+
+                    return null;
+                }
+            };
+            task.setOnSucceeded(e -> {
+
+                // OTP sent dialog box is generated here
+                BoxBlur blur = new BoxBlur(6, 6, 6);
+
+                FXMLLoader otp = new FXMLLoader(getClass().getResource("/resources/infoDialog.fxml"));
+                try {
+
+                    Region otpLoader = otp.load();
+
+                    InfoDialogController idc = otp.getController();
+                    idc.setDialogBody("An E mail with OTP has been sent to your given E mail ID. Please, check it.");
+                    idc.setDialogButtonText("Okay, Thank you");
+
+                    JFXDialog otpDialog = new JFXDialog(rootStack, otpLoader, JFXDialog.DialogTransition.TOP);
+
+                    idc.setDialog(otpDialog);
+                    otpDialog.show();
+                    otpDialog.setOnDialogClosed((JFXDialogEvent event) -> {
+
+                        rootPane.setEffect(null);
+
+                        try {
+
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/signUpForm.fxml"));
+                            Parent signUpPage = loader.load();
+                            Scene scene = new Scene(signUpPage);
+
+                            SignUpController suc = loader.getController();
+
+                            suc.getEmailAndPassword(signUpEmail.getText(), signUpPassword.getText(), "123456");
+
+                            Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+                            window.setScene(scene);
+                            window.show();
+
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+
+                    });
+                    rootPane.setEffect(blur);
+
+                } catch (IOException ignored) {
+
+                }
+
+            });
+            new Thread(task).start();
+
+        } else{
+
+            if(signUpEmail.getText().isBlank() && signUpEmail.getText().isEmpty()
+                    && signUpPassword.getText().isBlank() && signUpPassword.getText().isEmpty()
+                    && signUpConfirm.getText().isBlank() && signUpConfirm.getText().isEmpty()){
+
+                signUpErrorMsg.setText("Invalid E mail or password");
+                scaleIt(200, signUpErrorMsg, 1, 2);
+                signUpEmail.setStyle("-fx-border-color: red");
+                signUpPassword.setStyle("-fx-border-color: red");
+                signUpConfirm.setStyle("-fx-border-color: red");
+
+            } else if(!isValidEmailAddress(signUpEmail.getText())){
+
+                signUpErrorMsg.setText("Invalid E mail");
+                scaleIt(200, signUpErrorMsg, 1, 2);
+                signUpEmail.setStyle("-fx-border-color: red");
+
+            } else if(!signUpPassword.getText().equals(signUpConfirm.getText())){
+
+                signUpErrorMsg.setText("Password mismatched");
+                scaleIt(200, signUpErrorMsg, 1, 2);
+                signUpPassword.setStyle("-fx-border-color: red");
+                signUpConfirm.setStyle("-fx-border-color: red");
+            }
+
+        }
+
     }
 
+    public void onClickLogInField(){
+
+        scaleIt(200, logInErrorMsg, 0, 2);
+        logInEmail.setStyle("-fx-border-color: #007EfC");
+        logInPassword.setStyle("-fx-border-color: #007EfC");
+    }
+
+    public void onClickSignUpTextField(){
+
+        scaleIt(200, signUpErrorMsg, 0, 2);
+        signUpEmail.setStyle("-fx-border-color: #007EfC");
+    }
+
+    public void onClickSignUpPasswordField(){
+
+        scaleIt(200, signUpErrorMsg, 0, 2);
+        signUpPassword.setStyle("-fx-border-color: #007EfC");
+        signUpConfirm.setStyle("-fx-border-color: #007EfC");
+    }
 
     /**
      * this method is to show the initial animation
@@ -183,6 +363,13 @@ public class HomeController implements Initializable {
         }
     }
 
+    public boolean isValidEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }
+
     public void translateIt(double duration, Node node, double translateTo, int type){
 
         TranslateTransition transition = new TranslateTransition(Duration.millis(duration), node);
@@ -207,6 +394,25 @@ public class HomeController implements Initializable {
         transition.setToValue(toValue);
         transition.setCycleCount(cycleCount);
         transition.setAutoReverse(autoReverse);
+
+        transition.play();
+    }
+
+    public void scaleIt(double duration, Node node, double scaleTo, int type){
+
+        ScaleTransition transition = new ScaleTransition(Duration.millis(duration), node);
+
+        if(type == 1){
+
+            transition.setToX(scaleTo);
+        } else if(type == 2){
+
+            transition.setToY(scaleTo);
+        } else if(type == 3){
+
+            transition.setToX(scaleTo);
+            transition.setToY(scaleTo);
+        }
 
         transition.play();
     }

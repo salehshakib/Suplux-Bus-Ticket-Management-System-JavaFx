@@ -5,17 +5,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="200.0" prefWidth="400.0" styleClass="dialog_bg" stylesheets="@../stylestheets/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InfoDialogController">
+<AnchorPane fx:id="rootPane" prefHeight="200.0" prefWidth="400.0" styleClass="dialog_bg" stylesheets="@../stylestheets/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InfoDialogController">
    <children>
       <Button fx:id="dialogButton" layoutX="113.0" layoutY="130.0" mnemonicParsing="false" onAction="#onClickDialogButton" prefHeight="47.0" prefWidth="174.0" styleClass="btn" stylesheets="@../stylestheets/styles.css" text="Okay, I understand">
          <font>
             <Font name="Microsoft YaHei Light" size="16.0" />
          </font>
       </Button>
-      <Label fx:id="dialogBody" layoutX="25.0" layoutY="21.0" prefWidth="350.0" text="Sorry, you cannot select more than 4 seats at a time." textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Label fx:id="dialogBody" alignment="CENTER" layoutX="25.0" layoutY="21.0" prefWidth="350.0" text="Sorry, you cannot select more than 4 seats at a time." textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="Microsoft YaHei Light" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="dialogTitle" alignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Microsoft YaHei" size="25.0" />
          </font>
       </Label>
    </children>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="500.0" prefWidth="400.0" styleClass="dialog_bg" stylesheets="@../stylestheets/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PaymentDialogController">
+   <children>
+      <HBox layoutX="25.0" layoutY="73.0" prefHeight="100.0" prefWidth="350.0">
+         <children>
+            <VBox prefHeight="111.0" prefWidth="278.0">
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Fare:">
+                     <font>
+                        <Font name="Microsoft YaHei" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="discountText" fill="WHITE" layoutX="10.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Discounted Fare:">
+                     <font>
+                        <Font name="Microsoft YaHei" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="payableText" fill="WHITE" layoutX="10.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payable Fare:">
+                     <font>
+                        <Font name="Microsoft YaHei" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="175.0">
+               <children>
+                  <Text fx:id="totalFare" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="BDT 3000">
+                     <font>
+                        <Font name="Microsoft YaHei Light" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="discountFare" fill="WHITE" layoutX="10.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BDT 300">
+                     <font>
+                        <Font name="Microsoft YaHei Light" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="payableFare" fill="WHITE" layoutX="10.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BDT 2700">
+                     <font>
+                        <Font name="Microsoft YaHei Light" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Button fx:id="dialogConfirmButton" layoutX="80.0" layoutY="421.0" mnemonicParsing="false" onAction="#onClickDialogConfirmButton" prefHeight="47.0" prefWidth="100.0" styleClass="btn" stylesheets="@../stylestheets/styles.css" text="Confirm">
+         <font>
+            <Font name="Microsoft YaHei Light" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="dialogCancelButton" layoutX="220.0" layoutY="421.0" mnemonicParsing="false" onAction="#onClickDialogCancelButton" prefHeight="47.0" prefWidth="100.0" styleClass="btn" stylesheets="@../stylestheets/styles.css" text="Cancel">
+         <font>
+            <Font name="Microsoft YaHei Light" size="16.0" />
+         </font>
+      </Button>
+      <TextField fx:id="numberField" layoutX="50.0" layoutY="220.0" maxWidth="-Infinity" onMouseClicked="#onClickedNumberField" prefHeight="40.0" prefWidth="300.0" promptText="Enter your Bkash number" styleClass="field" stylesheets="@../stylestheets/styles.css">
+         <font>
+            <Font name="Microsoft YaHei" size="15.0" />
+         </font>
+      </TextField>
+      <PasswordField fx:id="pinField" layoutX="50.0" layoutY="304.0" onMouseClicked="#onClickPINField" prefHeight="40.0" prefWidth="300.0" promptText="Enter your Bkash PIN" styleClass="field" stylesheets="@../stylestheets/styles.css">
+         <font>
+            <Font name="Microsoft YaHei" size="15.0" />
+         </font>
+      </PasswordField>
+      <Label fx:id="dialogTitle" alignment="CENTER" layoutX="25.0" layoutY="24.0" prefHeight="35.0" prefWidth="350.0" text="Nagad Purchase Payment" textFill="WHITE">
+         <font>
+            <Font name="Microsoft YaHei" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="paymentErrorMsg" alignment="CENTER" layoutX="82.0" layoutY="365.0" scaleY="0.0" styleClass="cancellation_error_msg" stylesheets="@../stylestheets/styles.css" text="Please, enter valid number or PIN" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Microsoft YaHei Light" size="15.0" />
+         </font>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </Label>
+   </children>
+</AnchorPane>

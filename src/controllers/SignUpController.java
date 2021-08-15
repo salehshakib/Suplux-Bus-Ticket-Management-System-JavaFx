@@ -1,6 +1,11 @@
 package controllers;
 
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.events.JFXDialogEvent;
+import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -8,8 +13,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -28,14 +36,18 @@ public class SignUpController implements Initializable {
     */
     @FXML
     public Button crossButton, profileImageUploadBtn, proceedBtn, backBtn;
-    @FXML
     public RadioButton radioMale, radioFemale, radioOthers;
-    @FXML
     public javafx.scene.image.ImageView profileImageView;
-    public TextField nidField, bRegField;
+    public TextField nidField, bRegField, formFirstName, formLastName, formMobile, formPassport, formOTP;
     public ScrollPane signUpForm;
     public SVGPath rightArrowSvg;
     public Text signUp, form;
+    public StackPane rootStack;
+    public Pane rootPane, imagePane;
+    public com.gluonhq.charm.glisten.control.ProgressBar fetchProg;
+
+    private String formEmail, formPassword, otp;
+    private File proPic;
 
     /**
      * this method is to close the application
@@ -52,10 +64,12 @@ public class SignUpController implements Initializable {
     */
     public void onClickUploadAProfileImage() throws FileNotFoundException {
 
+        imagePane.setStyle("-fx-border-color:  #007EfC");
+
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png"));
 
-        File proPic = fc.showOpenDialog(null);
+        proPic = fc.showOpenDialog(null);
 
         if(proPic != null){
 
@@ -120,11 +134,234 @@ public class SignUpController implements Initializable {
     /**
      * this method is called on clicking the "Proceed" button
      */
-    public void onClickProceedButton(){
+    public void onClickProceedButton(javafx.event.ActionEvent actionEvent){
 
-        //TODO database sign up uploading credentials should be done here...
+        if(((!nidField.getText().isEmpty() && !nidField.getText().isBlank())
+                || (!bRegField.getText().isEmpty() && !bRegField.getText().isBlank()))
+                && !formFirstName.getText().isEmpty() && !formFirstName.getText().isBlank()
+                && !formLastName.getText().isEmpty() && !formLastName.getText().isBlank()
+                && !formMobile.getText().isEmpty() && !formMobile.getText().isBlank()
+                && !formOTP.getText().isEmpty() && !formOTP.getText().isBlank()
+                && proPic != null && formOTP.getText().equals(otp)){
 
-        rightArrowSvg.setFill(Color.WHITE);
+            //this task object is letting us to get the time for fetching the data from database
+            Task<Void> task = new Task<>() {
+                @Override
+                public Void call() {
+
+                    scaleIt(200, fetchProg, 1, 2);
+
+                    Platform.runLater(() ->{
+
+                        //TODO database sign up uploading credentials should be done here...
+                    });
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    scaleIt(200, fetchProg, 0, 2);
+
+                    return null;
+                }
+            };
+            task.setOnSucceeded(e -> {
+
+                // account created successfully dialog box is generated here
+                BoxBlur blur = new BoxBlur(6, 6, 6);
+
+                FXMLLoader success = new FXMLLoader(getClass().getResource("/resources/infoDialog.fxml"));
+                try {
+
+                    Region errorLoader = success.load();
+
+                    InfoDialogController idc = success.getController();
+                    idc.setDialogBody("Account created successfully!!! Please, log in to your account");
+                    idc.setDialogButtonText("Okay, Thank you");
+
+                    JFXDialog errorDialog = new JFXDialog(rootStack, errorLoader, JFXDialog.DialogTransition.TOP);
+
+                    idc.setDialog(errorDialog);
+                    errorDialog.show();
+                    errorDialog.setOnDialogClosed((JFXDialogEvent event) -> {
+
+                        rootPane.setEffect(null);
+
+                        try {
+
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/home.fxml"));
+                            Parent home = loader.load();
+
+                            Scene homeScene = new Scene(home);
+
+                            Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+                            window.setScene(homeScene);
+                            window.show();
+
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    });
+                    rootPane.setEffect(blur);
+
+                } catch (IOException ignored) {
+
+                }
+
+            });
+            new Thread(task).start();
+
+        } else{
+
+            if(!formOTP.getText().isBlank() && !formOTP.getText().isEmpty() && !formOTP.getText().equals(otp)) {
+
+                formOTP.setStyle("-fx-border-color: red");
+
+                // error dialog box is generated here when a text field is vacant
+                BoxBlur blur = new BoxBlur(6, 6, 6);
+
+                FXMLLoader error = new FXMLLoader(getClass().getResource("/resources/infoDialog.fxml"));
+                try {
+
+                    Region errorLoader = error.load();
+
+                    InfoDialogController idc = error.getController();
+                    idc.setDialogBody("OTP mismatched!!! Please, try again.");
+                    idc.setDialogButtonText("Okay, I understand");
+
+                    JFXDialog errorDialog = new JFXDialog(rootStack, errorLoader, JFXDialog.DialogTransition.TOP);
+
+                    idc.setDialog(errorDialog);
+                    errorDialog.show();
+                    errorDialog.setOnDialogClosed((JFXDialogEvent event) -> rootPane.setEffect(null));
+                    rootPane.setEffect(blur);
+
+                } catch (IOException ignored) {
+
+                }
+
+            } else{
+
+                // error dialog box is generated here when a text field is vacant
+                BoxBlur blur = new BoxBlur(6, 6, 6);
+
+                FXMLLoader error = new FXMLLoader(getClass().getResource("/resources/infoDialog.fxml"));
+                try {
+
+                    Region errorLoader = error.load();
+
+                    InfoDialogController idc = error.getController();
+                    idc.setDialogBody("Please fill up the form properly.");
+                    idc.setDialogButtonText("Okay, I understand");
+
+                    JFXDialog errorDialog = new JFXDialog(rootStack, errorLoader, JFXDialog.DialogTransition.TOP);
+
+                    idc.setDialog(errorDialog);
+                    errorDialog.show();
+                    errorDialog.setOnDialogClosed((JFXDialogEvent event) -> rootPane.setEffect(null));
+                    rootPane.setEffect(blur);
+
+                } catch (IOException ignored) {
+
+                }
+            }
+
+            if((nidField.getText().isBlank() || nidField.getText().isEmpty()) && !nidField.isDisabled()){
+
+                nidField.setStyle("-fx-border-color: red");
+            }
+
+            if(!radioOthers.isSelected() && !radioMale.isSelected() && !radioFemale.isSelected()){
+
+                radioFemale.getStyleClass().add("radio_button_error");
+                radioMale.getStyleClass().add("radio_button_error");
+                radioOthers.getStyleClass().add("radio_button_error");
+            }
+
+            if((bRegField.getText().isBlank() || bRegField.getText().isEmpty()) && !bRegField.isDisabled()){
+
+                bRegField.setStyle("-fx-border-color: red");
+            }
+
+            if(formFirstName.getText().isBlank() || formFirstName.getText().isEmpty()){
+
+                formFirstName.setStyle("-fx-border-color: red");
+            }
+
+            if(formLastName.getText().isBlank() || formLastName.getText().isEmpty()){
+
+                formLastName.setStyle("-fx-border-color: red");
+            }
+
+            if(formMobile.getText().isBlank() || formMobile.getText().isEmpty()){
+
+                formMobile.setStyle("-fx-border-color: red");
+            }
+
+            if(formOTP.getText().isBlank() || formOTP.getText().isEmpty()){
+
+                formOTP.setStyle("-fx-border-color: red");
+            }
+
+            if(proPic == null){
+
+                imagePane.setStyle("-fx-border-color: red");
+            }
+        }
+
+    }
+
+    /**
+     * to change radio button design
+     */
+    public void onClickARadioButton(){
+
+        radioFemale.getStyleClass().remove("radio_button_error");
+        radioMale.getStyleClass().remove("radio_button_error");
+        radioOthers.getStyleClass().remove("radio_button_error");
+    }
+
+    /**
+     * to change nidField design
+     */
+    public void onClickNidField(){
+
+        nidField.setStyle("-fx-border-color:  #007EfC");
+        bRegField.setStyle("-fx-border-color:  #007EfC");
+    }
+
+    /**
+     * to change first name field design
+     */
+    public void onClickFormFirstName(){
+
+        formFirstName.setStyle("-fx-border-color:  #007EfC");
+    }
+
+    /**
+     * to change last name field design
+     */
+    public void onClickFormLastName(){
+
+        formLastName.setStyle("-fx-border-color:  #007EfC");
+    }
+
+    /**
+     * to change mobile number field design
+     */
+    public void onClickFormMobile(){
+
+        formMobile.setStyle("-fx-border-color:  #007EfC");
+    }
+
+    /**
+     * to change OTP field design
+     */
+    public void onClickFormOTP(){
+
+        formOTP.setStyle("-fx-border-color:  #007EfC");
     }
 
     /**
@@ -169,6 +406,13 @@ public class SignUpController implements Initializable {
 
     }
 
+    public void getEmailAndPassword(String email, String password, String otp){
+
+        formEmail = email;
+        formPassword = password;
+        this.otp = otp;
+    }
+
     public void translateIt(double duration, Node node, double translateTo, int type){
 
         TranslateTransition transition = new TranslateTransition(Duration.millis(duration), node);
@@ -183,5 +427,24 @@ public class SignUpController implements Initializable {
 
         transition.play();
 
+    }
+
+    public void scaleIt(double duration, Node node, double scaleTo, int type){
+
+        ScaleTransition transition = new ScaleTransition(Duration.millis(duration), node);
+
+        if(type == 1){
+
+            transition.setToX(scaleTo);
+        } else if(type == 2){
+
+            transition.setToY(scaleTo);
+        } else if(type == 3){
+
+            transition.setToX(scaleTo);
+            transition.setToY(scaleTo);
+        }
+
+        transition.play();
     }
 }

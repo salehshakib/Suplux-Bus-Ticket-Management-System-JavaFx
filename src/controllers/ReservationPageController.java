@@ -14,10 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -41,7 +38,8 @@ public class ReservationPageController implements Initializable {
     public Button crossButton, homeButton, resetButton, searchButton, backToReserveBtn, proceedBtn, backToCoachInfoButton;
     public Pane logOutBtn, transBtn, cancelBtn, revPane, seatMapDetailsPane, viewSeatPane;
     public ScrollPane coachInfoPane;
-    public StackPane dialogStack;
+    public AnchorPane rootAnchor;
+    public StackPane dialogStack, rootStack;
     public Label logOutInfo, tranLogInfo, cancelInfo, reserveInfo;
     public Text reservation, page, coachType, totalFare, seatMapDetailsFare, coachTypeSeatMapText;
     public ComboBox<String> fromComboBox, toComboBox, timePeriodComboBox, droppingPointComboBox, boardingPointComboBox;
@@ -218,15 +216,30 @@ public class ReservationPageController implements Initializable {
 
     }
 
+    public void onClickDateOfJourney(){
+
+        dateOfJourney.getStyleClass().remove("date-picker-error");
+    }
+
+    public void onClickTimePeriodComboBox(){
+
+        timePeriodComboBox.getStyleClass().remove("combo-box-base-error");
+    }
+
     /**
      * this method searches the database for available trips
      */
     public void onClickSearchButton(){
 
-        //this task object is letting us to get the time for fetching the data from database
-        Task<Void> task = new Task<>() {
-            @Override
-            public Void call() {
+        if(!fromComboBox.getEditor().getText().isEmpty() && !fromComboBox.getEditor().getText().isBlank()
+                && !toComboBox.getEditor().getText().isEmpty() && !toComboBox.getEditor().getText().isBlank()
+                && !dateOfJourney.getEditor().getText().isEmpty() && !timePeriodComboBox.getSelectionModel().isSelected(0)){
+
+
+            //this task object is letting us to get the time for fetching the data from database
+            Task<Void> task = new Task<>() {
+                @Override
+                public Void call() {
 
                 scaleIt(200, fetchProg, 1, 2);
                 //TODO search the database for coach info here
@@ -284,33 +297,78 @@ public class ReservationPageController implements Initializable {
                 scaleIt(200, fetchProg, 0, 2);
 
                 return null;
-            }
-        };
-        task.setOnSucceeded(e -> {
+                }
+            };
+            task.setOnSucceeded(e -> {
 
-            translateIt(300, fromComboBox, -80, 2);
-            translateIt(300, toComboBox, -80, 2);
-            translateIt(300, dateOfReturn, -80, 2);
-            translateIt(300, dateOfJourney, -80, 2);
-            translateIt(300, resetButton, -80, 2);
+                translateIt(300, fromComboBox, -80, 2);
+                translateIt(300, toComboBox, -80, 2);
+                translateIt(300, dateOfReturn, -80, 2);
+                translateIt(300, dateOfJourney, -80, 2);
+                translateIt(300, resetButton, -80, 2);
 
-            translateIt(300, timePeriodComboBox, 1300, 1);
-            translateIt(300, coachType, 1300, 1);
-            translateIt(300, coachTypeVBox, 1300, 1);
+                translateIt(300, timePeriodComboBox, 1300, 1);
+                translateIt(300, coachType, 1300, 1);
+                translateIt(300, coachTypeVBox, 1300, 1);
 
-            TranslateTransition searchTransition = new TranslateTransition(Duration.millis(300), searchButton);
-            searchTransition.setToX(1300);
-            searchTransition.play();
+                TranslateTransition searchTransition = new TranslateTransition(Duration.millis(300), searchButton);
+                searchTransition.setToX(1300);
+                searchTransition.play();
 
-            searchTransition.setOnFinished((et) ->{
+                searchTransition.setOnFinished((et) ->{
 
-                scaleIt(200, coachInfoPane, 1, 3);
-                translateIt(200, backToReserveBtn, 80, 1);
+                    scaleIt(200, coachInfoPane, 1, 3);
+                    translateIt(200, backToReserveBtn, 80, 1);
+
+                });
 
             });
+            new Thread(task).start();
+        } else{
 
-        });
-        new Thread(task).start();
+            if(fromComboBox.getEditor().getText().isEmpty() || fromComboBox.getEditor().getText().isBlank()){
+
+                fromComboBox.setStyle("-fx-border-color: red");
+            }
+
+            if(toComboBox.getEditor().getText().isEmpty() || toComboBox.getEditor().getText().isBlank()){
+
+                toComboBox.setStyle("-fx-border-color: red");
+            }
+
+            if(dateOfJourney.getEditor().getText().isEmpty()){
+
+                dateOfJourney.getStyleClass().add("date-picker-error");
+            }
+
+            if(timePeriodComboBox.getSelectionModel().isSelected(0)){
+
+                timePeriodComboBox.getStyleClass().add("combo-box-base-error");
+            }
+
+            // error dialog box is generated here
+            BoxBlur blur = new BoxBlur(6, 6, 6);
+
+            FXMLLoader error = new FXMLLoader(getClass().getResource("/resources/infoDialog.fxml"));
+            try {
+
+                Region errorLoader = error.load();
+
+                InfoDialogController idc = error.getController();
+                idc.setDialogBody("You must fill up \"From\", \"To\", \"Date Of Journey\" and \"Time Period\" field.");
+
+                JFXDialog errorDialog = new JFXDialog(rootStack, errorLoader, JFXDialog.DialogTransition.TOP);
+
+                idc.setDialog(errorDialog);
+                errorDialog.show();
+                errorDialog.setOnDialogClosed((JFXDialogEvent event) -> rootAnchor.setEffect(null));
+                rootAnchor.setEffect(blur);
+
+            } catch (IOException ignored) {
+
+            }
+
+        }
 
     }
 
@@ -712,6 +770,9 @@ public class ReservationPageController implements Initializable {
         });
     }
 
+    /**
+     * this method changes the deck in the seat map
+     */
     public void updateTheDeck(String deckType,  AtomicReference<Character> c, String coachType){
 
         if(deckType.equals("Lower Deck")){
@@ -979,41 +1040,99 @@ public class ReservationPageController implements Initializable {
         }
     }
 
+    /**
+     * this method is called when the proceed button is clicked
+     */
     public void onClickProceedButton(javafx.event.Event actionEvent){
 
-        try{
+        if(boardingPointComboBox.getSelectionModel().isSelected(0)
+                || droppingPointComboBox.getSelectionModel().isSelected(0)){
 
-            FXMLLoader confirmationPage = new FXMLLoader(getClass().getResource("/resources/confirmationPage.fxml"));
-            Parent page = confirmationPage.load();
-            Scene pageScene = new Scene(page);
+            if(boardingPointComboBox.getSelectionModel().isSelected(0)){
 
-            ConfirmationPageController cpc = confirmationPage.getController();
-
-            StringBuilder seat = null;
-
-            for(int i = 0; i < selectedSeatString.size(); i++){
-
-                if(i == 0){
-
-                    seat = new StringBuilder(selectedSeatString.get(i));
-                } else {
-
-                    seat.append(", ").append(selectedSeatString.get(i));
-                }
+                boardingPointComboBox.getStyleClass().add("combo-box-base-error");
             }
 
-            //TODO pass trip details here...
+            if( droppingPointComboBox.getSelectionModel().isSelected(0)){
 
-            assert seat != null;
-            cpc.updateTripData(seat.toString(), totalFare.getText());
+                droppingPointComboBox.getStyleClass().add("combo-box-base-error");
+            }
 
-            Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-            window.setScene(pageScene);
-            window.show();
+            // error dialog box is generated here
+            BoxBlur blur = new BoxBlur(6, 6, 6);
 
-        } catch (IOException ignored){
+            FXMLLoader error = new FXMLLoader(getClass().getResource("/resources/infoDialog.fxml"));
+            try {
 
+                Region errorLoader = error.load();
+
+                InfoDialogController idc = error.getController();
+                idc.setDialogBody("Please, select a boarding and a dropping point.");
+
+                JFXDialog errorDialog = new JFXDialog(dialogStack, errorLoader, JFXDialog.DialogTransition.TOP);
+
+                idc.setDialog(errorDialog);
+                errorDialog.show();
+                errorDialog.setOnDialogClosed((JFXDialogEvent event) -> viewSeatPane.setEffect(null));
+                viewSeatPane.setEffect(blur);
+
+            } catch (IOException ignored) {
+
+            }
+
+        } else{
+
+            try{
+
+                FXMLLoader confirmationPage = new FXMLLoader(getClass().getResource("/resources/confirmationPage.fxml"));
+                Parent page = confirmationPage.load();
+                Scene pageScene = new Scene(page);
+
+                ConfirmationPageController cpc = confirmationPage.getController();
+
+                StringBuilder seat = null;
+
+                for(int i = 0; i < selectedSeatString.size(); i++){
+
+                    if(i == 0){
+
+                        seat = new StringBuilder(selectedSeatString.get(i));
+                    } else {
+
+                        seat.append(", ").append(selectedSeatString.get(i));
+                    }
+                }
+
+                //TODO pass trip details here...
+
+                assert seat != null;
+                cpc.updateTripData(seat.toString(), totalFare.getText());
+
+                Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+                window.setScene(pageScene);
+                window.show();
+
+            } catch (IOException ignored){
+
+            }
         }
+
+    }
+
+    /**
+     * this method change the color of boarding combobox if it left empty and clicked again
+     */
+    public void onClickBoardingPointComboBox(){
+
+        boardingPointComboBox.getStyleClass().remove("combo-box-base-error");
+    }
+
+    /**
+     * this method change the color of dropping combobox if it left empty and clicked again
+     */
+    public void onClickDroppingPointComboBox(){
+
+        droppingPointComboBox.getStyleClass().remove("combo-box-base-error");
     }
 
     /**
@@ -1056,6 +1175,10 @@ public class ReservationPageController implements Initializable {
             }
         });
 
+        fromComboBox.getEditor().textProperty().addListener((observable, oldValue, newValue) -> fromComboBox.setStyle("-fx-border-color: #007EfC"));
+
+        toComboBox.getEditor().textProperty().addListener((observable, oldValue, newValue) -> toComboBox.setStyle("-fx-border-color: #007EfC"));
+
         radioDeckVBox.setVisible(false);
 
         translateIt(500, reservation, -343, 1);
@@ -1075,9 +1198,8 @@ public class ReservationPageController implements Initializable {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();
-                LocalDate oneMonthLater = LocalDate.now().plusMonths(1);
 
-                setDisable(empty || date.compareTo(today) < 0 || date.compareTo(oneMonthLater) > 0);
+                setDisable(empty || date.compareTo(today) < 0);
             }
         });
 
@@ -1085,9 +1207,8 @@ public class ReservationPageController implements Initializable {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();
-                LocalDate oneMonthLater = LocalDate.now().plusMonths(1);
 
-                setDisable(empty || date.compareTo(today) < 0 || date.compareTo(oneMonthLater) > 0);
+                setDisable(empty || date.compareTo(today) < 0);
             }
         });
 

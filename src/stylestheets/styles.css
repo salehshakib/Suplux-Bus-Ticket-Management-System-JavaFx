@@ -177,6 +177,12 @@
     -fx-background-insets: 0;
 }
 
+/* this class is for the radio button when error is shown */
+.radio_button_error>.radio{
+
+    -fx-border-color: red;
+}
+
 /* this class is to set the background of the scroll pane */
 .scroll_pane{
 
@@ -435,6 +441,28 @@
     -fx-background-color: #000b1c;
 }
 
+.combo-box-base-error{
+
+    -fx-background-color: transparent;
+    -fx-border-color: red;
+    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 5 5 5 5;
+    -fx-border-width: 2px;
+    -fx-font-family: "Microsoft YaHei";
+    -fx-font-size: 15px;
+}
+
+.combo-box-base-error .arrow{
+
+    -fx-background-color: red;
+}
+
+.combo-box-base-error .arrow-button{
+
+    -fx-border-color: red;
+    -fx-background-color: #000b1c;
+}
+
 .combo-box-popup > .list-view {
     -fx-background-color: #000b1c;
     -fx-background-insets: 0, 1;
@@ -490,7 +518,7 @@
 
 .date-picker > .arrow-button:hover {
 
-    -fx-background-color:  #007EfC;
+    -fx-background-color: #007EfC;
 }
 
 .date-picker > .arrow-button > .arrow {
@@ -501,6 +529,39 @@
 .date-picker > .arrow-button:hover > .arrow{
 
     -fx-background-color: #007EfC,  #000b1c;
+}
+
+.date-picker-error {
+
+    -fx-background-color: transparent;
+    -fx-border-color: red;
+    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 5 5 5 5;
+    -fx-border-width: 2px;
+    -fx-text-fill: #FFF;
+    -fx-font-family: "Microsoft YaHei";
+    -fx-font-size: 15px;
+}
+
+.date-picker-error > .arrow-button {
+    -fx-background-color: #000b1c;
+    -fx-border-color: red;
+    -fx-background-radius: 0px;
+}
+
+.date-picker-error > .arrow-button > .arrow {
+
+    -fx-background-color: #000b1c, red;
+}
+
+.date-picker-error > .arrow-button:hover {
+
+    -fx-background-color: red;
+}
+
+.date-picker-error > .arrow-button:hover > .arrow{
+
+    -fx-background-color: red,  #000b1c;
 }
 
 .date-picker-popup {

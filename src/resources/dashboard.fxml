@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.gluonhq.charm.glisten.control.ProgressBar?>
 <?import com.gluonhq.charm.glisten.control.ProgressIndicator?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
@@ -9,392 +10,404 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="837.0" prefWidth="1300.0" styleClass="base" stylesheets="@../stylestheets/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DashboardController">
+
+<StackPane fx:id="rootStack" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DashboardController">
    <children>
-      <Pane prefHeight="300.0" prefWidth="1300.0" styleClass="bg_cover" stylesheets="@../stylestheets/styles.css">
+      <AnchorPane prefHeight="837.0" prefWidth="1300.0" styleClass="base" stylesheets="@../stylestheets/styles.css">
          <children>
-            <Text fx:id="passenger" fill="WHITE" layoutX="1300.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSENGER'S">
+            <Pane fx:id="rootPane" layoutX="-1240.0">
+               <children>
+                  <Pane layoutX="1240.0" prefHeight="300.0" prefWidth="1300.0" styleClass="bg_cover" stylesheets="@../stylestheets/styles.css">
+                     <children>
+                        <Text fx:id="passenger" fill="WHITE" layoutX="1300.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSENGER'S">
+                           <font>
+                              <Font name="Microsoft YaHei Light" size="50.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="dashboard" fill="WHITE" layoutX="1300.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DASHBOARD">
+                           <font>
+                              <Font name="Microsoft YaHei" size="70.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="userName" fill="WHITE" layoutX="-375.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Milhan Joardar Aumi">
+                           <font>
+                              <Font name="Microsoft YaHei Light" size="40.0" />
+                           </font>
+                        </Text>
+                        <Circle fx:id="outerCircle" fill="#1f93ff00" layoutX="-330.0" layoutY="253.0" radius="70.0" stroke="#007efc" strokeType="OUTSIDE" strokeWidth="3.0" />
+                        <Circle fx:id="innerCircle" layoutX="-330.0" layoutY="253.0" radius="70.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <SVGPath fx:id="userPic" content="M 224 256 c 70.7 0 128 -57.3 128 -128 S 294.7 0 224 0 S 96 57.3 96 128 s 57.3 128 128 128 Z m 89.6 32 h -16.7 c -22.2 10.2 -46.9 16 -72.9 16 s -50.6 -5.8 -72.9 -16 h -16.7 C 60.2 288 0 348.2 0 422.4 V 464 c 0 26.5 21.5 48 48 48 h 352 c 26.5 0 48 -21.5 48 -48 v -41.6 c 0 -74.2 -60.2 -134.4 -134.4 -134.4 Z" fill="#00172d" layoutX="-34.0" layoutY="1.0" scaleX="0.2" scaleY="0.2" visible="false" />
+                     </children>
+                  </Pane>
+                  <ScrollPane fx:id="dashScroll" hbarPolicy="NEVER" layoutY="370.0" prefHeight="467.0" prefWidth="1240.0" styleClass="base" stylesheets="@../stylestheets/styles.css" visible="false">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="base" stylesheets="@../stylestheets/styles.css">
+                           <children>
+                              <HBox layoutY="30.0" prefWidth="1240.0">
+                                 <children>
+                                    <Pane fx:id="reservePane" prefHeight="333.33" prefWidth="333.33" scaleX="0.0" scaleY="0.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
+                                       <children>
+                                          <Text fill="WHITE" layoutX="72.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reservation Rate">
+                                             <font>
+                                                <Font name="Microsoft YaHei Light" size="25.0" />
+                                             </font>
+                                          </Text>
+                                          <ProgressIndicator fx:id="reserveProg" layoutX="32.0" layoutY="48.0" progress="0.0" radius="120.0" styleClass="progress_indicator" stylesheets="@../stylestheets/styles.css" viewOrder="5.0">
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </ProgressIndicator>
+                                          <Label fx:id="reserveLabel" alignment="CENTER" layoutX="92.0" layoutY="155.0" prefWidth="150.0" text="0%" textFill="WHITE">
+                                             <font>
+                                                <Font name="Microsoft YaHei" size="40.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets left="60.0" />
+                                       </HBox.margin>
+                                    </Pane>
+                                    <Pane fx:id="cancelPane" layoutX="70.0" layoutY="10.0" prefHeight="333.33" prefWidth="333.33" scaleX="0.0" scaleY="0.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
+                                       <children>
+                                          <Text fill="WHITE" layoutX="69.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cancellation Rate">
+                                             <font>
+                                                <Font name="Microsoft YaHei Light" size="25.0" />
+                                             </font>
+                                          </Text>
+                                          <ProgressIndicator fx:id="cancelProg" layoutX="33.0" layoutY="47.0" progress="0.0" radius="120.0" styleClass="progress_indicator" stylesheets="@../stylestheets/styles.css" viewOrder="5.0">
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </ProgressIndicator>
+                                          <Label fx:id="cancelLabel" alignment="CENTER" layoutX="92.0" layoutY="154.0" prefWidth="150.0" text="0%" textFill="WHITE">
+                                             <font>
+                                                <Font name="Microsoft YaHei" size="40.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets left="60.0" />
+                                       </HBox.margin>
+                                    </Pane>
+                                    <Pane fx:id="ratingsPane" layoutX="404.0" layoutY="10.0" prefHeight="333.33" prefWidth="333.33" scaleX="0.0" scaleY="0.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
+                                       <children>
+                                          <Text fill="WHITE" layoutX="101.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Trip Ratings">
+                                             <font>
+                                                <Font name="Microsoft YaHei Light" size="25.0" />
+                                             </font>
+                                          </Text>
+                                          <ProgressIndicator fx:id="tripProg" layoutX="33.0" layoutY="47.0" progress="0.0" radius="120.0" styleClass="progress_indicator" stylesheets="@../stylestheets/styles.css" viewOrder="5.0">
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </ProgressIndicator>
+                                          <Label fx:id="tripLabel" alignment="CENTER" layoutX="92.0" layoutY="154.0" prefWidth="150.0" text="0/5" textFill="WHITE">
+                                             <font>
+                                                <Font name="Microsoft YaHei" size="40.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets left="60.0" />
+                                       </HBox.margin>
+                                    </Pane>
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="394.0" prefWidth="1240.0">
+                                 <children>
+                                    <Pane fx:id="firstNamePane" prefHeight="350.0" prefWidth="440.0" scaleX="0.0" scaleY="0.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
+                                       <children>
+                                          <Text fill="WHITE" layoutX="135.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name">
+                                             <font>
+                                                <Font name="Microsoft YaHei Light" size="35.0" />
+                                             </font>
+                                          </Text>
+                                          <Label fx:id="firstNameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="98.0" prefHeight="220.0" prefWidth="400.0" text="Milhan Joardar" textFill="WHITE" wrapText="true">
+                                             <font>
+                                                <Font name="Microsoft YaHei" size="50.0" />
+                                             </font>
+                                          </Label>
+                                          <Pane fx:id="updateFirstNameBtn" layoutX="366.0" layoutY="13.0" onMouseClicked="#onClickUpdateFirstNameBtn" prefHeight="50.0" prefWidth="60.0" styleClass="edit_btn" stylesheets="@../stylestheets/styles.css">
+                                             <children>
+                                                <SVGPath content="M417.8 315.5l20-20c3.8-3.8 10.2-1.1 10.2 4.2V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h292.3c5.3 0 8 6.5 4.2 10.2l-20 20c-1.1 1.1-2.7 1.8-4.2 1.8H48c-8.8 0-16 7.2-16 16v352c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V319.7c0-1.6.6-3.1 1.8-4.2zm145.9-191.2L251.2 436.8l-99.9 11.1c-13.4 1.5-24.7-9.8-23.2-23.2l11.1-99.9L451.7 12.3c16.4-16.4 43-16.4 59.4 0l52.6 52.6c16.4 16.4 16.4 43 0 59.4zm-93.6 48.4L403.4 106 169.8 339.5l-8.3 75.1 75.1-8.3 233.5-233.6zm71-85.2l-52.6-52.6c-3.8-3.8-10.2-4-14.1 0L426 83.3l66.7 66.7 48.4-48.4c3.9-3.8 3.9-10.2 0-14.1z" fill="WHITE" layoutX="-258.0" layoutY="-231.0" scaleX="0.09" scaleY="0.09">
+                                                   <cursor>
+                                                      <Cursor fx:constant="DEFAULT" />
+                                                   </cursor>
+                                                </SVGPath>
+                                             </children>
+                                          </Pane>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets left="120.0" />
+                                       </HBox.margin>
+                                    </Pane>
+                                    <Pane fx:id="lastNamePane" layoutX="70.0" layoutY="10.0" prefHeight="350.0" prefWidth="440.0" scaleX="0.0" scaleY="0.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
+                                       <children>
+                                          <Text fill="WHITE" layoutX="136.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name">
+                                             <font>
+                                                <Font name="Microsoft YaHei Light" size="35.0" />
+                                             </font>
+                                          </Text>
+                                          <Label fx:id="lastNameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="98.0" prefHeight="220.0" prefWidth="400.0" text="Aumi" textFill="WHITE" wrapText="true">
+                                             <font>
+                                                <Font name="Microsoft YaHei" size="50.0" />
+                                             </font>
+                                          </Label>
+                                          <Pane fx:id="updateLastNameBtn" layoutX="366.0" layoutY="13.0" onMouseClicked="#onClickUpdateLastNameBtn" prefHeight="50.0" prefWidth="60.0" styleClass="edit_btn" stylesheets="@../stylestheets/styles.css">
+                                             <children>
+                                                <SVGPath content="M417.8 315.5l20-20c3.8-3.8 10.2-1.1 10.2 4.2V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h292.3c5.3 0 8 6.5 4.2 10.2l-20 20c-1.1 1.1-2.7 1.8-4.2 1.8H48c-8.8 0-16 7.2-16 16v352c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V319.7c0-1.6.6-3.1 1.8-4.2zm145.9-191.2L251.2 436.8l-99.9 11.1c-13.4 1.5-24.7-9.8-23.2-23.2l11.1-99.9L451.7 12.3c16.4-16.4 43-16.4 59.4 0l52.6 52.6c16.4 16.4 16.4 43 0 59.4zm-93.6 48.4L403.4 106 169.8 339.5l-8.3 75.1 75.1-8.3 233.5-233.6zm71-85.2l-52.6-52.6c-3.8-3.8-10.2-4-14.1 0L426 83.3l66.7 66.7 48.4-48.4c3.9-3.8 3.9-10.2 0-14.1z" fill="WHITE" layoutX="-258.0" layoutY="-231.0" scaleX="0.09" scaleY="0.09">
+                                                   <cursor>
+                                                      <Cursor fx:constant="DEFAULT" />
+                                                   </cursor>
+                                                </SVGPath>
+                                             </children>
+                                          </Pane>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets left="120.0" />
+                                       </HBox.margin>
+                                    </Pane>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" layoutY="774.0" prefWidth="1240.0">
+                                 <children>
+                                    <Pane prefHeight="350.0" prefWidth="1000.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
+                                       <children>
+                                          <Text fill="WHITE" layoutX="436.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email ID">
+                                             <font>
+                                                <Font name="Microsoft YaHei Light" size="35.0" />
+                                             </font>
+                                          </Text>
+                                          <Label fx:id="emailLabel" alignment="TOP_CENTER" layoutX="20.0" layoutY="127.0" prefHeight="146.0" prefWidth="960.0" text="mjaumi2864@gmail.com" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                             <font>
+                                                <Font name="Microsoft YaHei" size="50.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Pane>
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="1154.0" prefWidth="1240.0">
+                                 <children>
+                                    <Pane prefHeight="333.33" prefWidth="440.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
+                                       <children>
+                                          <Text fill="WHITE" layoutX="161.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender">
+                                             <font>
+                                                <Font name="Microsoft YaHei Light" size="35.0" />
+                                             </font>
+                                          </Text>
+                                          <Label fx:id="genderLabel" alignment="CENTER" layoutX="20.0" layoutY="102.0" prefHeight="130.0" prefWidth="400.0" text="Male" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                             <font>
+                                                <Font name="Microsoft YaHei" size="50.0" />
+                                             </font>
+                                          </Label>
+                                          <Pane fx:id="updateGenderBtn" layoutX="366.0" layoutY="13.0" onMouseClicked="#onClickUpdateGenderBtn" prefHeight="50.0" prefWidth="60.0" styleClass="edit_btn" stylesheets="@../stylestheets/styles.css">
+                                             <children>
+                                                <SVGPath content="M417.8 315.5l20-20c3.8-3.8 10.2-1.1 10.2 4.2V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h292.3c5.3 0 8 6.5 4.2 10.2l-20 20c-1.1 1.1-2.7 1.8-4.2 1.8H48c-8.8 0-16 7.2-16 16v352c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V319.7c0-1.6.6-3.1 1.8-4.2zm145.9-191.2L251.2 436.8l-99.9 11.1c-13.4 1.5-24.7-9.8-23.2-23.2l11.1-99.9L451.7 12.3c16.4-16.4 43-16.4 59.4 0l52.6 52.6c16.4 16.4 16.4 43 0 59.4zm-93.6 48.4L403.4 106 169.8 339.5l-8.3 75.1 75.1-8.3 233.5-233.6zm71-85.2l-52.6-52.6c-3.8-3.8-10.2-4-14.1 0L426 83.3l66.7 66.7 48.4-48.4c3.9-3.8 3.9-10.2 0-14.1z" fill="WHITE" layoutX="-258.0" layoutY="-231.0" scaleX="0.09" scaleY="0.09">
+                                                   <cursor>
+                                                      <Cursor fx:constant="DEFAULT" />
+                                                   </cursor>
+                                                </SVGPath>
+                                             </children>
+                                          </Pane>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets left="120.0" />
+                                       </HBox.margin>
+                                    </Pane>
+                                    <Pane layoutX="70.0" layoutY="10.0" prefHeight="333.33" prefWidth="440.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
+                                       <HBox.margin>
+                                          <Insets left="120.0" />
+                                       </HBox.margin>
+                                       <children>
+                                          <Text fill="WHITE" layoutX="99.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number">
+                                             <font>
+                                                <Font name="Microsoft YaHei Light" size="35.0" />
+                                             </font>
+                                          </Text>
+                                          <Label fx:id="phoneNoLabel" alignment="CENTER" layoutX="20.0" layoutY="98.0" prefHeight="130.0" prefWidth="400.0" text="01788744803" textFill="WHITE" wrapText="true">
+                                             <font>
+                                                <Font name="Microsoft YaHei" size="50.0" />
+                                             </font>
+                                          </Label>
+                                          <Pane fx:id="updatePhoneNoBtn" layoutX="366.0" layoutY="13.0" onMouseClicked="#onClickUpdatePhoneNoBtn" prefHeight="50.0" prefWidth="60.0" styleClass="edit_btn" stylesheets="@../stylestheets/styles.css">
+                                             <children>
+                                                <SVGPath content="M417.8 315.5l20-20c3.8-3.8 10.2-1.1 10.2 4.2V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h292.3c5.3 0 8 6.5 4.2 10.2l-20 20c-1.1 1.1-2.7 1.8-4.2 1.8H48c-8.8 0-16 7.2-16 16v352c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V319.7c0-1.6.6-3.1 1.8-4.2zm145.9-191.2L251.2 436.8l-99.9 11.1c-13.4 1.5-24.7-9.8-23.2-23.2l11.1-99.9L451.7 12.3c16.4-16.4 43-16.4 59.4 0l52.6 52.6c16.4 16.4 16.4 43 0 59.4zm-93.6 48.4L403.4 106 169.8 339.5l-8.3 75.1 75.1-8.3 233.5-233.6zm71-85.2l-52.6-52.6c-3.8-3.8-10.2-4-14.1 0L426 83.3l66.7 66.7 48.4-48.4c3.9-3.8 3.9-10.2 0-14.1z" fill="WHITE" layoutX="-258.0" layoutY="-231.0" scaleX="0.09" scaleY="0.09">
+                                                   <cursor>
+                                                      <Cursor fx:constant="DEFAULT" />
+                                                   </cursor>
+                                                </SVGPath>
+                                             </children>
+                                          </Pane>
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="1518.0" prefWidth="1240.0">
+                                 <children>
+                                    <Pane prefHeight="333.33" prefWidth="440.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
+                                       <children>
+                                          <Text fill="WHITE" layoutX="119.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NID Number">
+                                             <font>
+                                                <Font name="Microsoft YaHei Light" size="35.0" />
+                                             </font>
+                                          </Text>
+                                          <Label fx:id="NIDLabel" alignment="CENTER" layoutX="20.0" layoutY="102.0" prefHeight="130.0" prefWidth="400.0" text="4661490989" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                             <font>
+                                                <Font name="Microsoft YaHei" size="50.0" />
+                                             </font>
+                                          </Label>
+                                          <Pane fx:id="updateNIDBtn" layoutX="366.0" layoutY="13.0" onMouseClicked="#onClickUpdateNIDBtn" prefHeight="50.0" prefWidth="60.0" styleClass="edit_btn" stylesheets="@../stylestheets/styles.css">
+                                             <children>
+                                                <SVGPath content="M417.8 315.5l20-20c3.8-3.8 10.2-1.1 10.2 4.2V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h292.3c5.3 0 8 6.5 4.2 10.2l-20 20c-1.1 1.1-2.7 1.8-4.2 1.8H48c-8.8 0-16 7.2-16 16v352c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V319.7c0-1.6.6-3.1 1.8-4.2zm145.9-191.2L251.2 436.8l-99.9 11.1c-13.4 1.5-24.7-9.8-23.2-23.2l11.1-99.9L451.7 12.3c16.4-16.4 43-16.4 59.4 0l52.6 52.6c16.4 16.4 16.4 43 0 59.4zm-93.6 48.4L403.4 106 169.8 339.5l-8.3 75.1 75.1-8.3 233.5-233.6zm71-85.2l-52.6-52.6c-3.8-3.8-10.2-4-14.1 0L426 83.3l66.7 66.7 48.4-48.4c3.9-3.8 3.9-10.2 0-14.1z" fill="WHITE" layoutX="-258.0" layoutY="-231.0" scaleX="0.09" scaleY="0.09">
+                                                   <cursor>
+                                                      <Cursor fx:constant="DEFAULT" />
+                                                   </cursor>
+                                                </SVGPath>
+                                             </children>
+                                          </Pane>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets left="120.0" />
+                                       </HBox.margin>
+                                    </Pane>
+                                    <Pane layoutX="70.0" layoutY="10.0" prefHeight="333.33" prefWidth="440.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
+                                       <HBox.margin>
+                                          <Insets left="120.0" />
+                                       </HBox.margin>
+                                       <children>
+                                          <Text fill="WHITE" layoutX="119.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Birth Reg No">
+                                             <font>
+                                                <Font name="Microsoft YaHei Light" size="35.0" />
+                                             </font>
+                                          </Text>
+                                          <Label fx:id="birthRegLabel" alignment="CENTER" layoutX="20.0" layoutY="98.0" prefHeight="130.0" prefWidth="400.0" text="N/A" textFill="WHITE" wrapText="true">
+                                             <font>
+                                                <Font name="Microsoft YaHei" size="50.0" />
+                                             </font>
+                                          </Label>
+                                          <Pane fx:id="updateBirthRegBtn" layoutX="366.0" layoutY="13.0" onMouseClicked="#onClickUpdateBirthRegBtn" prefHeight="50.0" prefWidth="60.0" styleClass="edit_btn" stylesheets="@../stylestheets/styles.css">
+                                             <children>
+                                                <SVGPath content="M417.8 315.5l20-20c3.8-3.8 10.2-1.1 10.2 4.2V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h292.3c5.3 0 8 6.5 4.2 10.2l-20 20c-1.1 1.1-2.7 1.8-4.2 1.8H48c-8.8 0-16 7.2-16 16v352c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V319.7c0-1.6.6-3.1 1.8-4.2zm145.9-191.2L251.2 436.8l-99.9 11.1c-13.4 1.5-24.7-9.8-23.2-23.2l11.1-99.9L451.7 12.3c16.4-16.4 43-16.4 59.4 0l52.6 52.6c16.4 16.4 16.4 43 0 59.4zm-93.6 48.4L403.4 106 169.8 339.5l-8.3 75.1 75.1-8.3 233.5-233.6zm71-85.2l-52.6-52.6c-3.8-3.8-10.2-4-14.1 0L426 83.3l66.7 66.7 48.4-48.4c3.9-3.8 3.9-10.2 0-14.1z" fill="WHITE" layoutX="-258.0" layoutY="-231.0" scaleX="0.09" scaleY="0.09">
+                                                   <cursor>
+                                                      <Cursor fx:constant="DEFAULT" />
+                                                   </cursor>
+                                                </SVGPath>
+                                             </children>
+                                          </Pane>
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" layoutY="1882.0" prefWidth="1240.0">
+                                 <children>
+                                    <Pane prefHeight="350.0" prefWidth="1000.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
+                                       <children>
+                                          <Text fill="WHITE" layoutX="362.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Passport Number">
+                                             <font>
+                                                <Font name="Microsoft YaHei Light" size="35.0" />
+                                             </font>
+                                          </Text>
+                                          <Label fx:id="passportLabel" alignment="TOP_CENTER" layoutX="20.0" layoutY="127.0" prefHeight="146.0" prefWidth="960.0" text="OC87965455" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                             <font>
+                                                <Font name="Microsoft YaHei" size="50.0" />
+                                             </font>
+                                          </Label>
+                                          <Pane fx:id="updatePassportBtn" layoutX="926.0" layoutY="13.0" onMouseClicked="#onClickUpdatePassportBtn" prefHeight="50.0" prefWidth="60.0" styleClass="edit_btn" stylesheets="@../stylestheets/styles.css">
+                                             <children>
+                                                <SVGPath content="M417.8 315.5l20-20c3.8-3.8 10.2-1.1 10.2 4.2V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h292.3c5.3 0 8 6.5 4.2 10.2l-20 20c-1.1 1.1-2.7 1.8-4.2 1.8H48c-8.8 0-16 7.2-16 16v352c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V319.7c0-1.6.6-3.1 1.8-4.2zm145.9-191.2L251.2 436.8l-99.9 11.1c-13.4 1.5-24.7-9.8-23.2-23.2l11.1-99.9L451.7 12.3c16.4-16.4 43-16.4 59.4 0l52.6 52.6c16.4 16.4 16.4 43 0 59.4zm-93.6 48.4L403.4 106 169.8 339.5l-8.3 75.1 75.1-8.3 233.5-233.6zm71-85.2l-52.6-52.6c-3.8-3.8-10.2-4-14.1 0L426 83.3l66.7 66.7 48.4-48.4c3.9-3.8 3.9-10.2 0-14.1z" fill="WHITE" layoutX="-258.0" layoutY="-231.0" scaleX="0.09" scaleY="0.09">
+                                                   <cursor>
+                                                      <Cursor fx:constant="DEFAULT" />
+                                                   </cursor>
+                                                </SVGPath>
+                                             </children>
+                                          </Pane>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Pane>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets top="20.0" />
+                           </padding>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+                  <ProgressBar fx:id="fetchProg" layoutX="1300.0" layoutY="830.0" prefHeight="7.0" prefWidth="1240.0" scaleY="0.0" />
+               </children>
+            </Pane>
+            <Label fx:id="reserveInfo" alignment="CENTER" layoutX="-160.0" layoutY="465.0" prefHeight="40.0" prefWidth="220.0" styleClass="side_bar_options_info" stylesheets="@../stylestheets/styles.css" text="RESERVTION" textFill="WHITE">
                <font>
-                  <Font name="Microsoft YaHei Light" size="50.0" />
+                  <Font name="Microsoft YaHei Light" size="18.0" />
                </font>
-            </Text>
-            <Text fx:id="dashboard" fill="WHITE" layoutX="1300.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DASHBOARD">
+            </Label>
+            <Label fx:id="cancelInfo" alignment="CENTER" layoutX="-160.0" layoutY="545.0" prefHeight="40.0" prefWidth="220.0" styleClass="side_bar_options_info" stylesheets="@../stylestheets/styles.css" text="CANCELLATION" textFill="WHITE">
                <font>
-                  <Font name="Microsoft YaHei" size="70.0" />
+                  <Font name="Microsoft YaHei Light" size="18.0" />
                </font>
-            </Text>
-            <Text fx:id="userName" fill="WHITE" layoutX="-375.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Milhan Joardar Aumi">
+            </Label>
+            <Label fx:id="tranLogInfo" alignment="CENTER" layoutX="-160.0" layoutY="625.0" prefHeight="40.0" prefWidth="220.0" styleClass="side_bar_options_info" stylesheets="@../stylestheets/styles.css" text="TRANSACTION LOG" textFill="WHITE">
                <font>
-                  <Font name="Microsoft YaHei Light" size="40.0" />
+                  <Font name="Microsoft YaHei Light" size="18.0" />
                </font>
-            </Text>
+            </Label>
+            <Label fx:id="logOutInfo" alignment="CENTER" layoutX="-160.0" layoutY="705.0" prefHeight="40.0" prefWidth="220.0" styleClass="side_bar_options_info" stylesheets="@../stylestheets/styles.css" text="LOG OUT" textFill="WHITE">
+               <font>
+                  <Font name="Microsoft YaHei Light" size="18.0" />
+               </font>
+            </Label>
+            <Pane id="headerPane" prefHeight="37.0" prefWidth="1300.0" styleClass="header_pane" stylesheets="@../stylestheets/styles.css">
+               <children>
+                  <Text fill="WHITE" layoutX="10.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUPLUX Paribahan DASHBOARD">
+                     <font>
+                        <Font name="Microsoft YaHei" size="18.0" />
+                     </font>
+                  </Text>
+                  <Button id="crossButton" fx:id="crossButton" layoutX="1240.0" maxHeight="-Infinity" mnemonicParsing="false" onAction="#onClickCrossButton" prefHeight="35.0" prefWidth="60.0" styleClass="cross_button" stylesheets="@../stylestheets/styles.css" textAlignment="CENTER">
+                     <font>
+                        <Font name="Microsoft Yi Baiti" size="18.5" />
+                     </font>
+                  </Button>
+                  <SVGPath content="M15.898,4.045c-0.271-0.272-0.713-0.272-0.986,0l-4.71,4.711L5.493,4.045c-0.272-0.272-0.714-0.272-0.986,0s-0.272,0.714,0,0.986l4.709,4.711l-4.71,4.711c-0.272,0.271-0.272,0.713,0,0.986c0.136,0.136,0.314,0.203,0.492,0.203c0.179,0,0.357-0.067,0.493-0.203l4.711-4.711l4.71,4.711c0.137,0.136,0.314,0.203,0.494,0.203c0.178,0,0.355-0.067,0.492-0.203c0.273-0.273,0.273-0.715,0-0.986l-4.711-4.711l4.711-4.711C16.172,4.759,16.172,4.317,15.898,4.045z" fill="WHITE" layoutX="1259.0" layoutY="6.0" scaleX="1.2" scaleY="1.2" />
+               </children>
+            </Pane>
+            <Pane layoutY="35.0" prefHeight="800.0" prefWidth="60.0" styleClass="side_bar" stylesheets="@../stylestheets/styles.css">
+               <children>
+                  <Pane fx:id="reserveBtn" layoutY="430.0" onMouseClicked="#onClickReservationButton" onMouseEntered="#onHoverReservationButton" onMouseExited="#onExitReservationButton" prefHeight="40.0" prefWidth="60.0" styleClass="side_bar_options" stylesheets="@../stylestheets/styles.css">
+                     <children>
+                        <SVGPath content="M424 160H152c-13.255 0-24 10.745-24 24v144c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V184c0-13.255-10.745-24-24-24zm-8 160H160V192h256v128zm128-96h32V112c0-26.51-21.49-48-48-48H48C21.49 64 0 85.49 0 112v112h32c17.673 0 32 14.327 32 32s-14.327 32-32 32H0v112c0 26.51 21.49 48 48 48h480c26.51 0 48-21.49 48-48V288h-32c-17.673 0-32-14.327-32-32s14.327-32 32-32zm0 96v80c0 8.823-7.177 16-16 16H48c-8.823 0-16-7.177-16-16v-80c35.29 0 64-28.71 64-64s-28.71-64-64-64v-80c0-8.823 7.177-16 16-16h480c8.823 0 16 7.177 16 16v80c-35.29 0-64 28.71-64 64s28.71 64 64 64z" fill="#007efc" layoutX="-258.0" layoutY="-236.0" scaleX="0.05" scaleY="0.05" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="cancelBtn" layoutY="510.0" onMouseClicked="#onClickCancellationButton" onMouseEntered="#onHoverCancellationButton" onMouseExited="#onExitCancellationButton" prefHeight="40.0" prefWidth="60.0" styleClass="side_bar_options" stylesheets="@../stylestheets/styles.css">
+                     <children>
+                        <SVGPath content="M464 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm16 400c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V80c0-8.8 7.2-16 16-16h416c8.8 0 16 7.2 16 16v352zM348.6 188.3L280.9 256l67.7 67.7c4.6 4.6 4.6 12 0 16.6l-8.3 8.3c-4.6 4.6-12 4.6-16.6 0L256 280.9l-67.7 67.7c-4.6 4.6-12 4.6-16.6 0l-8.3-8.3c-4.6-4.6-4.6-12 0-16.6l67.7-67.7-67.7-67.7c-4.6-4.6-4.6-12 0-16.6l8.3-8.3c4.6-4.6 12-4.6 16.6 0l67.7 67.7 67.7-67.7c4.6-4.6 12-4.6 16.6 0l8.3 8.3c4.5 4.6 4.5 12 0 16.6z" fill="#007efc" layoutX="-226.0" layoutY="-236.0" scaleX="0.05" scaleY="0.05" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="transBtn" layoutY="590.0" onMouseClicked="#onClickTransactionLogButton" onMouseEntered="#onHoverTransactionLogButton" onMouseExited="#onExitTransactionLogButton" prefHeight="40.0" prefWidth="60.0" styleClass="side_bar_options" stylesheets="@../stylestheets/styles.css">
+                     <children>
+                        <SVGPath content="M464 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zM160 448H48c-8.837 0-16-7.163-16-16v-80h128v96zm0-128H32v-96h128v96zm0-128H32V96h128v96zm160 256H192v-96h128v96zm0-128H192v-96h128v96zm0-128H192V96h128v96zm160 160v80c0 8.837-7.163 16-16 16H352v-96h128zm0-32H352v-96h128v96zm0-128H352V96h128v96z" fill="#007efc" layoutX="-226.0" layoutY="-236.0" scaleX="0.05" scaleY="0.05" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="logOutBtn" layoutY="670.0" onMouseClicked="#onClickLogOutButton" onMouseEntered="#onHoverLogOutButton" onMouseExited="#onExitLogOutButton" prefHeight="40.0" prefWidth="60.0" styleClass="side_bar_options" stylesheets="@../stylestheets/styles.css">
+                     <children>
+                        <SVGPath content="M48 64h132c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H48c-8.8 0-16 7.2-16 16v288c0 8.8 7.2 16 16 16h132c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48zm279 19.5l-7.1 7.1c-4.7 4.7-4.7 12.3 0 17l132 131.4H172c-6.6 0-12 5.4-12 12v10c0 6.6 5.4 12 12 12h279.9L320 404.4c-4.7 4.7-4.7 12.3 0 17l7.1 7.1c4.7 4.7 12.3 4.7 17 0l164.5-164c4.7-4.7 4.7-12.3 0-17L344 83.5c-4.7-4.7-12.3-4.7-17 0z" fill="#007efc" layoutX="-226.0" layoutY="-236.0" scaleX="0.05" scaleY="0.05" />
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
          </children>
-      </Pane>
-      <ScrollPane fx:id="dashScroll" hbarPolicy="NEVER" layoutX="-1240.0" layoutY="370.0" prefHeight="467.0" prefWidth="1240.0" styleClass="base" stylesheets="@../stylestheets/styles.css" visible="false">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="base" stylesheets="@../stylestheets/styles.css">
-               <children>
-                  <HBox layoutY="30.0" prefWidth="1240.0">
-                     <children>
-                        <Pane fx:id="reservePane" prefHeight="333.33" prefWidth="333.33" scaleX="0.0" scaleY="0.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
-                           <children>
-                              <Text fill="WHITE" layoutX="72.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reservation Rate">
-                                 <font>
-                                    <Font name="Microsoft YaHei Light" size="25.0" />
-                                 </font>
-                              </Text>
-                              <ProgressIndicator fx:id="reserveProg" layoutX="32.0" layoutY="48.0" progress="0.0" radius="120.0" styleClass="progress_indicator" stylesheets="@../stylestheets/styles.css" viewOrder="5.0">
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </ProgressIndicator>
-                              <Label fx:id="reserveLabel" alignment="CENTER" layoutX="92.0" layoutY="155.0" prefWidth="150.0" text="0%" textFill="WHITE">
-                                 <font>
-                                    <Font name="Microsoft YaHei" size="40.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                           <HBox.margin>
-                              <Insets left="60.0" />
-                           </HBox.margin>
-                        </Pane>
-                        <Pane fx:id="cancelPane" layoutX="70.0" layoutY="10.0" prefHeight="333.33" prefWidth="333.33" scaleX="0.0" scaleY="0.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
-                           <children>
-                              <Text fill="WHITE" layoutX="69.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cancellation Rate">
-                                 <font>
-                                    <Font name="Microsoft YaHei Light" size="25.0" />
-                                 </font>
-                              </Text>
-                              <ProgressIndicator fx:id="cancelProg" layoutX="33.0" layoutY="47.0" progress="0.0" radius="120.0" styleClass="progress_indicator" stylesheets="@../stylestheets/styles.css" viewOrder="5.0">
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </ProgressIndicator>
-                              <Label fx:id="cancelLabel" alignment="CENTER" layoutX="92.0" layoutY="154.0" prefWidth="150.0" text="0%" textFill="WHITE">
-                                 <font>
-                                    <Font name="Microsoft YaHei" size="40.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                           <HBox.margin>
-                              <Insets left="60.0" />
-                           </HBox.margin>
-                        </Pane>
-                        <Pane fx:id="ratingsPane" layoutX="404.0" layoutY="10.0" prefHeight="333.33" prefWidth="333.33" scaleX="0.0" scaleY="0.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
-                           <children>
-                              <Text fill="WHITE" layoutX="101.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Trip Ratings">
-                                 <font>
-                                    <Font name="Microsoft YaHei Light" size="25.0" />
-                                 </font>
-                              </Text>
-                              <ProgressIndicator fx:id="tripProg" layoutX="33.0" layoutY="47.0" progress="0.0" radius="120.0" styleClass="progress_indicator" stylesheets="@../stylestheets/styles.css" viewOrder="5.0">
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </ProgressIndicator>
-                              <Label fx:id="tripLabel" alignment="CENTER" layoutX="92.0" layoutY="154.0" prefWidth="150.0" text="0/5" textFill="WHITE">
-                                 <font>
-                                    <Font name="Microsoft YaHei" size="40.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                           <HBox.margin>
-                              <Insets left="60.0" />
-                           </HBox.margin>
-                        </Pane>
-                     </children>
-                  </HBox>
-                  <HBox layoutY="394.0" prefWidth="1240.0">
-                     <children>
-                        <Pane fx:id="firstNamePane" prefHeight="350.0" prefWidth="440.0" scaleX="0.0" scaleY="0.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
-                           <children>
-                              <Text fill="WHITE" layoutX="135.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name">
-                                 <font>
-                                    <Font name="Microsoft YaHei Light" size="35.0" />
-                                 </font>
-                              </Text>
-                              <Label alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="98.0" prefHeight="220.0" prefWidth="400.0" text="Milhan Joardar" textFill="WHITE" wrapText="true">
-                                 <font>
-                                    <Font name="Microsoft YaHei" size="50.0" />
-                                 </font>
-                              </Label>
-                              <Pane layoutX="366.0" layoutY="13.0" prefHeight="50.0" prefWidth="60.0" styleClass="edit_btn" stylesheets="@../stylestheets/styles.css">
-                                 <children>
-                                    <SVGPath content="M417.8 315.5l20-20c3.8-3.8 10.2-1.1 10.2 4.2V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h292.3c5.3 0 8 6.5 4.2 10.2l-20 20c-1.1 1.1-2.7 1.8-4.2 1.8H48c-8.8 0-16 7.2-16 16v352c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V319.7c0-1.6.6-3.1 1.8-4.2zm145.9-191.2L251.2 436.8l-99.9 11.1c-13.4 1.5-24.7-9.8-23.2-23.2l11.1-99.9L451.7 12.3c16.4-16.4 43-16.4 59.4 0l52.6 52.6c16.4 16.4 16.4 43 0 59.4zm-93.6 48.4L403.4 106 169.8 339.5l-8.3 75.1 75.1-8.3 233.5-233.6zm71-85.2l-52.6-52.6c-3.8-3.8-10.2-4-14.1 0L426 83.3l66.7 66.7 48.4-48.4c3.9-3.8 3.9-10.2 0-14.1z" fill="WHITE" layoutX="-258.0" layoutY="-231.0" scaleX="0.09" scaleY="0.09">
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </SVGPath>
-                                 </children>
-                              </Pane>
-                           </children>
-                           <HBox.margin>
-                              <Insets left="120.0" />
-                           </HBox.margin>
-                        </Pane>
-                        <Pane fx:id="lastNamePane" layoutX="70.0" layoutY="10.0" prefHeight="350.0" prefWidth="440.0" scaleX="0.0" scaleY="0.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
-                           <children>
-                              <Text fill="WHITE" layoutX="136.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name">
-                                 <font>
-                                    <Font name="Microsoft YaHei Light" size="35.0" />
-                                 </font>
-                              </Text>
-                              <Label alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="98.0" prefHeight="220.0" prefWidth="400.0" text="Aumi" textFill="WHITE" wrapText="true">
-                                 <font>
-                                    <Font name="Microsoft YaHei" size="50.0" />
-                                 </font>
-                              </Label>
-                              <Pane layoutX="366.0" layoutY="13.0" prefHeight="50.0" prefWidth="60.0" styleClass="edit_btn" stylesheets="@../stylestheets/styles.css">
-                                 <children>
-                                    <SVGPath content="M417.8 315.5l20-20c3.8-3.8 10.2-1.1 10.2 4.2V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h292.3c5.3 0 8 6.5 4.2 10.2l-20 20c-1.1 1.1-2.7 1.8-4.2 1.8H48c-8.8 0-16 7.2-16 16v352c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V319.7c0-1.6.6-3.1 1.8-4.2zm145.9-191.2L251.2 436.8l-99.9 11.1c-13.4 1.5-24.7-9.8-23.2-23.2l11.1-99.9L451.7 12.3c16.4-16.4 43-16.4 59.4 0l52.6 52.6c16.4 16.4 16.4 43 0 59.4zm-93.6 48.4L403.4 106 169.8 339.5l-8.3 75.1 75.1-8.3 233.5-233.6zm71-85.2l-52.6-52.6c-3.8-3.8-10.2-4-14.1 0L426 83.3l66.7 66.7 48.4-48.4c3.9-3.8 3.9-10.2 0-14.1z" fill="WHITE" layoutX="-258.0" layoutY="-231.0" scaleX="0.09" scaleY="0.09">
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </SVGPath>
-                                 </children>
-                              </Pane>
-                           </children>
-                           <HBox.margin>
-                              <Insets left="120.0" />
-                           </HBox.margin>
-                        </Pane>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" layoutY="774.0" prefWidth="1240.0">
-                     <children>
-                        <Pane prefHeight="350.0" prefWidth="1000.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
-                           <children>
-                              <Text fill="WHITE" layoutX="436.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email ID">
-                                 <font>
-                                    <Font name="Microsoft YaHei Light" size="35.0" />
-                                 </font>
-                              </Text>
-                              <Label alignment="TOP_CENTER" layoutX="20.0" layoutY="127.0" prefHeight="146.0" prefWidth="960.0" text="mjaumi2864@gmail.com" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                 <font>
-                                    <Font name="Microsoft YaHei" size="50.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </Pane>
-                     </children>
-                  </HBox>
-                  <HBox layoutY="1154.0" prefWidth="1240.0">
-                     <children>
-                        <Pane prefHeight="333.33" prefWidth="440.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
-                           <children>
-                              <Text fill="WHITE" layoutX="161.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender">
-                                 <font>
-                                    <Font name="Microsoft YaHei Light" size="35.0" />
-                                 </font>
-                              </Text>
-                              <Label alignment="CENTER" layoutX="20.0" layoutY="102.0" prefHeight="130.0" prefWidth="400.0" text="Male" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                 <font>
-                                    <Font name="Microsoft YaHei" size="50.0" />
-                                 </font>
-                              </Label>
-                              <Pane layoutX="366.0" layoutY="13.0" prefHeight="50.0" prefWidth="60.0" styleClass="edit_btn" stylesheets="@../stylestheets/styles.css">
-                                 <children>
-                                    <SVGPath content="M417.8 315.5l20-20c3.8-3.8 10.2-1.1 10.2 4.2V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h292.3c5.3 0 8 6.5 4.2 10.2l-20 20c-1.1 1.1-2.7 1.8-4.2 1.8H48c-8.8 0-16 7.2-16 16v352c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V319.7c0-1.6.6-3.1 1.8-4.2zm145.9-191.2L251.2 436.8l-99.9 11.1c-13.4 1.5-24.7-9.8-23.2-23.2l11.1-99.9L451.7 12.3c16.4-16.4 43-16.4 59.4 0l52.6 52.6c16.4 16.4 16.4 43 0 59.4zm-93.6 48.4L403.4 106 169.8 339.5l-8.3 75.1 75.1-8.3 233.5-233.6zm71-85.2l-52.6-52.6c-3.8-3.8-10.2-4-14.1 0L426 83.3l66.7 66.7 48.4-48.4c3.9-3.8 3.9-10.2 0-14.1z" fill="WHITE" layoutX="-258.0" layoutY="-231.0" scaleX="0.09" scaleY="0.09">
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </SVGPath>
-                                 </children>
-                              </Pane>
-                           </children>
-                           <HBox.margin>
-                              <Insets left="120.0" />
-                           </HBox.margin>
-                        </Pane>
-                        <Pane layoutX="70.0" layoutY="10.0" prefHeight="333.33" prefWidth="440.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
-                           <HBox.margin>
-                              <Insets left="120.0" />
-                           </HBox.margin>
-                           <children>
-                              <Text fill="WHITE" layoutX="99.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number">
-                                 <font>
-                                    <Font name="Microsoft YaHei Light" size="35.0" />
-                                 </font>
-                              </Text>
-                              <Label alignment="CENTER" layoutX="20.0" layoutY="98.0" prefHeight="130.0" prefWidth="400.0" text="01788744803" textFill="WHITE" wrapText="true">
-                                 <font>
-                                    <Font name="Microsoft YaHei" size="50.0" />
-                                 </font>
-                              </Label>
-                              <Pane layoutX="366.0" layoutY="13.0" prefHeight="50.0" prefWidth="60.0" styleClass="edit_btn" stylesheets="@../stylestheets/styles.css">
-                                 <children>
-                                    <SVGPath content="M417.8 315.5l20-20c3.8-3.8 10.2-1.1 10.2 4.2V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h292.3c5.3 0 8 6.5 4.2 10.2l-20 20c-1.1 1.1-2.7 1.8-4.2 1.8H48c-8.8 0-16 7.2-16 16v352c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V319.7c0-1.6.6-3.1 1.8-4.2zm145.9-191.2L251.2 436.8l-99.9 11.1c-13.4 1.5-24.7-9.8-23.2-23.2l11.1-99.9L451.7 12.3c16.4-16.4 43-16.4 59.4 0l52.6 52.6c16.4 16.4 16.4 43 0 59.4zm-93.6 48.4L403.4 106 169.8 339.5l-8.3 75.1 75.1-8.3 233.5-233.6zm71-85.2l-52.6-52.6c-3.8-3.8-10.2-4-14.1 0L426 83.3l66.7 66.7 48.4-48.4c3.9-3.8 3.9-10.2 0-14.1z" fill="WHITE" layoutX="-258.0" layoutY="-231.0" scaleX="0.09" scaleY="0.09">
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </SVGPath>
-                                 </children>
-                              </Pane>
-                           </children>
-                        </Pane>
-                     </children>
-                  </HBox>
-                  <HBox layoutY="1518.0" prefWidth="1240.0">
-                     <children>
-                        <Pane prefHeight="333.33" prefWidth="440.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
-                           <children>
-                              <Text fill="WHITE" layoutX="119.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NID Number">
-                                 <font>
-                                    <Font name="Microsoft YaHei Light" size="35.0" />
-                                 </font>
-                              </Text>
-                              <Label alignment="CENTER" layoutX="20.0" layoutY="102.0" prefHeight="130.0" prefWidth="400.0" text="4661490989" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                 <font>
-                                    <Font name="Microsoft YaHei" size="50.0" />
-                                 </font>
-                              </Label>
-                              <Pane layoutX="366.0" layoutY="13.0" prefHeight="50.0" prefWidth="60.0" styleClass="edit_btn" stylesheets="@../stylestheets/styles.css">
-                                 <children>
-                                    <SVGPath content="M417.8 315.5l20-20c3.8-3.8 10.2-1.1 10.2 4.2V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h292.3c5.3 0 8 6.5 4.2 10.2l-20 20c-1.1 1.1-2.7 1.8-4.2 1.8H48c-8.8 0-16 7.2-16 16v352c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V319.7c0-1.6.6-3.1 1.8-4.2zm145.9-191.2L251.2 436.8l-99.9 11.1c-13.4 1.5-24.7-9.8-23.2-23.2l11.1-99.9L451.7 12.3c16.4-16.4 43-16.4 59.4 0l52.6 52.6c16.4 16.4 16.4 43 0 59.4zm-93.6 48.4L403.4 106 169.8 339.5l-8.3 75.1 75.1-8.3 233.5-233.6zm71-85.2l-52.6-52.6c-3.8-3.8-10.2-4-14.1 0L426 83.3l66.7 66.7 48.4-48.4c3.9-3.8 3.9-10.2 0-14.1z" fill="WHITE" layoutX="-258.0" layoutY="-231.0" scaleX="0.09" scaleY="0.09">
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </SVGPath>
-                                 </children>
-                              </Pane>
-                           </children>
-                           <HBox.margin>
-                              <Insets left="120.0" />
-                           </HBox.margin>
-                        </Pane>
-                        <Pane layoutX="70.0" layoutY="10.0" prefHeight="333.33" prefWidth="440.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
-                           <HBox.margin>
-                              <Insets left="120.0" />
-                           </HBox.margin>
-                           <children>
-                              <Text fill="WHITE" layoutX="119.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Birth Reg No">
-                                 <font>
-                                    <Font name="Microsoft YaHei Light" size="35.0" />
-                                 </font>
-                              </Text>
-                              <Label alignment="CENTER" layoutX="20.0" layoutY="98.0" prefHeight="130.0" prefWidth="400.0" text="N/A" textFill="WHITE" wrapText="true">
-                                 <font>
-                                    <Font name="Microsoft YaHei" size="50.0" />
-                                 </font>
-                              </Label>
-                              <Pane layoutX="366.0" layoutY="13.0" prefHeight="50.0" prefWidth="60.0" styleClass="edit_btn" stylesheets="@../stylestheets/styles.css">
-                                 <children>
-                                    <SVGPath content="M417.8 315.5l20-20c3.8-3.8 10.2-1.1 10.2 4.2V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h292.3c5.3 0 8 6.5 4.2 10.2l-20 20c-1.1 1.1-2.7 1.8-4.2 1.8H48c-8.8 0-16 7.2-16 16v352c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V319.7c0-1.6.6-3.1 1.8-4.2zm145.9-191.2L251.2 436.8l-99.9 11.1c-13.4 1.5-24.7-9.8-23.2-23.2l11.1-99.9L451.7 12.3c16.4-16.4 43-16.4 59.4 0l52.6 52.6c16.4 16.4 16.4 43 0 59.4zm-93.6 48.4L403.4 106 169.8 339.5l-8.3 75.1 75.1-8.3 233.5-233.6zm71-85.2l-52.6-52.6c-3.8-3.8-10.2-4-14.1 0L426 83.3l66.7 66.7 48.4-48.4c3.9-3.8 3.9-10.2 0-14.1z" fill="WHITE" layoutX="-258.0" layoutY="-231.0" scaleX="0.09" scaleY="0.09">
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </SVGPath>
-                                 </children>
-                              </Pane>
-                           </children>
-                        </Pane>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" layoutY="1882.0" prefWidth="1240.0">
-                     <children>
-                        <Pane prefHeight="350.0" prefWidth="1000.0" styleClass="card_pane" stylesheets="@../stylestheets/styles.css">
-                           <children>
-                              <Text fill="WHITE" layoutX="362.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Passport Number">
-                                 <font>
-                                    <Font name="Microsoft YaHei Light" size="35.0" />
-                                 </font>
-                              </Text>
-                              <Label alignment="TOP_CENTER" layoutX="20.0" layoutY="127.0" prefHeight="146.0" prefWidth="960.0" text="OC87965455" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                 <font>
-                                    <Font name="Microsoft YaHei" size="50.0" />
-                                 </font>
-                              </Label>
-                              <Pane layoutX="926.0" layoutY="13.0" prefHeight="50.0" prefWidth="60.0" styleClass="edit_btn" stylesheets="@../stylestheets/styles.css">
-                                 <children>
-                                    <SVGPath content="M417.8 315.5l20-20c3.8-3.8 10.2-1.1 10.2 4.2V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h292.3c5.3 0 8 6.5 4.2 10.2l-20 20c-1.1 1.1-2.7 1.8-4.2 1.8H48c-8.8 0-16 7.2-16 16v352c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V319.7c0-1.6.6-3.1 1.8-4.2zm145.9-191.2L251.2 436.8l-99.9 11.1c-13.4 1.5-24.7-9.8-23.2-23.2l11.1-99.9L451.7 12.3c16.4-16.4 43-16.4 59.4 0l52.6 52.6c16.4 16.4 16.4 43 0 59.4zm-93.6 48.4L403.4 106 169.8 339.5l-8.3 75.1 75.1-8.3 233.5-233.6zm71-85.2l-52.6-52.6c-3.8-3.8-10.2-4-14.1 0L426 83.3l66.7 66.7 48.4-48.4c3.9-3.8 3.9-10.2 0-14.1z" fill="WHITE" layoutX="-258.0" layoutY="-231.0" scaleX="0.09" scaleY="0.09">
-                                       <cursor>
-                                          <Cursor fx:constant="DEFAULT" />
-                                       </cursor>
-                                    </SVGPath>
-                                 </children>
-                              </Pane>
-                           </children>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </Pane>
-                     </children>
-                  </HBox>
-               </children>
-               <padding>
-                  <Insets top="20.0" />
-               </padding>
-            </AnchorPane>
-        </content>
-      </ScrollPane>
-      <Label fx:id="reserveInfo" alignment="CENTER" layoutX="-160.0" layoutY="465.0" prefHeight="40.0" prefWidth="220.0" styleClass="side_bar_options_info" stylesheets="@../stylestheets/styles.css" text="RESERVTION" textFill="WHITE">
-         <font>
-            <Font name="Microsoft YaHei Light" size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="cancelInfo" alignment="CENTER" layoutX="-160.0" layoutY="545.0" prefHeight="40.0" prefWidth="220.0" styleClass="side_bar_options_info" stylesheets="@../stylestheets/styles.css" text="CANCELLATION" textFill="WHITE">
-         <font>
-            <Font name="Microsoft YaHei Light" size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="tranLogInfo" alignment="CENTER" layoutX="-160.0" layoutY="625.0" prefHeight="40.0" prefWidth="220.0" styleClass="side_bar_options_info" stylesheets="@../stylestheets/styles.css" text="TRANSACTION LOG" textFill="WHITE">
-         <font>
-            <Font name="Microsoft YaHei Light" size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="logOutInfo" alignment="CENTER" layoutX="-160.0" layoutY="705.0" prefHeight="40.0" prefWidth="220.0" styleClass="side_bar_options_info" stylesheets="@../stylestheets/styles.css" text="LOG OUT" textFill="WHITE">
-         <font>
-            <Font name="Microsoft YaHei Light" size="18.0" />
-         </font>
-      </Label>
-      <Pane id="headerPane" prefHeight="37.0" prefWidth="1300.0" styleClass="header_pane" stylesheets="@../stylestheets/styles.css">
-         <children>
-            <Text fill="WHITE" layoutX="10.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUPLUX Paribahan DASHBOARD">
-               <font>
-                  <Font name="Microsoft YaHei" size="18.0" />
-               </font>
-            </Text>
-            <Button id="crossButton" fx:id="crossButton" layoutX="1240.0" maxHeight="-Infinity" mnemonicParsing="false" onAction="#onClickCrossButton" prefHeight="35.0" prefWidth="60.0" styleClass="cross_button" stylesheets="@../stylestheets/styles.css" textAlignment="CENTER">
-               <font>
-                  <Font name="Microsoft Yi Baiti" size="18.5" />
-               </font>
-            </Button>
-            <SVGPath content="M15.898,4.045c-0.271-0.272-0.713-0.272-0.986,0l-4.71,4.711L5.493,4.045c-0.272-0.272-0.714-0.272-0.986,0s-0.272,0.714,0,0.986l4.709,4.711l-4.71,4.711c-0.272,0.271-0.272,0.713,0,0.986c0.136,0.136,0.314,0.203,0.492,0.203c0.179,0,0.357-0.067,0.493-0.203l4.711-4.711l4.71,4.711c0.137,0.136,0.314,0.203,0.494,0.203c0.178,0,0.355-0.067,0.492-0.203c0.273-0.273,0.273-0.715,0-0.986l-4.711-4.711l4.711-4.711C16.172,4.759,16.172,4.317,15.898,4.045z" fill="WHITE" layoutX="1259.0" layoutY="6.0" scaleX="1.2" scaleY="1.2" />
-         </children>
-      </Pane>
-      <Pane layoutY="35.0" prefHeight="800.0" prefWidth="60.0" styleClass="side_bar" stylesheets="@../stylestheets/styles.css">
-         <children>
-            <Pane fx:id="reserveBtn" layoutY="430.0" onMouseClicked="#onClickReservationButton" onMouseEntered="#onHoverReservationButton" onMouseExited="#onExitReservationButton" prefHeight="40.0" prefWidth="60.0" styleClass="side_bar_options" stylesheets="@../stylestheets/styles.css">
-               <children>
-                  <SVGPath content="M424 160H152c-13.255 0-24 10.745-24 24v144c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V184c0-13.255-10.745-24-24-24zm-8 160H160V192h256v128zm128-96h32V112c0-26.51-21.49-48-48-48H48C21.49 64 0 85.49 0 112v112h32c17.673 0 32 14.327 32 32s-14.327 32-32 32H0v112c0 26.51 21.49 48 48 48h480c26.51 0 48-21.49 48-48V288h-32c-17.673 0-32-14.327-32-32s14.327-32 32-32zm0 96v80c0 8.823-7.177 16-16 16H48c-8.823 0-16-7.177-16-16v-80c35.29 0 64-28.71 64-64s-28.71-64-64-64v-80c0-8.823 7.177-16 16-16h480c8.823 0 16 7.177 16 16v80c-35.29 0-64 28.71-64 64s28.71 64 64 64z" fill="#007efc" layoutX="-258.0" layoutY="-236.0" scaleX="0.05" scaleY="0.05" />
-               </children>
-            </Pane>
-            <Pane fx:id="cancelBtn" layoutY="510.0" onMouseClicked="#onClickCancellationButton" onMouseEntered="#onHoverCancellationButton" onMouseExited="#onExitCancellationButton" prefHeight="40.0" prefWidth="60.0" styleClass="side_bar_options" stylesheets="@../stylestheets/styles.css">
-               <children>
-                  <SVGPath content="M464 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm16 400c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V80c0-8.8 7.2-16 16-16h416c8.8 0 16 7.2 16 16v352zM348.6 188.3L280.9 256l67.7 67.7c4.6 4.6 4.6 12 0 16.6l-8.3 8.3c-4.6 4.6-12 4.6-16.6 0L256 280.9l-67.7 67.7c-4.6 4.6-12 4.6-16.6 0l-8.3-8.3c-4.6-4.6-4.6-12 0-16.6l67.7-67.7-67.7-67.7c-4.6-4.6-4.6-12 0-16.6l8.3-8.3c4.6-4.6 12-4.6 16.6 0l67.7 67.7 67.7-67.7c4.6-4.6 12-4.6 16.6 0l8.3 8.3c4.5 4.6 4.5 12 0 16.6z" fill="#007efc" layoutX="-226.0" layoutY="-236.0" scaleX="0.05" scaleY="0.05" />
-               </children>
-            </Pane>
-            <Pane fx:id="transBtn" layoutY="590.0" onMouseClicked="#onClickTransactionLogButton" onMouseEntered="#onHoverTransactionLogButton" onMouseExited="#onExitTransactionLogButton" prefHeight="40.0" prefWidth="60.0" styleClass="side_bar_options" stylesheets="@../stylestheets/styles.css">
-               <children>
-                  <SVGPath content="M464 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zM160 448H48c-8.837 0-16-7.163-16-16v-80h128v96zm0-128H32v-96h128v96zm0-128H32V96h128v96zm160 256H192v-96h128v96zm0-128H192v-96h128v96zm0-128H192V96h128v96zm160 160v80c0 8.837-7.163 16-16 16H352v-96h128zm0-32H352v-96h128v96zm0-128H352V96h128v96z" fill="#007efc" layoutX="-226.0" layoutY="-236.0" scaleX="0.05" scaleY="0.05" />
-               </children>
-            </Pane>
-            <Pane fx:id="logOutBtn" layoutY="670.0" onMouseClicked="#onClickLogOutButton" onMouseEntered="#onHoverLogOutButton" onMouseExited="#onExitLogOutButton" prefHeight="40.0" prefWidth="60.0" styleClass="side_bar_options" stylesheets="@../stylestheets/styles.css">
-               <children>
-                  <SVGPath content="M48 64h132c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H48c-8.8 0-16 7.2-16 16v288c0 8.8 7.2 16 16 16h132c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48zm279 19.5l-7.1 7.1c-4.7 4.7-4.7 12.3 0 17l132 131.4H172c-6.6 0-12 5.4-12 12v10c0 6.6 5.4 12 12 12h279.9L320 404.4c-4.7 4.7-4.7 12.3 0 17l7.1 7.1c4.7 4.7 12.3 4.7 17 0l164.5-164c4.7-4.7 4.7-12.3 0-17L344 83.5c-4.7-4.7-12.3-4.7-17 0z" fill="#007efc" layoutX="-226.0" layoutY="-236.0" scaleX="0.05" scaleY="0.05" />
-               </children>
-            </Pane>
-         </children></Pane>
-      <Circle fx:id="innerCircle" layoutX="-514.0" layoutY="273.0" radius="70.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-      <Circle fx:id="outerCircle" fill="#1f93ff00" layoutX="-514.0" layoutY="273.0" radius="70.0" stroke="#007efc" strokeType="OUTSIDE" strokeWidth="3.0" />
-      <SVGPath fx:id="userPic" content="M 224 256 c 70.7 0 128 -57.3 128 -128 S 294.7 0 224 0 S 96 57.3 96 128 s 57.3 128 128 128 Z m 89.6 32 h -16.7 c -22.2 10.2 -46.9 16 -72.9 16 s -50.6 -5.8 -72.9 -16 h -16.7 C 60.2 288 0 348.2 0 422.4 V 464 c 0 26.5 21.5 48 48 48 h 352 c 26.5 0 48 -21.5 48 -48 v -41.6 c 0 -74.2 -60.2 -134.4 -134.4 -134.4 Z" fill="#00172d" layoutX="-49.0" layoutY="17.0" scaleX="0.2" scaleY="0.2" visible="false" />
+      </AnchorPane>
    </children>
-</AnchorPane>
+</StackPane>
