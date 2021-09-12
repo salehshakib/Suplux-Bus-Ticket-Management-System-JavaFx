@@ -177,6 +177,7 @@
     -fx-background-insets: 0;
 }
 
+/* this class is for the radio button when error is shown */
 .radio_button_error>.radio{
 
     -fx-border-color: red;

@@ -743,6 +743,7 @@ public class ReservationPageController implements Initializable {
         lowerDeckSleeper.clear();
         upperDeckSleeper.clear();
         selectedSeatsFXML.clear();
+        selectedSeatString.clear();
         radioDeckVBox.setVisible(false);
         radioLower.setSelected(true);
         boardingPointComboBox.getSelectionModel().selectFirst();
