@@ -26,7 +26,11 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.*;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
+
+
 
 public class HomeController implements Initializable {
 
@@ -45,6 +49,7 @@ public class HomeController implements Initializable {
     public Label logInErrorMsg, signUpErrorMsg;
 
     private static boolean stage = false;
+    private static boolean isLoggedIn = false;
 
     /**
      * this method is to close the application
@@ -111,7 +116,9 @@ public class HomeController implements Initializable {
     /**
      * this method is to switch from home page to dashboard page
      */
-    public void onClickLogInButton(javafx.event.ActionEvent actionEvent) {
+
+
+    public void onClickLogInButton(javafx.event.ActionEvent actionEvent) throws SQLException {
 
         if(!logInEmail.getText().isBlank() && !logInEmail.getText().isEmpty()
                 && !logInPassword.getText().isBlank() && !logInPassword.getText().isEmpty()){
@@ -125,7 +132,42 @@ public class HomeController implements Initializable {
 
                     Platform.runLater(() ->{
 
+
                         //TODO database log in credentials should be checked here...
+                        String url = "jdbc:sqlserver://DESKTOP-TC26BLK\\SQLEXPRESS:1433;databaseName=Suplux-Dashboard";
+                        String user = "sa";
+                        String password = "p@ssword";
+                        try {
+
+                            Connection connection = DriverManager.getConnection(url, user, password);
+                            System.out.println("Connected to Microsoft SQL server");
+                            String email = logInEmail.getText();
+                            System.out.println(email);
+                            String sqlQuery = "select userPassword from userInformation where userEmail = '" + email +"'";
+                            Statement statement = connection.createStatement();
+                            ResultSet resultSet = statement.executeQuery(sqlQuery);
+                            while (resultSet.next()){
+                                if(resultSet.getString("userPassword").equals(logInPassword.getText())){
+                                    System.out.println(resultSet.getString("userPassword"));
+                                    System.out.println("log IN success");
+                                    isLoggedIn = true;
+
+                                }
+                                else {
+                                    System.out.println("Log IN Failed");
+                                    isLoggedIn = false;
+
+                                }
+
+                            }
+
+                            connection.close();
+                        }
+                        catch(SQLException e) {
+                            System.out.println("oops you are having a bad day");
+                            e.printStackTrace();
+                        }
+
 
 
                     });
@@ -143,26 +185,34 @@ public class HomeController implements Initializable {
             };
             task.setOnSucceeded(e -> {
 
-                try {
+                if(isLoggedIn){
+                    try {
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/dashboard.fxml"));
-                    Parent dashboard = loader.load();
 
-                    Scene dashboardScene = new Scene(dashboard);
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/dashboard.fxml"));
+                        Parent dashboard = loader.load();
 
-                    Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-                    window.setScene(dashboardScene);
-                    window.show();
+                        Scene dashboardScene = new Scene(dashboard);
 
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+                        window.setScene(dashboardScene);
+                        window.show();
+
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+
+                } else {
+                    scaleIt(200, logInErrorMsg, 1, 2);
+                    logInEmail.setStyle("-fx-border-color: red");
+                    logInPassword.setStyle("-fx-border-color: red");
+
                 }
 
             });
             new Thread(task).start();
 
         } else{
-
             scaleIt(200, logInErrorMsg, 1, 2);
             logInEmail.setStyle("-fx-border-color: red");
             logInPassword.setStyle("-fx-border-color: red");

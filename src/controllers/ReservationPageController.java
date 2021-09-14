@@ -422,7 +422,7 @@ public class ReservationPageController implements Initializable {
                 Platform.runLater(() ->{
 
                     switch (coachType) {
-                        case "Non AC": {
+                        case "Non AC" -> {
 
                             Node[] seatMap = new Node[11];
 
@@ -471,7 +471,7 @@ public class ReservationPageController implements Initializable {
                             }
                             break;
                         }
-                        case "AC (Multi)": {
+                        case "AC (Multi)" -> {
 
                             Node[] seatMap = new Node[11];
 
@@ -520,7 +520,7 @@ public class ReservationPageController implements Initializable {
                             }
                             break;
                         }
-                        case "AC (Bi)": {
+                        case "AC (Bi)" -> {
 
                             Node[] seatMap = new Node[10];
 
@@ -571,7 +571,7 @@ public class ReservationPageController implements Initializable {
                             }
                             break;
                         }
-                        case "DD": {
+                        case "DD" -> {
 
                             radioDeckVBox.setVisible(true);
 
@@ -579,8 +579,7 @@ public class ReservationPageController implements Initializable {
 
                             break;
                         }
-
-                        case "Sleeper": {
+                        case "Sleeper" -> {
 
                             radioDeckVBox.setVisible(true);
 
