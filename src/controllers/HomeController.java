@@ -361,6 +361,8 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        isLoggedIn = false;
+
         if(!stage){
 
             fadeIt(1000, welcome, 0f, 1f, 5, true);
