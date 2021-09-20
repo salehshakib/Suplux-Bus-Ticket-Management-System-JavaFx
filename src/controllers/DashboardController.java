@@ -18,17 +18,24 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.BoxBlur;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import miscellaneous.java.UserData;
+import net.codejava.sql.ConnectorDB;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -39,6 +46,7 @@ public class DashboardController implements Initializable {
      */
     @FXML
     public Button crossButton;
+
     public Pane rootPane, logOutBtn, transBtn, cancelBtn, reserveBtn, reservePane, cancelPane, ratingsPane, firstNamePane, lastNamePane, updateFirstNameBtn, updateLastNameBtn, updateGenderBtn, updatePhoneNoBtn, updateNIDBtn, updateBirthRegBtn, updatePassportBtn;
     public Label logOutInfo, tranLogInfo, cancelInfo, reserveInfo, reserveLabel, cancelLabel, tripLabel, firstNameLabel, lastNameLabel, emailLabel, genderLabel, phoneNoLabel, NIDLabel, birthRegLabel, passportLabel;
     public ProgressIndicator reserveProg, cancelProg, tripProg;
@@ -48,6 +56,10 @@ public class DashboardController implements Initializable {
     public Circle innerCircle, outerCircle;
     public SVGPath userPic;
     public ProgressBar fetchProg;
+
+
+
+
 
     /**
      *  this method is to close the application
@@ -77,7 +89,7 @@ public class DashboardController implements Initializable {
     }
 
     /**
-     * this method is to animate in the log out menu information
+     * this method is to animate in the log-out menu information
      */
     public void onHoverLogOutButton(){
 
@@ -86,7 +98,7 @@ public class DashboardController implements Initializable {
     }
 
     /**
-     * this method is to animate out the log out menu information
+     * this method is to animate out the log-out menu information
      */
     public void onExitLogOutButton(){
 
@@ -211,10 +223,19 @@ public class DashboardController implements Initializable {
     /**
      * this method updates the first name section
      */
-    public void onClickUpdateFirstNameBtn(){
+    public void onClickUpdateFirstNameBtn() throws SQLException {
 
         updateUserData("Update First Name", "Enter a first name", "First Name");
         UpdateUserInfoDialogController.checkData(firstNameLabel.getText());
+
+        try {
+            ConnectorDB connectorDB = new ConnectorDB();
+            String sqlQuery = "Update ";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     /**
@@ -296,7 +317,7 @@ public class DashboardController implements Initializable {
 
                     rootPane.setEffect(null);
 
-                    //this task object is letting us to get the time to push the data to the database
+                    //this task object is letting us get the time to push the data to the database
                     Task<Void> task = new Task<>() {
                         @Override
                         public Void call() {
@@ -355,7 +376,7 @@ public class DashboardController implements Initializable {
 
                     rootPane.setEffect(null);
 
-                    //this task object is letting us to get the time to push the data to the database
+                    //this task object is letting us get the time to push the data to the database
                     Task<Void> task = new Task<>() {
                         @Override
                         public Void call() {
@@ -441,6 +462,7 @@ public class DashboardController implements Initializable {
         switch (field) {
             case "First Name":
 
+
                 firstNameLabel.setText(data);
                 userName.setText(firstNameLabel.getText() + " " + lastNameLabel.getText());
                 break;
@@ -473,14 +495,57 @@ public class DashboardController implements Initializable {
     }
 
     /**
-     * this method initializes every components in this scene
+     * this method initializes every component in this scene
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         /*TODO reservation, cancellation and rating data should be retrieved here and pass them
-         * TODO into the progValue of the below constructors
+         * TODO into the prongValue of the below constructors
          */
+
+        UserData userData = new UserData();
+
+        try {
+            ConnectorDB connectorDB = new ConnectorDB();
+
+            String sqlQuery = "Select * from userInformation where userEmail = '" + userData.getUserEmail() +"'";
+            Statement statement = connectorDB.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
+            while(resultSet.next()){
+
+                firstNameLabel.setText(resultSet.getString("userFirstName"));
+                lastNameLabel.setText(resultSet.getString("userLastName"));
+                userName.setText(firstNameLabel.getText() + " " + lastNameLabel.getText());
+                emailLabel.setText(resultSet.getString("userEmail"));
+                genderLabel.setText(resultSet.getString("userGender"));
+                phoneNoLabel.setText(resultSet.getString("userPhoneNumber"));
+                if (resultSet.getString("userNID") != null){
+                    NIDLabel.setText(resultSet.getString("userNID"));
+                }
+                if (resultSet.getString("userBReg") != null){
+                    birthRegLabel.setText(resultSet.getString("userBReg"));
+                }
+                if (resultSet.getString("userPassport") != null){
+                    passportLabel.setText(resultSet.getString("userPassport"));
+                }
+                else {
+                    passportLabel.setText("N/A");
+                }
+
+                if (resultSet.getString("userImage") != null){
+                    System.out.println(resultSet.getString("userImage"));
+//                    Image img = new Image("E:\\Pictures\\Profile Pic\\Viper.jpg");
+//                    innerCircle.setFill(new ImagePattern(img));
+                }
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
 
         new ProgressThread(reserveProg, reserveLabel, 0.7, 1).start();
         new ProgressThread(cancelProg, cancelLabel, 0.3, 1).start();

@@ -1,13 +1,16 @@
 <component name="libraryTable">
   <library name="lib">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../javaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib" />
+      <root url="file://D:/javaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib" />
+      <root url="jar://D:/javax.mail/activation.jar!/" />
+      <root url="jar://D:/javax.mail/javax.mail.jar!/" />
+      <root url="jar://D:/sqljdbc_9.4.0.0_enu/sqljdbc_9.4/enu/mssql-jdbc-9.4.0.jre16.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="file://$PROJECT_DIR$/../../javaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib" />
+      <root url="file://D:/javaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib" />
     </SOURCES>
-    <jarDirectory url="file://$PROJECT_DIR$/../../javaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib" recursive="false" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../javaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib" recursive="false" type="SOURCES" />
+    <jarDirectory url="file://D:/javaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib" recursive="false" />
+    <jarDirectory url="file://D:/javaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib" recursive="false" type="SOURCES" />
   </library>
 </component>

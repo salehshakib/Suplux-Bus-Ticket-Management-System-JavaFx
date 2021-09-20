@@ -23,6 +23,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import miscellaneous.java.UserData;
+import miscellaneous.mail.MailOTP;
+import net.codejava.sql.ConnectorDB;
 
 import java.io.IOException;
 import java.net.URL;
@@ -47,6 +50,7 @@ public class HomeController implements Initializable {
     public ProgressBar fetchProg;
     public StackPane rootStack;
     public Label logInErrorMsg, signUpErrorMsg;
+    private String verificationOTP;
 
     private static boolean stage = false;
     private static boolean isLoggedIn = false;
@@ -87,7 +91,7 @@ public class HomeController implements Initializable {
     }
 
     /**
-     * this method is to animate the sign up pane form left to right
+     * this method is to animate the sign-up pane form left to right
      */
     public void signUpPaneAnimation(){
 
@@ -123,7 +127,7 @@ public class HomeController implements Initializable {
         if(!logInEmail.getText().isBlank() && !logInEmail.getText().isEmpty()
                 && !logInPassword.getText().isBlank() && !logInPassword.getText().isEmpty()){
 
-            //this task object is letting us to get the time for fetching the data from database
+            //this task object is letting us get the time for fetching the data from database
             Task<Void> task = new Task<>() {
                 @Override
                 public Void call() {
@@ -132,43 +136,33 @@ public class HomeController implements Initializable {
 
                     Platform.runLater(() ->{
 
-
-                        //TODO database log in credentials should be checked here...
-                        String url = "jdbc:sqlserver://DESKTOP-TC26BLK\\SQLEXPRESS:1433;databaseName=Suplux-Dashboard";
-                        String user = "sa";
-                        String password = "p@ssword";
                         try {
-
-                            Connection connection = DriverManager.getConnection(url, user, password);
-                            System.out.println("Connected to Microsoft SQL server");
+                            ConnectorDB connectorDB = new ConnectorDB();
                             String email = logInEmail.getText();
                             System.out.println(email);
                             String sqlQuery = "select userPassword from userInformation where userEmail = '" + email +"'";
-                            Statement statement = connection.createStatement();
+                            Statement statement = connectorDB.getConnection().createStatement();
                             ResultSet resultSet = statement.executeQuery(sqlQuery);
                             while (resultSet.next()){
                                 if(resultSet.getString("userPassword").equals(logInPassword.getText())){
                                     System.out.println(resultSet.getString("userPassword"));
                                     System.out.println("log IN success");
                                     isLoggedIn = true;
-
                                 }
                                 else {
                                     System.out.println("Log IN Failed");
                                     isLoggedIn = false;
-
                                 }
-
                             }
+                            UserData userData = new UserData();
+                            userData.setUserEmail(email);
 
-                            connection.close();
-                        }
-                        catch(SQLException e) {
-                            System.out.println("oops you are having a bad day");
+
+
+
+                        } catch (SQLException e) {
                             e.printStackTrace();
                         }
-
-
 
                     });
 
@@ -230,7 +224,7 @@ public class HomeController implements Initializable {
                 && !signUpConfirm.getText().isBlank() && !signUpConfirm.getText().isEmpty()
                 && isValidEmailAddress(signUpEmail.getText()) && signUpPassword.getText().equals(signUpConfirm.getText())){
 
-            //this task object is letting us to get the time for fetching the data from database
+            //this task object is letting us get the time for fetching the data from database
             Task<Void> task = new Task<>() {
                 @Override
                 public Void call() {
@@ -239,7 +233,40 @@ public class HomeController implements Initializable {
 
                     Platform.runLater(() ->{
 
-                        //TODO send e mail with OTP here...
+                        //OTP is sent here
+                        try {
+                            ConnectorDB connectorDB = new ConnectorDB();
+                            String email = "www.shakib.ss@gmail.com";
+                            String sqlQuery = "select userEmail from userInformation where userEmail = '" + email +"'";
+                            Statement statement = connectorDB.getConnection().createStatement();
+                            ResultSet resultSet = statement.executeQuery(sqlQuery);
+                            int row = resultSet.getRow();
+                            if (row==0){
+                                MailOTP mailOTP = new MailOTP();
+                                System.out.println("preparing to send message ...");
+                                verificationOTP = mailOTP.getRandomNumberString();
+                                String message = "<html>Hello there, <br> Your OTP is : " + "<b>" + verificationOTP + "</b>" + "<br> Use this OTP to verify your account. <br></html>";
+                                String subject = "User Verification OTP";
+                                String from = "sam404.iums@gmail.com";
+
+                                mailOTP.sendMail(message, subject, email, from);
+
+                                SignUpController signUpController = new SignUpController();
+
+
+                                signUpController.userData(email, signUpPassword.getText(), verificationOTP);
+
+                                row++;
+
+                            }else {
+                                //todo if user already exist
+                                System.out.println("user already exist");
+                            }
+
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
 
 
                     });
@@ -285,7 +312,7 @@ public class HomeController implements Initializable {
 
                             SignUpController suc = loader.getController();
 
-                            suc.getEmailAndPassword(signUpEmail.getText(), signUpPassword.getText(), "123456");
+                            suc.getEmailAndPassword(signUpEmail.getText(), signUpPassword.getText(), verificationOTP);
 
                             Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
                             window.setScene(scene);

@@ -23,9 +23,16 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import miscellaneous.mail.MailOTP;
+import net.codejava.sql.ConnectorDB;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -48,6 +55,11 @@ public class SignUpController implements Initializable {
 
     private String formEmail, formPassword, otp;
     private File proPic;
+    private String imageFile;
+
+    public SignUpController() throws SQLException {
+    }
+
 
     /**
      * this method is to close the application
@@ -57,6 +69,18 @@ public class SignUpController implements Initializable {
 
         System.exit(0);
     }
+
+    public void userData(String formEmail, String formPassword, String otp){
+        this.formEmail = formEmail;
+        this.formPassword = formPassword;
+        this.otp = otp;
+
+    }
+
+
+
+
+
 
     /**
     * this method opens the fileChooser window when "Upload a Profile Image" button
@@ -73,6 +97,29 @@ public class SignUpController implements Initializable {
 
         if(proPic != null){
 
+            try {
+                String newPath = "upload/Profile Images";
+                File directory = new File(newPath);
+                if(!directory.exists()){
+                    directory.mkdirs();
+                }
+                File sourceFile = null;
+                File destinationFile = null;
+                String extension =  proPic.getAbsolutePath().substring(proPic.getAbsolutePath().lastIndexOf("\\")+1);
+
+                sourceFile = new File(proPic.getAbsolutePath());
+                destinationFile = new File(newPath+"/Profile Picture."+ extension);
+                imageFile = destinationFile.getAbsolutePath();
+
+                Files.copy(sourceFile.toPath(), destinationFile.toPath());
+                System.out.println(destinationFile.getAbsolutePath());
+
+
+            } catch (IOException e) {
+                System.out.println(imageFile);
+
+                e.printStackTrace();
+            }
             showImageInImageView(proPic.getAbsolutePath());
         }
     }
@@ -144,7 +191,7 @@ public class SignUpController implements Initializable {
                 && !formOTP.getText().isEmpty() && !formOTP.getText().isBlank()
                 && proPic != null && formOTP.getText().equals(otp)){
 
-            //this task object is letting us to get the time for fetching the data from database
+            //this task object is letting us get the time for fetching the data from database
             Task<Void> task = new Task<>() {
                 @Override
                 public Void call() {
@@ -153,7 +200,71 @@ public class SignUpController implements Initializable {
 
                     Platform.runLater(() ->{
 
-                        //TODO database sign up uploading credentials should be done here...
+                        try {
+                            ConnectorDB connectorDB = new ConnectorDB();
+
+
+                            String gender = null;
+
+
+
+                            String firstName = formFirstName.getText();
+                            String lastName = formLastName.getText();
+                            String mobileNo = formMobile.getText();
+                            String email = formEmail;
+                            String password = formPassword;
+                            String otp = formOTP.getText();
+                            String passport = null;
+                            if (radioMale.isSelected()){
+                                gender = "Male";
+                            }
+                            else if (radioFemale.isSelected()){
+                                gender = "female";
+                            }
+                            else {
+                                gender = "Others";
+                            }
+                            if(!formPassport.getText().isEmpty()){
+                                passport = formPassport.getText();
+                            }
+                            String nid = nidField.getText();
+                            String bReg = bRegField.getText();
+
+                            System.out.println(email + "\n" + gender + "\n" + firstName + "\n"+ lastName + "\n" + mobileNo + "\n"+ email + "\n"+ password + "\n" + otp);
+
+
+                            String sqlQuery = "INSERT INTO userInformation (userEmail," +
+                                    "userPassword, " +
+                                    "userFirstName, " +
+                                    "userLastName, " +
+                                    "userGender, " +
+                                    "userPhoneNumber, " +
+                                    "userNID, " +
+                                    "userBReg, " +
+                                    "userPassport, " +
+                                    "userImage) " +
+                                    "Values(?,?,?,?,?,?,?,?,?,?)";
+
+                            PreparedStatement preparedStatement = connectorDB.getConnection().prepareStatement(sqlQuery);
+                            preparedStatement.setString(1,email);
+                            preparedStatement.setString(2,password);
+                            preparedStatement.setString(3,firstName);
+                            preparedStatement.setString(4,lastName);
+                            preparedStatement.setString(5,gender);
+                            preparedStatement.setString(6,mobileNo);
+                            preparedStatement.setString(7,nid);
+                            preparedStatement.setString(8,bReg);
+                            preparedStatement.setString(9,passport);
+                            preparedStatement.setString(10,imageFile);
+
+                            preparedStatement.executeUpdate();
+
+
+
+                        } catch (SQLException e) {
+                            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+                            e.printStackTrace();
+                        }
                     });
 
                     try {
