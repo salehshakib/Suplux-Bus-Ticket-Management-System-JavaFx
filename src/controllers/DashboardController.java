@@ -223,17 +223,10 @@ public class DashboardController implements Initializable {
     /**
      * this method updates the first name section
      */
-    public void onClickUpdateFirstNameBtn() throws SQLException {
+    public void onClickUpdateFirstNameBtn(){
 
         updateUserData("Update First Name", "Enter a first name", "First Name");
         UpdateUserInfoDialogController.checkData(firstNameLabel.getText());
-
-        try {
-            ConnectorDB connectorDB = new ConnectorDB();
-            String sqlQuery = "Update ";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
 
     }
@@ -326,7 +319,18 @@ public class DashboardController implements Initializable {
 
                                 scaleIt(200, fetchProg, 1, 2);
 
-                                //TODO update the database with new gender data here...
+                                //here update the database with new gender data here...
+                                UserData userData = new UserData();
+                                try {
+                                    ConnectorDB connectorDB = new ConnectorDB();
+                                    String sqlQuery;
+                                    Statement statement;
+                                    sqlQuery = "Update userInformation Set userGender = '" + ugidc.getData() +"'"+ "where userEmail = '" + userData.getUserEmail() + "'";
+                                    statement = connectorDB.getConnection().createStatement();
+                                    statement.execute(sqlQuery);
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
 
                                 try {
                                     Thread.sleep(2000);
@@ -385,7 +389,54 @@ public class DashboardController implements Initializable {
 
                                 scaleIt(200, fetchProg, 1, 2);
 
-                                //TODO update the database with new user data here...
+                                //here update the database with new user data here...
+                                UserData userData = new UserData();
+                                try {
+                                    ConnectorDB connectorDB = new ConnectorDB();
+                                    String sqlQuery;
+                                    Statement statement;
+                                    switch (field) {
+                                        case "First Name":
+                                            sqlQuery = "Update userInformation Set userFirstName = '" + uuidc.getData() +"'"+ "where userEmail = '" + userData.getUserEmail() + "'";
+                                            statement = connectorDB.getConnection().createStatement();
+                                            statement.execute(sqlQuery);
+
+                                            break;
+                                        case "Last Name":
+                                            sqlQuery = "Update userInformation Set userLastName = '" + uuidc.getData() +"'"+ "where userEmail = '" + userData.getUserEmail() + "'";
+                                            statement = connectorDB.getConnection().createStatement();
+                                            statement.execute(sqlQuery);
+
+                                            break;
+                                        case "Phone No":
+                                            sqlQuery = "Update userInformation Set userPhoneNumber = '" + uuidc.getData() +"'"+ "where userEmail = '" + userData.getUserEmail() + "'";
+                                            statement = connectorDB.getConnection().createStatement();
+                                            statement.execute(sqlQuery);
+
+                                            break;
+                                        case "NID No":
+                                            sqlQuery = "Update userInformation Set userNID = '" + uuidc.getData() +"'"+ "where userEmail = '" + userData.getUserEmail() + "'";
+                                            statement = connectorDB.getConnection().createStatement();
+                                            statement.execute(sqlQuery);
+
+                                            break;
+                                        case "Birth Reg No":
+                                            sqlQuery = "Update userInformation Set userBReg = '" + uuidc.getData() +"'"+ "where userEmail = '" + userData.getUserEmail() + "'";
+                                            statement = connectorDB.getConnection().createStatement();
+                                            statement.execute(sqlQuery);
+
+                                            break;
+                                        case "Passport No":
+                                            sqlQuery = "Update userInformation Set userPassport = '" + uuidc.getData() +"'"+ "where userEmail = '" + userData.getUserEmail() + "'";
+                                            statement = connectorDB.getConnection().createStatement();
+                                            statement.execute(sqlQuery);
+
+                                            break;
+                                    }
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+
 
                                 try {
                                     Thread.sleep(2000);
@@ -443,7 +494,11 @@ public class DashboardController implements Initializable {
             contDialog.show();
             contDialog.setOnDialogClosed((JFXDialogEvent ev) -> {
 
-                updateDashboardField(data, field);
+                try {
+                    updateDashboardField(data, field);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 rootPane.setEffect(null);
 
             });
@@ -457,11 +512,10 @@ public class DashboardController implements Initializable {
     /**
      * this method updates the sections in the dashboard page
      */
-    private void updateDashboardField(String data, String field){
+    private void updateDashboardField(String data, String field) throws SQLException {
 
         switch (field) {
             case "First Name":
-
 
                 firstNameLabel.setText(data);
                 userName.setText(firstNameLabel.getText() + " " + lastNameLabel.getText());
@@ -501,7 +555,7 @@ public class DashboardController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         /*TODO reservation, cancellation and rating data should be retrieved here and pass them
-         * TODO into the prongValue of the below constructors
+         * TODO into the progValue of the below constructors
          */
 
         UserData userData = new UserData();
