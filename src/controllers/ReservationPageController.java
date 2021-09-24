@@ -19,18 +19,27 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import listeners.AutoCompleteComboBoxListener;
+import net.codejava.sql.ConnectorDB;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+
 
 public class ReservationPageController implements Initializable {
 
+    public static int selectedSeatCount = 0;
+    private static ReservationPageController rpc;
+    public final String[] destinations = {"Dhaka", "Khulna", "Chittagong", "Cox's Bazar", "Kolkata", "Benapole", "Satkhira", "Chashara"};
+    public final String[] timePeriod = {"Time Period", "Morning(5:00 AM - 11:59 AM)", "Afternoon(12:00 PM - 5:59 PM)", "Night(6:00 PM - 11:59 PM)"};
+    public final String[] boardingPoints = {"Select A Boarding Point", "Aarambag, Dhaka (10:00 PM)", "Panthapath, Dhaka (10:30 PM)", "Gabtoli, Dhaka (11:00 PM)", "Savar, Dhaka (11:30 PM)"};
+    public final String[] droppingPoints = {"Select A Dropping Point", "Aarambag, Khagrachari (10:00 PM)", "Panthapath, Khagrachari (10:30 PM)", "Gabtoli, Khagrachari (11:00 PM)", "Savar, Khagrachari (11:30 PM)"};
     /**
      * variable initialization
      */
@@ -48,11 +57,6 @@ public class ReservationPageController implements Initializable {
     public VBox coachInfoBox, coachTypeVBox, seatMapVBox, selectedSeatBox, radioDeckVBox;
     public com.gluonhq.charm.glisten.control.ProgressBar fetchProg;
     public RadioButton radioUpper, radioLower;
-
-    public final String[] destinations = {"Dhaka", "Khulna", "Chittagong", "Cox's Bazar", "Kolkata", "Benapole", "Satkhira", "Chashara"};
-    public final String[] timePeriod = {"Time Period","Morning(5:00 AM - 11:59 AM)", "Afternoon(12:00 PM - 5:59 PM)", "Night(6:00 PM - 11:59 PM)"};
-    public final String[] boardingPoints = {"Select A Boarding Point","Aarambag, Dhaka (10:00 PM)", "Panthapath, Dhaka (10:30 PM)", "Gabtoli, Dhaka (11:00 PM)", "Savar, Dhaka (11:30 PM)"};
-    public final String[] droppingPoints = {"Select A Dropping Point","Aarambag, Khagrachari (10:00 PM)", "Panthapath, Khagrachari (10:30 PM)", "Gabtoli, Khagrachari (11:00 PM)", "Savar, Khagrachari (11:30 PM)"};
     public Node[] selectedSeats = new Node[4];
     public ArrayList<FXMLLoader> selectedSeatsFXML = new ArrayList<>();
     public ArrayList<FXMLLoader> coachInfoFXML = new ArrayList<>();
@@ -60,12 +64,15 @@ public class ReservationPageController implements Initializable {
     public ArrayList<Node> upperDeckDD = new ArrayList<>();
     public ArrayList<Node> lowerDeckSleeper = new ArrayList<>();
     public ArrayList<Node> upperDeckSleeper = new ArrayList<>();
-    public static int selectedSeatCount = 0;
     public ArrayList<String> destination;
     public boolean isToTrimDone = false;
     public boolean isFromTrimDone = false;
-    private static ReservationPageController rpc;
     public ArrayList<String> selectedSeatString = new ArrayList<>();
+    public Boolean isNonAcSelected = false;
+    public Boolean isAcBiSelected = false;
+    public Boolean isACMultiSelected = false;
+    public Boolean isDDSelected = false;
+    public Boolean isSleeperSelected = false;
 
 
     /**
@@ -76,9 +83,9 @@ public class ReservationPageController implements Initializable {
     }
 
     /**
-     *  this method is to close the application
+     * this method is to close the application
      */
-    public void onClickCrossButton(){
+    public void onClickCrossButton() {
 
         System.exit(0);
     }
@@ -88,16 +95,16 @@ public class ReservationPageController implements Initializable {
      */
     public void onClickLogOutButton(javafx.event.Event actionEvent) {
 
-        try{
+        try {
 
             Parent homePage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/home.fxml")));
             Scene homePageScene = new Scene(homePage);
 
-            Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(homePageScene);
             window.show();
 
-        } catch (IOException ignored){
+        } catch (IOException ignored) {
 
         }
     }
@@ -105,7 +112,7 @@ public class ReservationPageController implements Initializable {
     /**
      * this method is to animate in the log out menu information
      */
-    public void onHoverLogOutButton(){
+    public void onHoverLogOutButton() {
 
         translateIt(100, logOutInfo, 220, 1);
     }
@@ -113,7 +120,7 @@ public class ReservationPageController implements Initializable {
     /**
      * this method is to animate out the log out menu information
      */
-    public void onExitLogOutButton(){
+    public void onExitLogOutButton() {
 
         translateIt(100, logOutInfo, 0, 1);
     }
@@ -123,24 +130,24 @@ public class ReservationPageController implements Initializable {
      */
     public void onClickTransactionLogButton(javafx.event.Event actionEvent) {
 
-        try{
+        try {
 
             Parent page = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/transactionLogPage.fxml")));
             Scene scene = new Scene(page);
 
-            Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(scene);
             window.show();
 
-        } catch (IOException ignored){
+        } catch (IOException ignored) {
 
         }
     }
 
     /**
-     *  this method is to animate in the transaction log menu information
+     * this method is to animate in the transaction log menu information
      */
-    public void onHoverTransactionLogButton(){
+    public void onHoverTransactionLogButton() {
 
         translateIt(100, tranLogInfo, 220, 1);
     }
@@ -148,7 +155,7 @@ public class ReservationPageController implements Initializable {
     /**
      * this method is to animate out the transaction log menu information
      */
-    public void onExitTransactionLogButton(){
+    public void onExitTransactionLogButton() {
 
         translateIt(100, tranLogInfo, 0, 1);
     }
@@ -158,16 +165,16 @@ public class ReservationPageController implements Initializable {
      */
     public void onClickCancellationButton(javafx.event.Event actionEvent) {
 
-        try{
+        try {
 
             Parent page = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/cancellationPage.fxml")));
             Scene scene = new Scene(page);
 
-            Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(scene);
             window.show();
 
-        } catch (IOException ignored){
+        } catch (IOException ignored) {
 
         }
     }
@@ -175,15 +182,15 @@ public class ReservationPageController implements Initializable {
     /**
      * this method is to animate in the cancellation menu information
      */
-    public void onHoverCancellationButton(){
+    public void onHoverCancellationButton() {
 
         translateIt(100, cancelInfo, 220, 1);
     }
 
     /**
-     *  this method is to animate out the cancellation menu information
+     * this method is to animate out the cancellation menu information
      */
-    public void onExitCancellationButton(){
+    public void onExitCancellationButton() {
 
         translateIt(100, cancelInfo, 0, 1);
     }
@@ -191,18 +198,18 @@ public class ReservationPageController implements Initializable {
     /**
      * this method allows user to return to the dashboard
      */
-    public void onClickHomeButton(javafx.event.Event actionEvent){
+    public void onClickHomeButton(javafx.event.Event actionEvent) {
 
-        try{
+        try {
 
             Parent homePage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/dashboard.fxml")));
             Scene homePageScene = new Scene(homePage);
 
-            Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(homePageScene);
             window.show();
 
-        } catch (IOException ignored){
+        } catch (IOException ignored) {
 
         }
     }
@@ -210,18 +217,18 @@ public class ReservationPageController implements Initializable {
     /**
      * this method allows user to reset the value of "Date of Return" date picker
      */
-    public void onClickResetButton(){
+    public void onClickResetButton() {
 
         dateOfReturn.getEditor().clear();
 
     }
 
-    public void onClickDateOfJourney(){
+    public void onClickDateOfJourney() {
 
         dateOfJourney.getStyleClass().remove("date-picker-error");
     }
 
-    public void onClickTimePeriodComboBox(){
+    public void onClickTimePeriodComboBox() {
 
         timePeriodComboBox.getStyleClass().remove("combo-box-base-error");
     }
@@ -229,74 +236,218 @@ public class ReservationPageController implements Initializable {
     /**
      * this method searches the database for available trips
      */
-    public void onClickSearchButton(){
+    public void onClickSearchButton() {
 
-        if(!fromComboBox.getEditor().getText().isEmpty() && !fromComboBox.getEditor().getText().isBlank()
+
+        if (!fromComboBox.getEditor().getText().isEmpty() && !fromComboBox.getEditor().getText().isBlank()
                 && !toComboBox.getEditor().getText().isEmpty() && !toComboBox.getEditor().getText().isBlank()
-                && !dateOfJourney.getEditor().getText().isEmpty() && !timePeriodComboBox.getSelectionModel().isSelected(0)){
+                && !dateOfJourney.getEditor().getText().isEmpty() && !timePeriodComboBox.getSelectionModel().isSelected(0)) {
 
 
-            //this task object is letting us to get the time for fetching the data from database
+            //this task object is letting us get the time for fetching the data from database
             Task<Void> task = new Task<>() {
                 @Override
-                public Void call() {
+                public Void call() throws ParseException {
 
-                scaleIt(200, fetchProg, 1, 2);
-                //TODO search the database for coach info here
+                    scaleIt(200, fetchProg, 1, 2);
+                    //TODO search the database for coach info here
+                    String from = fromComboBox.getEditor().getText();
+                    String to = toComboBox.getEditor().getText();
 
-                Platform.runLater(() ->{
+                    String journeyDate = dateOfJourney.getEditor().getText();
+                    DateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                    DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    DateFormat targetFormat2 = new SimpleDateFormat("E, dd MMM yyyy");
 
-                    Node[] info = new Node[10];
+                    Date date = simpleDateFormat.parse(journeyDate);
+                    String formatDate = targetFormat.format(date);
 
-                    for(int i = 0; i < info.length; i++){
+                    String formatDate2 = targetFormat2.format(date);
+                    System.out.println(journeyDate +", "+ formatDate + ", " + formatDate2);
+                    String returnDate = dateOfReturn.getEditor().getText();
+                    String time = timePeriodComboBox.getSelectionModel().getSelectedItem();
+                    String time1, time2, amOrPm;
 
-                        try{
 
-                            FXMLLoader coachInfo = new FXMLLoader(getClass().getResource("/resources/coachInfo.fxml"));
-                            info[i] = coachInfo.load();
+                    if (time.equals("Morning(5:00 AM - 11:59 AM)")) {
+                        time1 = "08";
+                        time2 = "12";
+                        amOrPm = "%AM";
+                    } else if (time.equals("Afternoon(12:00 PM - 5:59 PM)")) {
+                        time1 = "04";
+                        time2 = "06";
+                        amOrPm = "%PM";
+                    } else {
+                        time1 = "08";
+                        time2 = "12";
+                        amOrPm = "%PM";
+                    }
 
-                            coachInfoFXML.add(coachInfo);
 
-                            CoachInfoController cic = coachInfo.getController();
-                            cic.setRpc(rpc);
+                    String sqlQuery = "Select * from tripData Where startingFrom = '" +
+                            from + "' and destination = '" +
+                            to + "' and departureTime like '" +
+                            amOrPm + "' and departureTime between '" +
+                            time1 + "' and '" +
+                            time2 + "' ";
 
-                            if(i == 0){
-
-                                cic.updateInfo("BDT 50.00", "AC (Bi)");
-                            }
-
-                            if(i == 3){
-
-                                cic.updateInfo("BDT 50.00", "Non AC");
-                            }
-
-                            if(i == 2){
-
-                                cic.updateInfo("BDT 50.00", "DD");
-                            }
-
-                            if(i == 4){
-
-                                cic.updateInfo("BDT 1500.00", "Sleeper");
-                            }
-
-                            coachInfoBox.getChildren().add(info[i]);
-
-                        } catch (IOException ignored){
-
+                    String coachQuery = " and (";
+                    String endTage = ")";
+                    if (checkBoxNonAC.isSelected()) {
+                        if (isAcBiSelected || isACMultiSelected || isDDSelected || isSleeperSelected) {
+                            coachQuery += " or coachType like 'NON-AC'";
+                        } else {
+                            coachQuery += " coachType like 'NON-AC'";
                         }
                     }
-                });
+                    if (checkBoxBi.isSelected()) {
+                        if (isNonAcSelected || isACMultiSelected || isDDSelected || isSleeperSelected) {
+                            coachQuery += " or coachType like 'AC (Bi)'";
+                        } else {
+                            coachQuery += " coachType like 'AC (Bi)'";
+                        }
+                    }
+                    if (checkBoxMulti.isSelected()) {
+                        if (isNonAcSelected || isAcBiSelected || isDDSelected || isSleeperSelected) {
+                            coachQuery += " or coachType like 'AC (Multi)'";
+                        } else {
+                            coachQuery += " coachType like 'AC (Multi)'";
+                        }
+                    }
+                    if (checkBoxSleeper.isSelected()) {
+                        if (isNonAcSelected || isACMultiSelected || isDDSelected || isAcBiSelected) {
+                            coachQuery += " or coachType like 'Sleeper'";
+                        } else {
+                            coachQuery += " coachType like 'Sleeper'";
+                        }
+                    }
+                    if (checkBoxDD.isSelected()) {
+                        if (isNonAcSelected || isACMultiSelected || isAcBiSelected || isSleeperSelected) {
+                            coachQuery += " or coachType like 'DD'";
+                        } else {
+                            coachQuery += " coachType like 'DD'";
+                        }
+                    }
+                    sqlQuery += coachQuery + endTage;
 
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
-                scaleIt(200, fetchProg, 0, 2);
+                    String finalSqlQuery = sqlQuery;
+                    Platform.runLater(() -> {
+                        System.out.println(finalSqlQuery);
 
-                return null;
+                        try {
+                            ConnectorDB connectorDB = new ConnectorDB();
+                            Statement statement = connectorDB.getConnection().createStatement();
+                            ResultSet resultSet = statement.executeQuery(finalSqlQuery);
+                            int row = resultSet.getRow();
+                            Node[] info = new Node[1];
+                            int i =0;
+                            while (resultSet.next()){
+                                try {
+
+                                    FXMLLoader coachInfo = new FXMLLoader(getClass().getResource("/resources/coachInfo.fxml"));
+                                    info[i] = coachInfo.load();
+
+                                    coachInfoFXML.add(coachInfo);
+
+                                    CoachInfoController cic = coachInfo.getController();
+                                    cic.setRpc(rpc);
+
+                                    String startingFrom =  resultSet.getString("startingFrom");
+                                    String destination = resultSet.getString("destination");
+                                    String coachNo = resultSet.getString("coachNo");
+                                    String reportingTime = resultSet.getString("departureTime") ;
+                                    //String boardingTime = resultSet.getString("departureTime") + ", " ;
+                                    String boarding = resultSet.getString("boardingPoint") + ", " + startingFrom;
+                                    String departureTime = resultSet.getString("departureTime") + ", " + formatDate2;
+                                    String coachType = resultSet.getString("coachType");
+                                    int hour = Integer.parseInt(departureTime.substring(0,2));
+                                    int min = Integer.parseInt(departureTime.substring(3,5));
+                                    String amPM = reportingTime.substring(5,7);
+                                    System.out.println(hour+", "+min);
+                                    if (min<10){
+                                        hour--;
+                                        min = 60 + min - 15;
+                                    } else {
+                                        min = min -15;
+                                    }
+                                    reportingTime = new DecimalFormat("00").format(hour) + ":" + new DecimalFormat("00").format(min) + amPM +", "+ formatDate2;
+                                    String cType = resultSet.getString("coachType");
+                                    String fare = resultSet.getString("farePerSeat");
+                                    int availableSeats = 0;
+
+                                    try {
+                                        Statement statement1 = connectorDB.getConnection().createStatement();
+                                        String queryForAvailableSeats = "select * from Reservation join tripData on tripData.coachNo = Reservation.coachNo where tripData.coachNo = '"+ coachNo +"' and Reservation.dateOfJourney = '" + formatDate+ "'";
+                                        System.out.println(queryForAvailableSeats);
+                                        ResultSet resultSet1 = statement1.executeQuery(queryForAvailableSeats);
+                                        int ir=0;
+                                        while (resultSet1.next()){
+                                            ir++;
+                                        }
+                                        if (cType.equals("NON-AC")){
+                                            availableSeats = 41- ir;
+                                            System.out.println(resultSet1.getRow());
+                                        } else if (cType.equals("AC (Bi)")){
+                                            availableSeats = 28 - ir;
+                                            System.out.println(availableSeats);
+                                        } else if (cType.equals("AC (Multi)")){
+                                            availableSeats = 31 - ir;
+                                            System.out.println(availableSeats);
+                                         } else if (cType.equals("DD")){
+                                            availableSeats = 43 - ir;
+                                            System.out.println(availableSeats);
+                                        } else {
+                                            availableSeats = 30 -ir;
+                                            System.out.println(availableSeats);
+                                        }
+
+
+                                    } catch (SQLException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    cic.updateInfo(startingFrom, destination, coachNo, reportingTime, boarding, departureTime, destination, cType, Integer.toString(availableSeats), fare);
+
+
+
+
+
+
+
+
+                                    //cic.updateInfo(
+
+//                                    if (i == 0) {
+//
+//                                        cic.updateInfo("BDT 50.00", "AC (Bi)");
+//                                    }
+
+
+                                    coachInfoBox.getChildren().add(info[i]);
+
+                                } catch (IOException ignored) {
+
+                                }
+                               // i++;
+
+                            }
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+
+                    });
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    scaleIt(200, fetchProg, 0, 2);
+
+                    return null;
                 }
             };
             task.setOnSucceeded(e -> {
@@ -315,7 +466,7 @@ public class ReservationPageController implements Initializable {
                 searchTransition.setToX(1300);
                 searchTransition.play();
 
-                searchTransition.setOnFinished((et) ->{
+                searchTransition.setOnFinished((et) -> {
 
                     scaleIt(200, coachInfoPane, 1, 3);
                     translateIt(200, backToReserveBtn, 80, 1);
@@ -324,24 +475,24 @@ public class ReservationPageController implements Initializable {
 
             });
             new Thread(task).start();
-        } else{
+        } else {
 
-            if(fromComboBox.getEditor().getText().isEmpty() || fromComboBox.getEditor().getText().isBlank()){
+            if (fromComboBox.getEditor().getText().isEmpty() || fromComboBox.getEditor().getText().isBlank()) {
 
                 fromComboBox.setStyle("-fx-border-color: red");
             }
 
-            if(toComboBox.getEditor().getText().isEmpty() || toComboBox.getEditor().getText().isBlank()){
+            if (toComboBox.getEditor().getText().isEmpty() || toComboBox.getEditor().getText().isBlank()) {
 
                 toComboBox.setStyle("-fx-border-color: red");
             }
 
-            if(dateOfJourney.getEditor().getText().isEmpty()){
+            if (dateOfJourney.getEditor().getText().isEmpty()) {
 
                 dateOfJourney.getStyleClass().add("date-picker-error");
             }
 
-            if(timePeriodComboBox.getSelectionModel().isSelected(0)){
+            if (timePeriodComboBox.getSelectionModel().isSelected(0)) {
 
                 timePeriodComboBox.getStyleClass().add("combo-box-base-error");
             }
@@ -383,7 +534,7 @@ public class ReservationPageController implements Initializable {
         backTransition.setToX(0);
         backTransition.play();
 
-        backTransition.setOnFinished((e) ->{
+        backTransition.setOnFinished((e) -> {
 
             translateIt(300, fromComboBox, 0, 2);
             translateIt(300, toComboBox, 0, 2);
@@ -405,7 +556,7 @@ public class ReservationPageController implements Initializable {
     /**
      * this method shows the seat map to the user
      */
-    public void showSeatMap(String coachType){
+    public void showSeatMap(String coachType) {
 
         coachTypeSeatMapText.setText(coachType);
         proceedBtn.setDisable(true);
@@ -419,7 +570,7 @@ public class ReservationPageController implements Initializable {
 
                 AtomicReference<Character> c = new AtomicReference<>('A');
 
-                Platform.runLater(() ->{
+                Platform.runLater(() -> {
 
                     switch (coachType) {
                         case "Non AC" -> {
@@ -608,7 +759,7 @@ public class ReservationPageController implements Initializable {
             scalePane.setToY(1);
             scalePane.play();
 
-            scalePane.setOnFinished((ep) ->{
+            scalePane.setOnFinished((ep) -> {
 
                 translateIt(200, seatMapDetailsPane, 880, 1);
                 translateIt(200, seatMapVBox, -404, 1);
@@ -623,11 +774,11 @@ public class ReservationPageController implements Initializable {
     /**
      * this method calculates the total fare and updates the total fare table
      */
-    public void updateSelectedSeatBox(String seatNo, boolean isSelected){
+    public void updateSelectedSeatBox(String seatNo, boolean isSelected) {
 
-        try{
+        try {
 
-            if(isSelected){
+            if (isSelected) {
 
                 FXMLLoader seatRow = new FXMLLoader(getClass().getResource("/resources/selectedSeatRow.fxml"));
                 selectedSeats[selectedSeatCount] = seatRow.load();
@@ -635,18 +786,18 @@ public class ReservationPageController implements Initializable {
 
                 SelectedSeatRowController ssrc = seatRow.getController();
 
-                if(radioDeckVBox.isVisible()){
+                if (radioDeckVBox.isVisible()) {
 
-                    if(radioLower.isSelected()){
+                    if (radioLower.isSelected()) {
 
                         ssrc.setSeatText("L" + seatNo);
                         selectedSeatString.add("L" + seatNo);
-                    } else{
+                    } else {
 
                         ssrc.setSeatText("U" + seatNo);
                         selectedSeatString.add("U" + seatNo);
                     }
-                } else{
+                } else {
 
                     ssrc.setSeatText(seatNo);
                     selectedSeatString.add(seatNo);
@@ -659,31 +810,31 @@ public class ReservationPageController implements Initializable {
                 String fareParSeat = seatMapDetailsFare.getText().substring(4);
                 String totalFareCount = totalFare.getText().substring(4);
 
-                int total = Integer.parseInt(totalFareCount) +  Integer.parseInt(fareParSeat);
+                int total = Integer.parseInt(totalFareCount) + Integer.parseInt(fareParSeat);
 
                 totalFare.setText("BDT " + total);
 
                 selectedSeatCount++;
                 proceedBtn.setDisable(selectedSeatCount == 0);
-            } else{
+            } else {
 
-                Platform.runLater(() ->{
+                Platform.runLater(() -> {
 
-                    for(int i = 0; i <= selectedSeatCount; i++){
+                    for (int i = 0; i <= selectedSeatCount; i++) {
 
-                        try{
+                        try {
 
                             FXMLLoader deleteSeatRow;
 
                             deleteSeatRow = selectedSeatsFXML.get(i);
                             SelectedSeatRowController ssrc = deleteSeatRow.getController();
 
-                            if(ssrc.getSeatText().equals(seatNo) || (ssrc.getSeatText().equals("U"+seatNo) && radioUpper.isSelected()) || (ssrc.getSeatText().equals("L"+seatNo) && radioLower.isSelected())){
+                            if (ssrc.getSeatText().equals(seatNo) || (ssrc.getSeatText().equals("U" + seatNo) && radioUpper.isSelected()) || (ssrc.getSeatText().equals("L" + seatNo) && radioLower.isSelected())) {
 
                                 String fareParSeat = seatMapDetailsFare.getText().substring(4);
                                 String totalFareCount = totalFare.getText().substring(4);
 
-                                int total = Integer.parseInt(totalFareCount) -  Integer.parseInt(fareParSeat);
+                                int total = Integer.parseInt(totalFareCount) - Integer.parseInt(fareParSeat);
 
                                 totalFare.setText("BDT " + total);
 
@@ -695,7 +846,7 @@ public class ReservationPageController implements Initializable {
                                 break;
                             }
 
-                        } catch (IndexOutOfBoundsException e){
+                        } catch (IndexOutOfBoundsException e) {
 
                             // error dialog box is generated here
                             BoxBlur blur = new BoxBlur(6, 6, 6);
@@ -725,16 +876,16 @@ public class ReservationPageController implements Initializable {
                 });
             }
 
-        } catch (IOException ignored){
+        } catch (IOException ignored) {
 
         }
 
     }
 
     /**
-     *  this method takes user back to coach info page when the button is clicked
+     * this method takes user back to coach info page when the button is clicked
      */
-    public void onClickBackToCoachInfoButton(){
+    public void onClickBackToCoachInfoButton() {
 
         selectedSeatCount = 0;
         lowerDeckDD.clear();
@@ -755,7 +906,7 @@ public class ReservationPageController implements Initializable {
         mapTransition.setToX(0);
         mapTransition.play();
 
-        mapTransition.setOnFinished((e) ->{
+        mapTransition.setOnFinished((e) -> {
 
             scaleIt(200, dialogStack, 0, 2);
             seatMapVBox.getChildren().clear();
@@ -773,26 +924,26 @@ public class ReservationPageController implements Initializable {
     /**
      * this method changes the deck in the seat map
      */
-    public void updateTheDeck(String deckType,  AtomicReference<Character> c, String coachType){
+    public void updateTheDeck(String deckType, AtomicReference<Character> c, String coachType) {
 
-        if(deckType.equals("Lower Deck")){
+        if (deckType.equals("Lower Deck")) {
 
             seatMapVBox.getChildren().clear();
 
             Node[] seatMap;
 
-            if(coachType.equals("Sleeper")){
+            if (coachType.equals("Sleeper")) {
 
                 seatMap = new Node[6];
 
-                if(lowerDeckSleeper.size() != 0){
+                if (lowerDeckSleeper.size() != 0) {
 
-                    for(int i = 0; i < lowerDeckSleeper.size(); i++){
+                    for (int i = 0; i < lowerDeckSleeper.size(); i++) {
 
                         seatMap[i] = lowerDeckSleeper.get(i);
                         seatMapVBox.getChildren().add(seatMap[i]);
                     }
-                } else{
+                } else {
 
                     try {
 
@@ -833,14 +984,14 @@ public class ReservationPageController implements Initializable {
 
                 seatMap = new Node[8];
 
-                if(lowerDeckDD.size() != 0){
+                if (lowerDeckDD.size() != 0) {
 
-                    for(int i = 0; i < lowerDeckDD.size(); i++){
+                    for (int i = 0; i < lowerDeckDD.size(); i++) {
 
                         seatMap[i] = lowerDeckDD.get(i);
                         seatMapVBox.getChildren().add(seatMap[i]);
                     }
-                } else{
+                } else {
 
                     try {
 
@@ -910,24 +1061,24 @@ public class ReservationPageController implements Initializable {
             }
 
 
-        } else{
+        } else {
 
             seatMapVBox.getChildren().clear();
 
             Node[] seatMap;
 
-            if(coachType.equals("Sleeper")){
+            if (coachType.equals("Sleeper")) {
 
                 seatMap = new Node[6];
 
-                if(upperDeckSleeper.size() != 0){
+                if (upperDeckSleeper.size() != 0) {
 
-                    for(int i = 0; i < upperDeckSleeper.size(); i++){
+                    for (int i = 0; i < upperDeckSleeper.size(); i++) {
 
                         seatMap[i] = upperDeckSleeper.get(i);
                         seatMapVBox.getChildren().add(seatMap[i]);
                     }
-                } else{
+                } else {
 
                     try {
 
@@ -963,18 +1114,18 @@ public class ReservationPageController implements Initializable {
 
                 seatMapVBox.setLayoutY(42.5);
 
-            } else{
+            } else {
 
                 seatMap = new Node[10];
 
-                if(upperDeckDD.size() != 0){
+                if (upperDeckDD.size() != 0) {
 
-                    for(int i = 0; i < upperDeckDD.size(); i++){
+                    for (int i = 0; i < upperDeckDD.size(); i++) {
 
                         seatMap[i] = upperDeckDD.get(i);
                         seatMapVBox.getChildren().add(seatMap[i]);
                     }
-                } else{
+                } else {
 
                     for (int i = 0; i < 2; i++) {
 
@@ -996,7 +1147,7 @@ public class ReservationPageController implements Initializable {
                         }
                     }
 
-                    for (int i = 2; i < seatMap.length-1; i++) {
+                    for (int i = 2; i < seatMap.length - 1; i++) {
 
                         try {
 
@@ -1043,17 +1194,17 @@ public class ReservationPageController implements Initializable {
     /**
      * this method is called when the proceed button is clicked
      */
-    public void onClickProceedButton(javafx.event.Event actionEvent){
+    public void onClickProceedButton(javafx.event.Event actionEvent) {
 
-        if(boardingPointComboBox.getSelectionModel().isSelected(0)
-                || droppingPointComboBox.getSelectionModel().isSelected(0)){
+        if (boardingPointComboBox.getSelectionModel().isSelected(0)
+                || droppingPointComboBox.getSelectionModel().isSelected(0)) {
 
-            if(boardingPointComboBox.getSelectionModel().isSelected(0)){
+            if (boardingPointComboBox.getSelectionModel().isSelected(0)) {
 
                 boardingPointComboBox.getStyleClass().add("combo-box-base-error");
             }
 
-            if( droppingPointComboBox.getSelectionModel().isSelected(0)){
+            if (droppingPointComboBox.getSelectionModel().isSelected(0)) {
 
                 droppingPointComboBox.getStyleClass().add("combo-box-base-error");
             }
@@ -1080,9 +1231,9 @@ public class ReservationPageController implements Initializable {
 
             }
 
-        } else{
+        } else {
 
-            try{
+            try {
 
                 FXMLLoader confirmationPage = new FXMLLoader(getClass().getResource("/resources/confirmationPage.fxml"));
                 Parent page = confirmationPage.load();
@@ -1092,9 +1243,9 @@ public class ReservationPageController implements Initializable {
 
                 StringBuilder seat = null;
 
-                for(int i = 0; i < selectedSeatString.size(); i++){
+                for (int i = 0; i < selectedSeatString.size(); i++) {
 
-                    if(i == 0){
+                    if (i == 0) {
 
                         seat = new StringBuilder(selectedSeatString.get(i));
                     } else {
@@ -1108,11 +1259,11 @@ public class ReservationPageController implements Initializable {
                 assert seat != null;
                 cpc.updateTripData(seat.toString(), totalFare.getText());
 
-                Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+                Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 window.setScene(pageScene);
                 window.show();
 
-            } catch (IOException ignored){
+            } catch (IOException ignored) {
 
             }
         }
@@ -1122,7 +1273,7 @@ public class ReservationPageController implements Initializable {
     /**
      * this method change the color of boarding combobox if it left empty and clicked again
      */
-    public void onClickBoardingPointComboBox(){
+    public void onClickBoardingPointComboBox() {
 
         boardingPointComboBox.getStyleClass().remove("combo-box-base-error");
     }
@@ -1130,7 +1281,7 @@ public class ReservationPageController implements Initializable {
     /**
      * this method change the color of dropping combobox if it left empty and clicked again
      */
-    public void onClickDroppingPointComboBox(){
+    public void onClickDroppingPointComboBox() {
 
         droppingPointComboBox.getStyleClass().remove("combo-box-base-error");
     }
@@ -1140,6 +1291,28 @@ public class ReservationPageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        checkBoxNonAC.selectedProperty().addListener((o, oldValue, newValue) -> {
+
+            isNonAcSelected = checkBoxNonAC.isSelected();
+        });
+
+        checkBoxBi.selectedProperty().addListener((o, oldValue, newValue) -> {
+            isAcBiSelected = checkBoxBi.isSelected();
+        });
+
+        checkBoxMulti.selectedProperty().addListener((o, oldValue, newValue) -> {
+            isACMultiSelected = checkBoxMulti.isSelected();
+        });
+
+        checkBoxDD.selectedProperty().addListener((o, oldValue, newValue) -> {
+            isDDSelected = checkBoxDD.isSelected();
+        });
+
+        checkBoxSleeper.selectedProperty().addListener((o, oldValue, newValue) -> {
+            isSleeperSelected = checkBoxSleeper.isSelected();
+        });
+
 
         boardingPointComboBox.getItems().addAll(boardingPoints);
         droppingPointComboBox.getItems().addAll(droppingPoints);
@@ -1163,12 +1336,12 @@ public class ReservationPageController implements Initializable {
         deckGroup.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
             if (deckGroup.getSelectedToggle() != null) {
 
-                if(radioLower.isSelected()){
+                if (radioLower.isSelected()) {
 
                     updateTheDeck("Lower Deck", new AtomicReference<>('A'), coachTypeSeatMapText.getText());
                 }
 
-                if(radioUpper.isSelected()){
+                if (radioUpper.isSelected()) {
 
                     updateTheDeck("Upper Deck", new AtomicReference<>('A'), coachTypeSeatMapText.getText());
                 }
@@ -1282,14 +1455,14 @@ public class ReservationPageController implements Initializable {
         });
     }
 
-    public void translateIt(double duration, Node node, double translateTo, int type){
+    public void translateIt(double duration, Node node, double translateTo, int type) {
 
         TranslateTransition transition = new TranslateTransition(Duration.millis(duration), node);
 
-        if(type == 1){
+        if (type == 1) {
 
             transition.setToX(translateTo);
-        } else if(type == 2){
+        } else if (type == 2) {
 
             transition.setToY(translateTo);
         }
@@ -1298,17 +1471,17 @@ public class ReservationPageController implements Initializable {
 
     }
 
-    public void scaleIt(double duration, Node node, double scaleTo, int type){
+    public void scaleIt(double duration, Node node, double scaleTo, int type) {
 
         ScaleTransition transition = new ScaleTransition(Duration.millis(duration), node);
 
-        if(type == 1){
+        if (type == 1) {
 
             transition.setToX(scaleTo);
-        } else if(type == 2){
+        } else if (type == 2) {
 
             transition.setToY(scaleTo);
-        } else if(type == 3){
+        } else if (type == 3) {
 
             transition.setToX(scaleTo);
             transition.setToY(scaleTo);
@@ -1317,7 +1490,7 @@ public class ReservationPageController implements Initializable {
         transition.play();
     }
 
-    public boolean isFourSeatsSelected(){
+    public boolean isFourSeatsSelected() {
 
         return selectedSeatCount != 4;
     }

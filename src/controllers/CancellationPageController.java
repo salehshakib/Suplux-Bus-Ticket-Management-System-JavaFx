@@ -264,7 +264,7 @@ public class CancellationPageController implements Initializable {
      */
     public void onClickCancelTicketButton(){
 
-        //this task object is letting us to get the time for fetching the data from database
+        //this task object is letting us get the time for fetching the data from database
         Task<Void> task = new Task<>() {
             @Override
             public Void call() {
@@ -272,6 +272,7 @@ public class CancellationPageController implements Initializable {
                 scaleIt(200, fetchProg, 1, 2);
 
                 //TODO here the database must be checked if the ticket is eligible for cancellation or not
+                //todo ekhan e reservationDate er sathe 2/3d er modde jodi cancle kora hoy taile show korbo
 
                 try {
                     Thread.sleep(2000);

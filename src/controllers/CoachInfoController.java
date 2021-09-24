@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
 public class CoachInfoController implements Initializable {
@@ -50,8 +51,24 @@ public class CoachInfoController implements Initializable {
     /**
      * TODO update this method's parameters and get values from the database
      */
-    public void updateInfo(String fare, String coachType){
+    public void updateInfo(String from, String to, String coachNo, String reportingTime, String boarding, String departureTime, String destination,String coachType, String availSeats, String fare){
 
+        fromText.setText(from);
+        fromShortText.setText(from.substring(0,3).toUpperCase());
+        toText.setText(to);
+        toShortText.setText(to.substring(0,3).toUpperCase());
+        coachNoText.setText(coachNo);
+        reportingText.setText(reportingTime);
+        boardingText.setText(boarding);
+        departureText.setText(departureTime);
+        destinationText.setText(destination);
+        typeText.setText(coachType);
+        seatsText.setText(availSeats);
+        fareText.setText(fare);
+
+    }
+
+    public void updateInfo(String fare, String coachType){
         fareText.setText(fare);
         typeText.setText(coachType);
     }

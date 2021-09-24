@@ -79,7 +79,7 @@ public class ConfirmationPageController implements Initializable {
     }
 
     /**
-     * this method is to animate in the log out menu information
+     * this method is to animate in the log-out menu information
      */
     public void onHoverLogOutButton(){
 
@@ -88,7 +88,7 @@ public class ConfirmationPageController implements Initializable {
     }
 
     /**
-     * this method is to animate out the log out menu information
+     * this method is to animate out the log-out menu information
      */
     public void onExitLogOutButton(){
 

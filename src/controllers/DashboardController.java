@@ -396,42 +396,36 @@ public class DashboardController implements Initializable {
                                     String sqlQuery;
                                     Statement statement;
                                     switch (field) {
-                                        case "First Name":
-                                            sqlQuery = "Update userInformation Set userFirstName = '" + uuidc.getData() +"'"+ "where userEmail = '" + userData.getUserEmail() + "'";
+                                        case "First Name" -> {
+                                            sqlQuery = "Update userInformation Set userFirstName = '" + uuidc.getData() + "'" + "where userEmail = '" + userData.getUserEmail() + "'";
                                             statement = connectorDB.getConnection().createStatement();
                                             statement.execute(sqlQuery);
-
-                                            break;
-                                        case "Last Name":
-                                            sqlQuery = "Update userInformation Set userLastName = '" + uuidc.getData() +"'"+ "where userEmail = '" + userData.getUserEmail() + "'";
+                                        }
+                                        case "Last Name" -> {
+                                            sqlQuery = "Update userInformation Set userLastName = '" + uuidc.getData() + "'" + "where userEmail = '" + userData.getUserEmail() + "'";
                                             statement = connectorDB.getConnection().createStatement();
                                             statement.execute(sqlQuery);
-
-                                            break;
-                                        case "Phone No":
-                                            sqlQuery = "Update userInformation Set userPhoneNumber = '" + uuidc.getData() +"'"+ "where userEmail = '" + userData.getUserEmail() + "'";
+                                        }
+                                        case "Phone No" -> {
+                                            sqlQuery = "Update userInformation Set userPhoneNumber = '" + uuidc.getData() + "'" + "where userEmail = '" + userData.getUserEmail() + "'";
                                             statement = connectorDB.getConnection().createStatement();
                                             statement.execute(sqlQuery);
-
-                                            break;
-                                        case "NID No":
-                                            sqlQuery = "Update userInformation Set userNID = '" + uuidc.getData() +"'"+ "where userEmail = '" + userData.getUserEmail() + "'";
+                                        }
+                                        case "NID No" -> {
+                                            sqlQuery = "Update userInformation Set userNID = '" + uuidc.getData() + "'" + "where userEmail = '" + userData.getUserEmail() + "'";
                                             statement = connectorDB.getConnection().createStatement();
                                             statement.execute(sqlQuery);
-
-                                            break;
-                                        case "Birth Reg No":
-                                            sqlQuery = "Update userInformation Set userBReg = '" + uuidc.getData() +"'"+ "where userEmail = '" + userData.getUserEmail() + "'";
+                                        }
+                                        case "Birth Reg No" -> {
+                                            sqlQuery = "Update userInformation Set userBReg = '" + uuidc.getData() + "'" + "where userEmail = '" + userData.getUserEmail() + "'";
                                             statement = connectorDB.getConnection().createStatement();
                                             statement.execute(sqlQuery);
-
-                                            break;
-                                        case "Passport No":
-                                            sqlQuery = "Update userInformation Set userPassport = '" + uuidc.getData() +"'"+ "where userEmail = '" + userData.getUserEmail() + "'";
+                                        }
+                                        case "Passport No" -> {
+                                            sqlQuery = "Update userInformation Set userPassport = '" + uuidc.getData() + "'" + "where userEmail = '" + userData.getUserEmail() + "'";
                                             statement = connectorDB.getConnection().createStatement();
                                             statement.execute(sqlQuery);
-
-                                            break;
+                                        }
                                     }
                                 } catch (SQLException e) {
                                     e.printStackTrace();
@@ -515,36 +509,19 @@ public class DashboardController implements Initializable {
     private void updateDashboardField(String data, String field) throws SQLException {
 
         switch (field) {
-            case "First Name":
-
+            case "First Name" -> {
                 firstNameLabel.setText(data);
                 userName.setText(firstNameLabel.getText() + " " + lastNameLabel.getText());
-                break;
-            case "Last Name":
-
+            }
+            case "Last Name" -> {
                 lastNameLabel.setText(data);
                 userName.setText(firstNameLabel.getText() + " " + lastNameLabel.getText());
-                break;
-            case "Gender":
-
-                genderLabel.setText(data);
-                break;
-            case "Phone No":
-
-                phoneNoLabel.setText(data);
-                break;
-            case "NID No":
-
-                NIDLabel.setText(data);
-                break;
-            case "Birth Reg No":
-
-                birthRegLabel.setText(data);
-                break;
-            case "Passport No":
-
-                passportLabel.setText(data);
-                break;
+            }
+            case "Gender" -> genderLabel.setText(data);
+            case "Phone No" -> phoneNoLabel.setText(data);
+            case "NID No" -> NIDLabel.setText(data);
+            case "Birth Reg No" -> birthRegLabel.setText(data);
+            case "Passport No" -> passportLabel.setText(data);
         }
     }
 
@@ -589,8 +566,9 @@ public class DashboardController implements Initializable {
 
                 if (resultSet.getString("userImage") != null){
                     System.out.println(resultSet.getString("userImage"));
-//                    Image img = new Image("E:\\Pictures\\Profile Pic\\Viper.jpg");
-//                    innerCircle.setFill(new ImagePattern(img));
+
+                    /*Image img = new Image("E:\\Pictures\\Profile Pic\\Viper.jpg");
+                    innerCircle.setFill(new ImagePattern(img));*/
                 }
 
             }
