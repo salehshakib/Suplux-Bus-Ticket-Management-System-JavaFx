@@ -5,12 +5,19 @@
       <root url="jar://D:/javax.mail/activation.jar!/" />
       <root url="jar://D:/javax.mail/javax.mail.jar!/" />
       <root url="jar://D:/sqljdbc_9.4.0.0_enu/sqljdbc_9.4/enu/mssql-jdbc-9.4.0.jre16.jar!/" />
+      <root url="file://C:/Program Files/Java/jdk-12.0.1/javafx-sdk-16/lib" />
+      <root url="jar://$PROJECT_DIR$/sqljdbc_9.4.0.0_enu/sqljdbc_9.4/enu/mssql-jdbc-9.4.0.jre16.jar!/" />
+      <root url="file://$USER_HOME$/Downloads/javax.mail/javax.mail" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="file://D:/javaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib" />
+      <root url="file://C:/Program Files/Java/jdk-12.0.1/javafx-sdk-16/lib" />
     </SOURCES>
+    <jarDirectory url="file://C:/Program Files/Java/jdk-12.0.1/javafx-sdk-16/lib" recursive="false" />
+    <jarDirectory url="file://$USER_HOME$/Downloads/javax.mail/javax.mail" recursive="false" />
     <jarDirectory url="file://D:/javaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib" recursive="false" />
+    <jarDirectory url="file://C:/Program Files/Java/jdk-12.0.1/javafx-sdk-16/lib" recursive="false" type="SOURCES" />
     <jarDirectory url="file://D:/javaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib" recursive="false" type="SOURCES" />
   </library>
 </component>

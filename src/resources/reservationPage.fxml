@@ -20,7 +20,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <StackPane fx:id="rootStack" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReservationPageController">
    <children>
       <AnchorPane prefHeight="837.0" prefWidth="1300.0" styleClass="base" stylesheets="@../stylestheets/styles.css">
@@ -110,7 +109,7 @@
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1240.0" styleClass="base" stylesheets="@../stylestheets/styles.css">
                                  <children>
-                                    <VBox fx:id="coachInfoBox" prefHeight="493.0" prefWidth="1220.0" style="-fx-background-color: white;" />
+                                    <VBox fx:id="coachInfoBox" prefHeight="493.0" prefWidth="1220.0" styleClass="vbox_base" stylesheets="@../stylestheets/styles.css" />
                                  </children>
                               </AnchorPane>
                           </content>
