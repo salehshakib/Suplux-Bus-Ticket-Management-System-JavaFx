@@ -21,6 +21,12 @@
     -fx-background-color: #00172D;
 }
 
+.vbox_base{
+
+    -fx-background-color: #00172D;
+    -fx-padding:0 0 18px;
+}
+
 /* this class is to design the text and password fields */
 .field{
 

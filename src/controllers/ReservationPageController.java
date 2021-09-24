@@ -253,6 +253,10 @@ public class ReservationPageController implements Initializable {
                     //TODO search the database for coach info here
                     String from = fromComboBox.getEditor().getText();
                     String to = toComboBox.getEditor().getText();
+                    if(to.equals("Cox's Bazar")){
+                        to = "Cox\"s Bazar";
+                    }
+
 
                     String journeyDate = dateOfJourney.getEditor().getText();
                     DateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
