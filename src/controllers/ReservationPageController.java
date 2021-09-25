@@ -73,6 +73,7 @@ public class ReservationPageController implements Initializable {
     public Boolean isACMultiSelected = false;
     public Boolean isDDSelected = false;
     public Boolean isSleeperSelected = false;
+    public static String isPassengerReturn = "0";
 
 
     /**
@@ -256,25 +257,28 @@ public class ReservationPageController implements Initializable {
                     if(to.equals("Cox's Bazar")){
                         to = "Cox\"s Bazar";
                     }
-
-
-                    String journeyDate = dateOfJourney.getEditor().getText();
-                    String returnDate = dateOfReturn.getEditor().getText();
                     DateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
                     DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
                     DateFormat targetFormat2 = new SimpleDateFormat("E, dd MMM yyyy");
 
+
+                    String journeyDate = dateOfJourney.getEditor().getText();
+
+
+
+                    if (dateOfReturn.getEditor().getText() != null){
+                        isPassengerReturn = "1";
+                    }
+
+
+
+
                     Date date = simpleDateFormat.parse(journeyDate);
-                    Date date1 = simpleDateFormat.parse(returnDate);
-
                     String formatDate = targetFormat.format(date);
-                    String formatDate1 = targetFormat.format(date1);
-
-
-
                     String formatDate2 = targetFormat2.format(date);
-                    String formatDate3 = targetFormat2.format(date1);
-                    //System.out.println(journeyDate +", "+ formatDate + ", " + formatDate2);
+
+
+
 
                     String time = timePeriodComboBox.getSelectionModel().getSelectedItem();
                     String time1, time2, amOrPm;
@@ -343,112 +347,205 @@ public class ReservationPageController implements Initializable {
 
 
                     String finalSqlQuery = sqlQuery;
+
+                    //String finalIsPassengerReturn = isPassengerReturn;
                     Platform.runLater(() -> {
                         System.out.println(finalSqlQuery);
 
-                        try {
-                            ConnectorDB connectorDB = new ConnectorDB();
-                            Statement statement = connectorDB.getConnection().createStatement();
-                            ResultSet resultSet = statement.executeQuery(finalSqlQuery);
-                            int row = resultSet.getRow();
-                            Node[] info = new Node[1];
-                            int i =0;
-                            while (resultSet.next()){
-                                try {
 
-                                    FXMLLoader coachInfo = new FXMLLoader(getClass().getResource("/resources/coachInfo.fxml"));
-                                    info[i] = coachInfo.load();
-
-                                    coachInfoFXML.add(coachInfo);
-
-                                    CoachInfoController cic = coachInfo.getController();
-                                    cic.setRpc(rpc);
-
-                                    String startingFrom =  resultSet.getString("startingFrom");
-                                    String destination = resultSet.getString("destination");
-                                    String coachNo = resultSet.getString("coachNo");
-                                    String reportingTime = resultSet.getString("departureTime") ;
-
-                                    String boarding = resultSet.getString("boardingPoint") + ", " + startingFrom;
-                                    String departureTime = resultSet.getString("departureTime") + ", " + formatDate2;
-                                    String coachType = resultSet.getString("coachType");
-                                    int hour = Integer.parseInt(departureTime.substring(0,2));
-                                    int min = Integer.parseInt(departureTime.substring(3,5));
-                                    String amPM = reportingTime.substring(5,7);
-                                    System.out.println(hour+", "+min);
-                                    if (min<10){
-                                        hour--;
-                                        min = 60 + min - 15;
-                                    } else {
-                                        min = min -15;
-                                    }
-                                    reportingTime = new DecimalFormat("00").format(hour) + ":" + new DecimalFormat("00").format(min) + amPM +", "+ formatDate2;
-
-                                   //String cType = resultSet.getString("coachType");
-                                    String fare = resultSet.getString("farePerSeat");
-                                    int availableSeats = 0;
-
+                        if (isPassengerReturn.equals("1") || isPassengerReturn.equals("0")) {
+                            try {
+                                ConnectorDB connectorDB = new ConnectorDB();
+                                Statement statement = connectorDB.getConnection().createStatement();
+                                ResultSet resultSet = statement.executeQuery(finalSqlQuery);
+                                Node[] info = new Node[20];
+                                int i =0;
+                                while (resultSet.next()){
                                     try {
-                                        Statement statement1 = connectorDB.getConnection().createStatement();
-                                        String queryForAvailableSeats = "select * from Reservation join tripData on tripData.coachNo = Reservation.coachNo where tripData.coachNo = '"+ coachNo +"' and Reservation.dateOfJourney = '" + formatDate+ "'";
-                                        System.out.println(queryForAvailableSeats);
-                                        ResultSet resultSet1 = statement1.executeQuery(queryForAvailableSeats);
-                                        int ir=0;
-                                        while (resultSet1.next()){
-                                            ir++;
-                                        }
-                                        if ("NON-AC".equals(coachType)) {
-                                            availableSeats = 41 - ir;
-                                            System.out.println(resultSet1.getRow());
-                                        } else if ("AC (Bi)".equals(coachType)) {
-                                            availableSeats = 28 - ir;
-                                            System.out.println(availableSeats);
-                                        } else if ("AC (Multi)".equals(coachType)) {
-                                            availableSeats = 31 - ir;
-                                            System.out.println(availableSeats);
-                                        } else if ("DD".equals(coachType)) {
-                                            availableSeats = 43 - ir;
-                                            System.out.println(availableSeats);
+
+                                        FXMLLoader coachInfo = new FXMLLoader(getClass().getResource("/resources/coachInfo.fxml"));
+                                        info[i] = coachInfo.load();
+
+                                        coachInfoFXML.add(coachInfo);
+
+                                        CoachInfoController cic = coachInfo.getController();
+                                        cic.setRpc(rpc);
+
+                                        String startingFrom =  resultSet.getString("startingFrom");
+                                        String destination = resultSet.getString("destination");
+                                        String coachNo = resultSet.getString("coachNo");
+                                        String reportingTime = resultSet.getString("departureTime") ;
+
+                                        String boarding = resultSet.getString("boardingPoint") + ", " + startingFrom;
+                                        String departureTime = resultSet.getString("departureTime") + ", " + formatDate2;
+                                        String coachType = resultSet.getString("coachType");
+                                        int hour = Integer.parseInt(departureTime.substring(0,2));
+                                        int min = Integer.parseInt(departureTime.substring(3,5));
+                                        String amPM = reportingTime.substring(5,7);
+                                        System.out.println(hour+", "+min);
+                                        if (min<10){
+                                            hour--;
+                                            min = 60 + min - 15;
                                         } else {
-                                            availableSeats = 30 - ir;
-                                            System.out.println(availableSeats);
+                                            min = min -15;
+                                        }
+                                        reportingTime = new DecimalFormat("00").format(hour) + ":" + new DecimalFormat("00").format(min) + amPM +", "+ formatDate2;
+
+                                       String cType = resultSet.getString("coachType");
+                                        String fare = resultSet.getString("farePerSeat");
+                                        int availableSeats = 0;
+
+                                        try {
+                                            Statement statement1 = connectorDB.getConnection().createStatement();
+                                            String queryForAvailableSeats = "select * from Reservation join tripData on tripData.coachNo = Reservation.coachNo where tripData.coachNo = '"+ coachNo +"' and Reservation.dateOfJourney = '" + formatDate+ "'";
+                                            System.out.println(queryForAvailableSeats);
+                                            ResultSet resultSet1 = statement1.executeQuery(queryForAvailableSeats);
+                                            int ir=0;
+                                            while (resultSet1.next()){
+                                                ir++;
+                                            }
+                                            if ("NON-AC".equals(cType)) {
+                                                availableSeats = 41 - ir;
+                                                System.out.println(resultSet1.getRow());
+                                            } else if ("AC (Bi)".equals(cType)) {
+                                                availableSeats = 28 - ir;
+                                                System.out.println(availableSeats);
+                                            } else if ("AC (Multi)".equals(cType)) {
+                                                availableSeats = 31 - ir;
+                                                System.out.println(availableSeats);
+                                            } else if ("DD".equals(cType)) {
+                                                availableSeats = 43 - ir;
+                                                System.out.println(availableSeats);
+                                            } else {
+                                                availableSeats = 30 - ir;
+                                                System.out.println(availableSeats);
+                                            }
+
+
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
                                         }
 
+                                        cic.updateInfo(startingFrom, destination, coachNo, reportingTime, boarding, departureTime, destination, coachType, Integer.toString(availableSeats), fare);
 
-                                    } catch (SQLException e) {
-                                        e.printStackTrace();
+                                        coachInfoBox.getChildren().add(info[i]);
+
+                                    } catch (IOException ignored) {
                                     }
 
+                                }
 
-                                    if (!returnDate.isEmpty() || !returnDate.isBlank()){
-                                        cic.updateInfo(startingFrom, destination, coachNo, reportingTime, boarding, departureTime, destination, coachType, Integer.toString(availableSeats), fare);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        if (isPassengerReturn.equals("2")){
+                            String returnDate = dateOfReturn.getEditor().getText();
+                            Date date1 = null;
+                            try {
+                                date1 = simpleDateFormat.parse(returnDate);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String formatDate1 = targetFormat.format(date1);
+                            String formatDate3 = targetFormat2.format(date1);
+                            try {
+                                ConnectorDB connectorDB = new ConnectorDB();
+                                Statement statement = connectorDB.getConnection().createStatement();
+                                ResultSet resultSet = statement.executeQuery(finalSqlQuery);
+                                Node[] info = new Node[20];
+                                int i =0;
+                                while (resultSet.next()){
+                                    try {
+
+                                        FXMLLoader coachInfo = new FXMLLoader(getClass().getResource("/resources/coachInfo.fxml"));
+                                        info[i] = coachInfo.load();
+
+                                        coachInfoFXML.add(coachInfo);
+
+                                        CoachInfoController cic = coachInfo.getController();
+                                        cic.setRpc(rpc);
+
+                                        String startingFrom =  resultSet.getString("startingFrom");
+                                        String destination = resultSet.getString("destination");
+                                        String coachNo = resultSet.getString("coachNo");
+                                        String reportingTime = resultSet.getString("departureTime") ;
+
+                                        String boarding = resultSet.getString("boardingPoint") + ", " + startingFrom;
+                                        String departureTime = resultSet.getString("departureTime") + ", " + formatDate3;
+                                        String coachType = resultSet.getString("coachType");
+                                        int hour = Integer.parseInt(departureTime.substring(0,2));
+                                        int min = Integer.parseInt(departureTime.substring(3,5));
+                                        String amPM = reportingTime.substring(5,7);
+                                        System.out.println(hour+", "+min);
+                                        if (min<10){
+                                            hour--;
+                                            min = 60 + min - 15;
+                                        } else {
+                                            min = min -15;
+                                        }
+                                        reportingTime = new DecimalFormat("00").format(hour) + ":" + new DecimalFormat("00").format(min) + amPM +", "+ formatDate3;
+
+                                        String cType = resultSet.getString("coachType");
+                                        String fare = resultSet.getString("farePerSeat");
+                                        int availableSeats = 0;
+
+                                        try {
+                                            Statement statement1 = connectorDB.getConnection().createStatement();
+                                            String queryForAvailableSeats = "select * from Reservation join tripData on tripData.coachNo = Reservation.coachNo where tripData.coachNo = '"+ coachNo +"' and Reservation.dateOfReturn = '" + formatDate1+ "'";
+                                            System.out.println(queryForAvailableSeats);
+                                            ResultSet resultSet1 = statement1.executeQuery(queryForAvailableSeats);
+                                            int ir=0;
+                                            while (resultSet1.next()){
+                                                ir++;
+                                            }
+                                            if ("NON-AC".equals(cType)) {
+                                                availableSeats = 41 - ir;
+                                                System.out.println(resultSet1.getRow());
+                                            } else if ("AC (Bi)".equals(cType)) {
+                                                availableSeats = 28 - ir;
+                                                System.out.println(availableSeats);
+                                            } else if ("AC (Multi)".equals(cType)) {
+                                                availableSeats = 31 - ir;
+                                                System.out.println(availableSeats);
+                                            } else if ("DD".equals(cType)) {
+                                                availableSeats = 43 - ir;
+                                                System.out.println(availableSeats);
+                                            } else {
+                                                availableSeats = 30 - ir;
+                                                System.out.println(availableSeats);
+                                            }
+
+
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
+                                        }
+
 
                                         reportingTime = new DecimalFormat("00").format(hour) + ":" + new DecimalFormat("00").format(min) + amPM +", "+ formatDate3;
                                         departureTime = resultSet.getString("departureTime") + ", " + formatDate3;
 
                                         cic.updateInfo(destination, startingFrom, coachNo + "-R", reportingTime, destination, departureTime, startingFrom, coachType, Integer.toString(availableSeats), fare);
 
-                                    } else {
-                                        cic.updateInfo(startingFrom, destination, coachNo, reportingTime, boarding, departureTime, destination, coachType, Integer.toString(availableSeats), fare);
+                                        coachInfoBox.getChildren().add(info[i]);
 
+                                    } catch (IOException ignored) {
                                     }
 
-
-
-                                    coachInfoBox.getChildren().add(info[i]);
-
-                                } catch (IOException ignored) {
-
                                 }
-                               // i++;
 
+                            } catch (SQLException e) {
+                                e.printStackTrace();
                             }
 
-                        } catch (SQLException e) {
-                            e.printStackTrace();
                         }
 
+
+
                     });
+
+
 
                     try {
                         Thread.sleep(2000);
@@ -462,6 +559,9 @@ public class ReservationPageController implements Initializable {
                 }
             };
             task.setOnSucceeded(e -> {
+
+                //todo aumi ehan e ticket proceed korle then check dibo ispassangerreturn = 1 naki 1 hoile oida re 2 koira dibo
+                //todo then abr ei page call hoibo naile oi ticket er page e direct choila jaibo jodi is p[assngerretrurn = 0 hoy
 
                 translateIt(300, fromComboBox, -80, 2);
                 translateIt(300, toComboBox, -80, 2);
