@@ -5,6 +5,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.SVGPath;
 
+import java.util.ArrayList;
+
 public class FirstRowDDController {
 
     /**
@@ -31,48 +33,89 @@ public class FirstRowDDController {
         seatLabel3.setText(seat3);
     }
 
-    public void onClickSeatPane2(){
+    public void soldSeats(ArrayList<String> soldSeatsList){
 
-        if(!isSeatSelected2){
+        for(String seat : soldSeatsList){
 
-            if (rpc.isFourSeatsSelected()){
+            if(seatLabel2.getText().equals(seat)){
 
                 seatPane2.getStyleClass().clear();
-                seatPane2.getStyleClass().add("seat_selected");
-                isSeatSelected2 = true;
+                seatPane2.getStyleClass().add("seat_sold");
+
+            } else if(seatLabel3.getText().equals(seat)){
+
+                seatPane3.getStyleClass().clear();
+                seatPane3.getStyleClass().add("seat_sold");
+            }
+        }
+    }
+
+    public void bookedSeats(ArrayList<String> bookedSeatsList){
+
+        for(String seat : bookedSeatsList){
+
+            if(seatLabel2.getText().equals(seat)){
+
+                seatPane2.getStyleClass().clear();
+                seatPane2.getStyleClass().add("seat_booked");
+
+            } else if(seatLabel3.getText().equals(seat)){
+
+                seatPane3.getStyleClass().clear();
+                seatPane3.getStyleClass().add("seat_booked");
+            }
+        }
+    }
+
+    public void onClickSeatPane2(){
+
+        if(!seatPane2.getStyleClass().get(0).equals("seat_sold")
+                || !seatPane2.getStyleClass().get(0).equals("seat_booked")){
+
+            if(!isSeatSelected2){
+
+                if(rpc.isFourSeatsSelected()){
+
+                    seatPane2.getStyleClass().clear();
+                    seatPane2.getStyleClass().add("seat_selected");
+                    isSeatSelected2 = true;
+                }
+
+            } else{
+
+                seatPane2.getStyleClass().clear();
+                seatPane2.getStyleClass().add("seat");
+                isSeatSelected2 = false;
             }
 
-        } else{
-
-            seatPane2.getStyleClass().clear();
-            seatPane2.getStyleClass().add("seat");
-            isSeatSelected2 = false;
+            rpc.updateSelectedSeatBox(seatLabel2.getText(), isSeatSelected2);
         }
-
-        rpc.updateSelectedSeatBox(seatLabel2.getText(), isSeatSelected2);
 
     }
 
     public void onClickSeatPane3(){
 
+        if(!seatPane3.getStyleClass().get(0).equals("seat_sold")
+                || !seatPane3.getStyleClass().get(0).equals("seat_booked")){
 
-        if(!isSeatSelected3){
+            if(!isSeatSelected3){
 
-            if (rpc.isFourSeatsSelected()){
+                if(rpc.isFourSeatsSelected()){
+
+                    seatPane3.getStyleClass().clear();
+                    seatPane3.getStyleClass().add("seat_selected");
+                    isSeatSelected3 = true;
+                }
+
+            } else{
 
                 seatPane3.getStyleClass().clear();
-                seatPane3.getStyleClass().add("seat_selected");
-                isSeatSelected3 = true;
+                seatPane3.getStyleClass().add("seat");
+                isSeatSelected3 = false;
             }
 
-        } else{
-
-            seatPane3.getStyleClass().clear();
-            seatPane3.getStyleClass().add("seat");
-            isSeatSelected3 = false;
+            rpc.updateSelectedSeatBox(seatLabel3.getText(), isSeatSelected3);
         }
-
-        rpc.updateSelectedSeatBox(seatLabel3.getText(), isSeatSelected3);
 
     }
 }

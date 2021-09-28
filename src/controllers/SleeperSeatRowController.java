@@ -5,6 +5,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.SVGPath;
 
+import java.util.ArrayList;
+
 public class SleeperSeatRowController {
 
     /**
@@ -32,69 +34,127 @@ public class SleeperSeatRowController {
         seatLabel3.setText(seat3);
     }
 
-    public void onClickSeatPane1(){
+    public void soldSeats(ArrayList<String> soldSeatsList){
 
-        if(!isSeatSelected1){
+        for(String seat : soldSeatsList){
 
-            if(rpc.isFourSeatsSelected()){
+            if(seatLabel1.getText().equals(seat)){
 
                 seatPane1.getStyleClass().clear();
-                seatPane1.getStyleClass().add("sleeper_seat_selected");
-                isSeatSelected1 = true;
+                seatPane1.getStyleClass().add("sleeper_seat_sold");
+
+            } else if(seatLabel2.getText().equals(seat)){
+
+                seatPane2.getStyleClass().clear();
+                seatPane2.getStyleClass().add("sleeper_seat_sold");
+
+            } else if(seatLabel3.getText().equals(seat)){
+
+                seatPane3.getStyleClass().clear();
+                seatPane3.getStyleClass().add("sleeper_seat_sold");
+            }
+        }
+    }
+
+    public void bookedSeats(ArrayList<String> bookedSeatsList){
+
+        for(String seat : bookedSeatsList){
+
+            if(seatLabel1.getText().equals(seat)){
+
+                seatPane1.getStyleClass().clear();
+                seatPane1.getStyleClass().add("sleeper_seat_booked");
+
+            } else if(seatLabel2.getText().equals(seat)){
+
+                seatPane2.getStyleClass().clear();
+                seatPane2.getStyleClass().add("sleeper_seat_booked");
+
+            } else if(seatLabel3.getText().equals(seat)){
+
+                seatPane3.getStyleClass().clear();
+                seatPane3.getStyleClass().add("sleeper_seat_booked");
+            }
+        }
+    }
+
+    public void onClickSeatPane1(){
+
+        if(!seatPane1.getStyleClass().get(0).equals("sleeper_seat_sold")
+                || !seatPane1.getStyleClass().get(0).equals("sleeper_seat_booked")){
+
+            if(!isSeatSelected1){
+
+                if(rpc.isFourSeatsSelected()){
+
+                    seatPane1.getStyleClass().clear();
+                    seatPane1.getStyleClass().add("sleeper_seat_selected");
+                    isSeatSelected1 = true;
+                }
+
+            } else{
+
+                seatPane1.getStyleClass().clear();
+                seatPane1.getStyleClass().add("sleeper_seat");
+                isSeatSelected1 = false;
             }
 
-        } else{
+            rpc.updateSelectedSeatBox(seatLabel1.getText(), isSeatSelected1);
 
-            seatPane1.getStyleClass().clear();
-            seatPane1.getStyleClass().add("sleeper_seat");
-            isSeatSelected1 = false;
         }
-
-        rpc.updateSelectedSeatBox(seatLabel1.getText(), isSeatSelected1);
 
     }
 
     public void onClickSeatPane2(){
 
-        if(!isSeatSelected2){
+        if(!seatPane2.getStyleClass().get(0).equals("sleeper_seat_sold")
+                || !seatPane2.getStyleClass().get(0).equals("sleeper_seat_booked")){
 
-            if(rpc.isFourSeatsSelected()){
+            if(!isSeatSelected2){
+
+                if(rpc.isFourSeatsSelected()){
+
+                    seatPane2.getStyleClass().clear();
+                    seatPane2.getStyleClass().add("sleeper_seat_selected");
+                    isSeatSelected2 = true;
+                }
+
+            } else{
 
                 seatPane2.getStyleClass().clear();
-                seatPane2.getStyleClass().add("sleeper_seat_selected");
-                isSeatSelected2 = true;
+                seatPane2.getStyleClass().add("sleeper_seat");
+                isSeatSelected2 = false;
             }
 
-        } else{
+            rpc.updateSelectedSeatBox(seatLabel2.getText(), isSeatSelected2);
 
-            seatPane2.getStyleClass().clear();
-            seatPane2.getStyleClass().add("sleeper_seat");
-            isSeatSelected2 = false;
         }
-
-        rpc.updateSelectedSeatBox(seatLabel2.getText(), isSeatSelected2);
 
     }
 
     public void onClickSeatPane3(){
 
-        if(!isSeatSelected3){
+        if(!seatPane3.getStyleClass().get(0).equals("sleeper_seat_sold")
+                || !seatPane3.getStyleClass().get(0).equals("sleeper_seat_booked")){
 
-            if(rpc.isFourSeatsSelected()){
+            if(!isSeatSelected3){
+
+                if(rpc.isFourSeatsSelected()){
+
+                    seatPane3.getStyleClass().clear();
+                    seatPane3.getStyleClass().add("sleeper_seat_selected");
+                    isSeatSelected3 = true;
+                }
+
+            } else{
 
                 seatPane3.getStyleClass().clear();
-                seatPane3.getStyleClass().add("sleeper_seat_selected");
-                isSeatSelected3 = true;
+                seatPane3.getStyleClass().add("sleeper_seat");
+                isSeatSelected3 = false;
             }
 
-        } else{
+            rpc.updateSelectedSeatBox(seatLabel3.getText(), isSeatSelected3);
 
-            seatPane3.getStyleClass().clear();
-            seatPane3.getStyleClass().add("sleeper_seat");
-            isSeatSelected3 = false;
         }
-
-        rpc.updateSelectedSeatBox(seatLabel3.getText(), isSeatSelected3);
-
     }
 }
