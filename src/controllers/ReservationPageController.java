@@ -718,7 +718,7 @@ public class ReservationPageController implements Initializable {
 //        bookedSeatsList.add("I-1");
 //        bookedSeatsList.add("A-2");
 
-        soldSeatsListSleeperLower.add("LA-1");
+        /*soldSeatsListSleeperLower.add("LA-1");
         bookedSeatsListSleeperLower.add("LB-3");
 
         soldSeatsListSleeperUpper.add("UD-2");
@@ -729,7 +729,7 @@ public class ReservationPageController implements Initializable {
 
         soldSeatsListDDUpper.add("UJ-3");
         soldSeatsListDDUpper.add("UB-2");
-        bookedSeatsListDDUpper.add("UH-1");
+        bookedSeatsListDDUpper.add("UH-1");*/
 
         //this task object is letting us to get the time for fetching the data from database
         Task<Void> task = new Task<>() {
@@ -1082,6 +1082,14 @@ public class ReservationPageController implements Initializable {
         droppingPointComboBox.getSelectionModel().selectFirst();
         soldSeatsList.clear();
         bookedSeatsList.clear();
+        bookedSeatsListDDUpper.clear();
+        bookedSeatsListDDLower.clear();
+        bookedSeatsListSleeperUpper.clear();
+        bookedSeatsListSleeperLower.clear();
+        soldSeatsListDDUpper.clear();
+        soldSeatsListDDLower.clear();
+        soldSeatsListSleeperLower.clear();
+        soldSeatsListSleeperUpper.clear();
 
         translateIt(300, seatMapDetailsPane, 0, 1);
 
