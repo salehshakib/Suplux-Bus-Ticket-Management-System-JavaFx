@@ -38,17 +38,17 @@ public class SleeperSeatRowController {
 
         for(String seat : soldSeatsList){
 
-            if(seatLabel1.getText().equals(seat)){
+            if(seatLabel1.getText().equals(seat.substring(1))){
 
                 seatPane1.getStyleClass().clear();
                 seatPane1.getStyleClass().add("sleeper_seat_sold");
 
-            } else if(seatLabel2.getText().equals(seat)){
+            } else if(seatLabel2.getText().equals(seat.substring(1))){
 
                 seatPane2.getStyleClass().clear();
                 seatPane2.getStyleClass().add("sleeper_seat_sold");
 
-            } else if(seatLabel3.getText().equals(seat)){
+            } else if(seatLabel3.getText().equals(seat.substring(1))){
 
                 seatPane3.getStyleClass().clear();
                 seatPane3.getStyleClass().add("sleeper_seat_sold");
@@ -60,17 +60,17 @@ public class SleeperSeatRowController {
 
         for(String seat : bookedSeatsList){
 
-            if(seatLabel1.getText().equals(seat)){
+            if(seatLabel1.getText().equals(seat.substring(1))){
 
                 seatPane1.getStyleClass().clear();
                 seatPane1.getStyleClass().add("sleeper_seat_booked");
 
-            } else if(seatLabel2.getText().equals(seat)){
+            } else if(seatLabel2.getText().equals(seat.substring(1))){
 
                 seatPane2.getStyleClass().clear();
                 seatPane2.getStyleClass().add("sleeper_seat_booked");
 
-            } else if(seatLabel3.getText().equals(seat)){
+            } else if(seatLabel3.getText().equals(seat.substring(1))){
 
                 seatPane3.getStyleClass().clear();
                 seatPane3.getStyleClass().add("sleeper_seat_booked");
@@ -81,7 +81,7 @@ public class SleeperSeatRowController {
     public void onClickSeatPane1(){
 
         if(!seatPane1.getStyleClass().get(0).equals("sleeper_seat_sold")
-                || !seatPane1.getStyleClass().get(0).equals("sleeper_seat_booked")){
+                && !seatPane1.getStyleClass().get(0).equals("sleeper_seat_booked")){
 
             if(!isSeatSelected1){
 
@@ -108,7 +108,7 @@ public class SleeperSeatRowController {
     public void onClickSeatPane2(){
 
         if(!seatPane2.getStyleClass().get(0).equals("sleeper_seat_sold")
-                || !seatPane2.getStyleClass().get(0).equals("sleeper_seat_booked")){
+                && !seatPane2.getStyleClass().get(0).equals("sleeper_seat_booked")){
 
             if(!isSeatSelected2){
 
@@ -135,7 +135,7 @@ public class SleeperSeatRowController {
     public void onClickSeatPane3(){
 
         if(!seatPane3.getStyleClass().get(0).equals("sleeper_seat_sold")
-                || !seatPane3.getStyleClass().get(0).equals("sleeper_seat_booked")){
+                && !seatPane3.getStyleClass().get(0).equals("sleeper_seat_booked")){
 
             if(!isSeatSelected3){
 

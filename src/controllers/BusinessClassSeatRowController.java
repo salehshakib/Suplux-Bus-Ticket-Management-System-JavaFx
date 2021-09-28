@@ -38,21 +38,43 @@ public class BusinessClassSeatRowController {
 
         for(String seat : soldSeatsList){
 
-            if(seatLabel1.getText().equals(seat)){
+            if(seat.charAt(0) == 'U' || seat.charAt(0) == 'L'){
 
-                seatPane1.getStyleClass().clear();
-                seatPane1.getStyleClass().add("seat_sold");
+                if(seatLabel1.getText().equals(seat.substring(1))){
 
-            } else if(seatLabel2.getText().equals(seat)){
+                    seatPane1.getStyleClass().clear();
+                    seatPane1.getStyleClass().add("seat_sold");
 
-                seatPane2.getStyleClass().clear();
-                seatPane2.getStyleClass().add("seat_sold");
+                } else if(seatLabel2.getText().equals(seat.substring(1))){
 
-            } else if(seatLabel3.getText().equals(seat)){
+                    seatPane2.getStyleClass().clear();
+                    seatPane2.getStyleClass().add("seat_sold");
 
-                seatPane3.getStyleClass().clear();
-                seatPane3.getStyleClass().add("seat_sold");
+                } else if(seatLabel3.getText().equals(seat.substring(1))){
+
+                    seatPane3.getStyleClass().clear();
+                    seatPane3.getStyleClass().add("seat_sold");
+                }
+            } else{
+
+                if(seatLabel1.getText().equals(seat)){
+
+                    seatPane1.getStyleClass().clear();
+                    seatPane1.getStyleClass().add("seat_sold");
+
+                } else if(seatLabel2.getText().equals(seat)){
+
+                    seatPane2.getStyleClass().clear();
+                    seatPane2.getStyleClass().add("seat_sold");
+
+                } else if(seatLabel3.getText().equals(seat)){
+
+                    seatPane3.getStyleClass().clear();
+                    seatPane3.getStyleClass().add("seat_sold");
+                }
             }
+
+
         }
     }
 
@@ -60,28 +82,49 @@ public class BusinessClassSeatRowController {
 
         for(String seat : bookedSeatsList){
 
-            if(seatLabel1.getText().equals(seat)){
+            if(seat.charAt(0) == 'U' || seat.charAt(0) == 'L'){
 
-                seatPane1.getStyleClass().clear();
-                seatPane1.getStyleClass().add("seat_booked");
+                if(seatLabel1.getText().equals(seat.substring(1))){
 
-            } else if(seatLabel2.getText().equals(seat)){
+                    seatPane1.getStyleClass().clear();
+                    seatPane1.getStyleClass().add("seat_booked");
 
-                seatPane2.getStyleClass().clear();
-                seatPane2.getStyleClass().add("seat_booked");
+                } else if(seatLabel2.getText().equals(seat.substring(1))){
 
-            } else if(seatLabel3.getText().equals(seat)){
+                    seatPane2.getStyleClass().clear();
+                    seatPane2.getStyleClass().add("seat_booked");
 
-                seatPane3.getStyleClass().clear();
-                seatPane3.getStyleClass().add("seat_booked");
+                } else if(seatLabel3.getText().equals(seat.substring(1))){
+
+                    seatPane3.getStyleClass().clear();
+                    seatPane3.getStyleClass().add("seat_booked");
+                }
+            } else{
+
+                if(seatLabel1.getText().equals(seat)){
+
+                    seatPane1.getStyleClass().clear();
+                    seatPane1.getStyleClass().add("seat_booked");
+
+                } else if(seatLabel2.getText().equals(seat)){
+
+                    seatPane2.getStyleClass().clear();
+                    seatPane2.getStyleClass().add("seat_booked");
+
+                } else if(seatLabel3.getText().equals(seat)){
+
+                    seatPane3.getStyleClass().clear();
+                    seatPane3.getStyleClass().add("seat_booked");
+                }
             }
+
         }
     }
 
     public void onClickSeatPane1(){
 
         if(!seatPane1.getStyleClass().get(0).equals("seat_sold")
-                || !seatPane1.getStyleClass().get(0).equals("seat_booked")){
+                && !seatPane1.getStyleClass().get(0).equals("seat_booked")){
 
             if(!isSeatSelected1){
 
@@ -108,7 +151,7 @@ public class BusinessClassSeatRowController {
     public void onClickSeatPane2(){
 
         if(!seatPane2.getStyleClass().get(0).equals("seat_sold")
-                || !seatPane2.getStyleClass().get(0).equals("seat_booked")){
+                && !seatPane2.getStyleClass().get(0).equals("seat_booked")){
 
             if(!isSeatSelected2){
 
@@ -134,7 +177,7 @@ public class BusinessClassSeatRowController {
     public void onClickSeatPane3(){
 
         if(!seatPane3.getStyleClass().get(0).equals("seat_sold")
-                || !seatPane3.getStyleClass().get(0).equals("seat_booked")){
+                && !seatPane3.getStyleClass().get(0).equals("seat_booked")){
 
             if(!isSeatSelected3){
 

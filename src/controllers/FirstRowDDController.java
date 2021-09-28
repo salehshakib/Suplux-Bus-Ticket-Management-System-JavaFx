@@ -37,12 +37,12 @@ public class FirstRowDDController {
 
         for(String seat : soldSeatsList){
 
-            if(seatLabel2.getText().equals(seat)){
+            if(seatLabel2.getText().equals(seat.substring(1))){
 
                 seatPane2.getStyleClass().clear();
                 seatPane2.getStyleClass().add("seat_sold");
 
-            } else if(seatLabel3.getText().equals(seat)){
+            } else if(seatLabel3.getText().equals(seat.substring(1))){
 
                 seatPane3.getStyleClass().clear();
                 seatPane3.getStyleClass().add("seat_sold");
@@ -54,12 +54,12 @@ public class FirstRowDDController {
 
         for(String seat : bookedSeatsList){
 
-            if(seatLabel2.getText().equals(seat)){
+            if(seatLabel2.getText().equals(seat.substring(1))){
 
                 seatPane2.getStyleClass().clear();
                 seatPane2.getStyleClass().add("seat_booked");
 
-            } else if(seatLabel3.getText().equals(seat)){
+            } else if(seatLabel3.getText().equals(seat.substring(1))){
 
                 seatPane3.getStyleClass().clear();
                 seatPane3.getStyleClass().add("seat_booked");
@@ -70,7 +70,7 @@ public class FirstRowDDController {
     public void onClickSeatPane2(){
 
         if(!seatPane2.getStyleClass().get(0).equals("seat_sold")
-                || !seatPane2.getStyleClass().get(0).equals("seat_booked")){
+                && !seatPane2.getStyleClass().get(0).equals("seat_booked")){
 
             if(!isSeatSelected2){
 
@@ -96,7 +96,7 @@ public class FirstRowDDController {
     public void onClickSeatPane3(){
 
         if(!seatPane3.getStyleClass().get(0).equals("seat_sold")
-                || !seatPane3.getStyleClass().get(0).equals("seat_booked")){
+                && !seatPane3.getStyleClass().get(0).equals("seat_booked")){
 
             if(!isSeatSelected3){
 
