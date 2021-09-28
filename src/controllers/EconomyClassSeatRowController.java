@@ -92,7 +92,7 @@ public class EconomyClassSeatRowController {
     public void onClickSeatPane1(){
 
         if(!seatPane1.getStyleClass().get(0).equals("seat_sold")
-                || !seatPane1.getStyleClass().get(0).equals("seat_booked")){
+                && !seatPane1.getStyleClass().get(0).equals("seat_booked")){
 
             if(!isSeatSelected1){
 
@@ -119,7 +119,7 @@ public class EconomyClassSeatRowController {
     public void onClickSeatPane2(){
 
         if(!seatPane2.getStyleClass().get(0).equals("seat_sold")
-                || !seatPane2.getStyleClass().get(0).equals("seat_booked")){
+                && !seatPane2.getStyleClass().get(0).equals("seat_booked")){
 
             if(!isSeatSelected2){
 
@@ -145,7 +145,7 @@ public class EconomyClassSeatRowController {
     public void onClickSeatPane3(){
 
         if(!seatPane3.getStyleClass().get(0).equals("seat_sold")
-                || !seatPane3.getStyleClass().get(0).equals("seat_booked")){
+                && !seatPane3.getStyleClass().get(0).equals("seat_booked")){
 
             if(!isSeatSelected3){
 
@@ -171,7 +171,7 @@ public class EconomyClassSeatRowController {
     public void onClickSeatPane4(){
 
         if(!seatPane4.getStyleClass().get(0).equals("seat_sold")
-                || !seatPane4.getStyleClass().get(0).equals("seat_booked")){
+                && !seatPane4.getStyleClass().get(0).equals("seat_booked")){
 
             if(!isSeatSelected4){
 
