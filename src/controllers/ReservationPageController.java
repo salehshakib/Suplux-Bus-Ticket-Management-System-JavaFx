@@ -76,6 +76,7 @@ public class ReservationPageController implements Initializable {
     public Boolean isDDSelected = false;
     public Boolean isSleeperSelected = false;
     public static String isPassengerReturn = "0";
+    public String formatDate;
 
 
     /**
@@ -276,7 +277,7 @@ public class ReservationPageController implements Initializable {
 
 
                     Date date = simpleDateFormat.parse(journeyDate);
-                    String formatDate = targetFormat.format(date);
+                    formatDate = targetFormat.format(date);
                     String formatDate2 = targetFormat2.format(date);
 
 
@@ -354,6 +355,7 @@ public class ReservationPageController implements Initializable {
                     Platform.runLater(() -> {
                         System.out.println(finalSqlQuery);
 
+                        //todo ekhan e ekta loop ghurbe array list er jekhan e check korte thakbe eta ki ki select kora hoisilo
 
                         if (isPassengerReturn.equals("1") || isPassengerReturn.equals("0")) {
                             try {
@@ -481,7 +483,7 @@ public class ReservationPageController implements Initializable {
                                         int min = Integer.parseInt(departureTime.substring(3,5));
                                         String amPM = reportingTime.substring(5,7);
                                         System.out.println(hour+", "+min);
-                                        if (min<10){
+                                        if (min<15){
                                             hour--;
                                             min = 60 + min - 15;
                                         } else {
@@ -669,20 +671,44 @@ public class ReservationPageController implements Initializable {
     /**
      * this method shows the seat map to the user
      */
-    public void showSeatMap(String coachType) {
+    public void showSeatMap(String coachType, String coachNo) {
 
         //TODO search the database here to see if seats are booked or sold
+        try {
+            ConnectorDB connectorDB =  new ConnectorDB();
+            Statement statement = connectorDB.getConnection().createStatement();
+
+
+
+            String sqlQuery = "select bookedSeat, statusInfo from Reservation join transactionInformation on transactionInformation.transactionId = Reservation.UTKNo where coachNo = '" + coachNo + "' and dateOfJourney = '"+ formatDate + "'";
+            System.out.println(sqlQuery);
+
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
+            while (resultSet.next()){
+                if (resultSet.getString("statusInfo").equals("Sold")){
+                    soldSeatsList.add(resultSet.getString("bookedSeat"));
+
+                } else {
+                    bookedSeatsList.add(resultSet.getString("bookedSeat"));
+
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
         coachTypeSeatMapText.setText(coachType);
         proceedBtn.setDisable(true);
 
-        soldSeatsList.add("A-1");
-        soldSeatsList.add("B-3");
-        soldSeatsList.add("J-3");
-
-        bookedSeatsList.add("C-2");
-        bookedSeatsList.add("I-1");
-        bookedSeatsList.add("A-2");
+//        soldSeatsList.add("A-1");
+//        soldSeatsList.add("B-3");
+//        soldSeatsList.add("J-3");
+//
+//        bookedSeatsList.add("C-2");
+//        bookedSeatsList.add("I-1");
+//        bookedSeatsList.add("A-2");
 
         //this task object is letting us to get the time for fetching the data from database
         Task<Void> task = new Task<>() {
@@ -1033,6 +1059,8 @@ public class ReservationPageController implements Initializable {
         radioLower.setSelected(true);
         boardingPointComboBox.getSelectionModel().selectFirst();
         droppingPointComboBox.getSelectionModel().selectFirst();
+        soldSeatsList.clear();
+        bookedSeatsList.clear();
 
         translateIt(300, seatMapDetailsPane, 0, 1);
 

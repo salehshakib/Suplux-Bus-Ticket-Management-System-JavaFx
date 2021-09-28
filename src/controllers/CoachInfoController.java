@@ -18,6 +18,7 @@ public class CoachInfoController implements Initializable {
     public Button viewSeatButton;
     public Text fromText, fromShortText, toText, toShortText, coachNoText, reportingText, boardingText, departureText, destinationText, typeText, seatsText, fareText;
 
+
     private ReservationPageController rpc;
 
     private boolean isViewSeatButtonPressed = false;
@@ -36,7 +37,8 @@ public class CoachInfoController implements Initializable {
 
         if(!isViewSeatButtonPressed){
 
-            rpc.showSeatMap(typeText.getText());
+
+            rpc.showSeatMap(typeText.getText(), coachNoText.getText());
             isViewSeatButtonPressed = true;
         }
 
@@ -67,11 +69,6 @@ public class CoachInfoController implements Initializable {
         seatsText.setText(availSeats);
         fareText.setText(fare);
 
-    }
-
-    public void updateInfo(String fare, String coachType){
-        fareText.setText(fare);
-        typeText.setText(coachType);
     }
 
     public void buttonPressAvailable(boolean isViewSeatButtonPressed){
