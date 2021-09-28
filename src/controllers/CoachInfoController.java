@@ -53,6 +53,7 @@ public class CoachInfoController implements Initializable {
      */
     public void updateInfo(String from, String to, String coachNo, String reportingTime, String boarding, String departureTime, String destination,String coachType, String availSeats, String fare){
 
+
         fromText.setText(from);
         fromShortText.setText(from.substring(0,3).toUpperCase());
         toText.setText(to);
