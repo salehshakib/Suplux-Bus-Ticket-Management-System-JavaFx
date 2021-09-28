@@ -779,10 +779,24 @@
     -fx-scale-y: 0.7;
 }
 
-.seat_selected:hover Label{
+.seat_sold SVGPath{
 
-    -fx-scale-x: 1.2;
-    -fx-scale-y: 1.2;
+    -fx-fill: red;
+}
+
+.seat_sold Label{
+
+    -fx-text-fill: red;
+}
+
+.seat_booked SVGPath{
+
+    -fx-fill: yellow;
+}
+
+.seat_booked Label{
+
+    -fx-text-fill: yellow;
 }
 
 .seat_table_bg{
@@ -864,6 +878,26 @@
 .sleeper_seat_selected Label{
 
     -fx-text-fill: green;
+}
+
+.sleeper_seat_booked SVGPath{
+
+    -fx-fill: yellow;
+}
+
+.sleeper_seat_booked Label{
+
+    -fx-text-fill: yellow;
+}
+
+.sleeper_seat_sold SVGPath{
+
+    -fx-fill: red;
+}
+
+.sleeper_seat_sold Label{
+
+    -fx-text-fill: red;
 }
 
 .sleeper_seat_selected:hover SVGPath{

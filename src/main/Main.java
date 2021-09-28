@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Objects;
 
-public class Suplux extends Application {
+public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{

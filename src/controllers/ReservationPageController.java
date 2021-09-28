@@ -68,6 +68,8 @@ public class ReservationPageController implements Initializable {
     public boolean isToTrimDone = false;
     public boolean isFromTrimDone = false;
     public ArrayList<String> selectedSeatString = new ArrayList<>();
+    public ArrayList<String> soldSeatsList = new ArrayList<>();
+    public ArrayList<String> bookedSeatsList = new ArrayList<>();
     public Boolean isNonAcSelected = false;
     public Boolean isAcBiSelected = false;
     public Boolean isACMultiSelected = false;
@@ -383,7 +385,7 @@ public class ReservationPageController implements Initializable {
                                         int min = Integer.parseInt(departureTime.substring(3,5));
                                         String amPM = reportingTime.substring(5,7);
                                         System.out.println(hour+", "+min);
-                                        if (min<10){
+                                        if (min<15){
                                             hour--;
                                             min = 60 + min - 15;
                                         } else {
@@ -669,8 +671,18 @@ public class ReservationPageController implements Initializable {
      */
     public void showSeatMap(String coachType) {
 
+        //TODO search the database here to see if seats are booked or sold
+
         coachTypeSeatMapText.setText(coachType);
         proceedBtn.setDisable(true);
+
+        soldSeatsList.add("A-1");
+        soldSeatsList.add("B-3");
+        soldSeatsList.add("J-3");
+
+        bookedSeatsList.add("C-2");
+        bookedSeatsList.add("I-1");
+        bookedSeatsList.add("A-2");
 
         //this task object is letting us to get the time for fetching the data from database
         Task<Void> task = new Task<>() {
@@ -684,7 +696,7 @@ public class ReservationPageController implements Initializable {
                 Platform.runLater(() -> {
 
                     switch (coachType) {
-                        case "Non AC" -> {
+                        case "NON-AC" -> {
 
                             Node[] seatMap = new Node[11];
 
@@ -708,6 +720,8 @@ public class ReservationPageController implements Initializable {
                                     EconomyClassSeatRowController ecsrc = seatRow.getController();
                                     ecsrc.setRpc(rpc);
                                     ecsrc.setSeatText(c + "-" + 1, c + "-" + 2, c + "-" + 3, c + "-" + 4);
+                                    ecsrc.soldSeats(soldSeatsList);
+                                    ecsrc.bookedSeats(bookedSeatsList);
 
                                     seatMapVBox.getChildren().add(seatMap[i]);
 
@@ -725,6 +739,8 @@ public class ReservationPageController implements Initializable {
                                 EconomyClassSeatLastRowController ecslrc = seatRow.getController();
                                 ecslrc.setRpc(rpc);
                                 ecslrc.setSeatText(c + "-" + 1, c + "-" + 2, c + "-" + 3, c + "-" + 4, c + "-" + 5);
+                                ecslrc.soldSeats(soldSeatsList);
+                                ecslrc.bookedSeats(bookedSeatsList);
 
                                 seatMapVBox.getChildren().add(seatMap[10]);
 
@@ -757,6 +773,8 @@ public class ReservationPageController implements Initializable {
                                     BusinessClassSeatRowController bcsrc = seatRow.getController();
                                     bcsrc.setRpc(rpc);
                                     bcsrc.setSeatText(c + "-" + 1, c + "-" + 2, c + "-" + 3);
+                                    bcsrc.soldSeats(soldSeatsList);
+                                    bcsrc.bookedSeats(bookedSeatsList);
 
                                     seatMapVBox.getChildren().add(seatMap[i]);
 
@@ -774,6 +792,8 @@ public class ReservationPageController implements Initializable {
                                 BusinessClassSeatLastRowController bcslrc = seatRow.getController();
                                 bcslrc.setRpc(rpc);
                                 bcslrc.setSeatText(c + "-" + 1, c + "-" + 2, c + "-" + 3, c + "-" + 4);
+                                bcslrc.soldSeats(soldSeatsList);
+                                bcslrc.bookedSeats(bookedSeatsList);
 
                                 seatMapVBox.getChildren().add(seatMap[10]);
 
@@ -806,6 +826,8 @@ public class ReservationPageController implements Initializable {
                                     BusinessClassSeatRowController bcsrc = seatRow.getController();
                                     bcsrc.setRpc(rpc);
                                     bcsrc.setSeatText(c + "-" + 1, c + "-" + 2, c + "-" + 3);
+                                    bcsrc.soldSeats(soldSeatsList);
+                                    bcsrc.bookedSeats(bookedSeatsList);
 
                                     seatMapVBox.getChildren().add(seatMap[i]);
 
@@ -823,6 +845,8 @@ public class ReservationPageController implements Initializable {
                                 BusinessClassSeatLastRowController bcslrc = seatRow.getController();
                                 bcslrc.setRpc(rpc);
                                 bcslrc.setSeatText(c + "-" + 1, c + "-" + 2, c + "-" + 3, c + "-" + 4);
+                                bcslrc.soldSeats(soldSeatsList);
+                                bcslrc.bookedSeats(bookedSeatsList);
 
                                 seatMapVBox.getChildren().add(seatMap[9]);
 
@@ -1078,6 +1102,8 @@ public class ReservationPageController implements Initializable {
                             SleeperSeatRowController ssrc = seatRow.getController();
                             ssrc.setRpc(rpc);
                             ssrc.setSeatText(c + "-" + 1, c + "-" + 2, c + "-" + 3);
+                            ssrc.soldSeats(soldSeatsList);
+                            ssrc.bookedSeats(bookedSeatsList);
 
                             seatMapVBox.getChildren().add(seatMap[i]);
 
@@ -1138,6 +1164,8 @@ public class ReservationPageController implements Initializable {
                         FirstRowDDController bcsrc = seatRow.getController();
                         bcsrc.setRpc(rpc);
                         bcsrc.setSeatText(c + "-" + 1, c + "-" + 2);
+                        bcsrc.soldSeats(soldSeatsList);
+                        bcsrc.bookedSeats(bookedSeatsList);
 
                         seatMapVBox.getChildren().add(seatMap[3]);
 
@@ -1158,6 +1186,8 @@ public class ReservationPageController implements Initializable {
                             BusinessClassSeatRowController bcsrc = seatRow.getController();
                             bcsrc.setRpc(rpc);
                             bcsrc.setSeatText(c + "-" + 1, c + "-" + 2, c + "-" + 3);
+                            bcsrc.soldSeats(soldSeatsList);
+                            bcsrc.bookedSeats(bookedSeatsList);
 
                             seatMapVBox.getChildren().add(seatMap[i]);
 
@@ -1170,7 +1200,6 @@ public class ReservationPageController implements Initializable {
 
                 seatMapVBox.setLayoutY(77.5);
             }
-
 
         } else {
 
@@ -1213,6 +1242,8 @@ public class ReservationPageController implements Initializable {
                             SleeperSeatRowController ssrc = seatRow.getController();
                             ssrc.setRpc(rpc);
                             ssrc.setSeatText(c + "-" + 1, c + "-" + 2, c + "-" + 3);
+                            ssrc.soldSeats(soldSeatsList);
+                            ssrc.bookedSeats(bookedSeatsList);
 
                             seatMapVBox.getChildren().add(seatMap[i]);
 
@@ -1249,6 +1280,8 @@ public class ReservationPageController implements Initializable {
                             FirstRowDDController bcsrc = seatRow.getController();
                             bcsrc.setRpc(rpc);
                             bcsrc.setSeatText(c + "-" + 1, c + "-" + 2);
+                            bcsrc.soldSeats(soldSeatsList);
+                            bcsrc.bookedSeats(bookedSeatsList);
 
                             seatMapVBox.getChildren().add(seatMap[i]);
 
@@ -1269,6 +1302,8 @@ public class ReservationPageController implements Initializable {
                             BusinessClassSeatRowController bcsrc = seatRow.getController();
                             bcsrc.setRpc(rpc);
                             bcsrc.setSeatText(c + "-" + 1, c + "-" + 2, c + "-" + 3);
+                            bcsrc.soldSeats(soldSeatsList);
+                            bcsrc.bookedSeats(bookedSeatsList);
 
                             seatMapVBox.getChildren().add(seatMap[i]);
 
@@ -1287,6 +1322,8 @@ public class ReservationPageController implements Initializable {
                         BusinessClassSeatLastRowController bcslrc = seatRow.getController();
                         bcslrc.setRpc(rpc);
                         bcslrc.setSeatText(c + "-" + 1, c + "-" + 2, c + "-" + 3, c + "-" + 4);
+                        bcslrc.soldSeats(soldSeatsList);
+                        bcslrc.bookedSeats(bookedSeatsList);
 
                         seatMapVBox.getChildren().add(seatMap[9]);
 
