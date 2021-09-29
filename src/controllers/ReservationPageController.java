@@ -36,7 +36,10 @@ public class ReservationPageController implements Initializable {
 
     public static int selectedSeatCount = 0;
     private static ReservationPageController rpc;
-    public final String[] destinations = {"Dhaka", "Khulna", "Chittagong", "Cox's Bazar", "Kolkata", "Benapole", "Satkhira", "Chashara"};
+    public final String[] destinations = {"Dhaka", "Khulna", "Chittagong", "Cox's Bazar", "Kolkata", "Benapole", "Satkhira",
+                                            "Barisal", "Sylhet", "Rajshahi", "Rangpur", "Saint Martin", "Jessore", "Bogura",
+                                            "Khagrachari", "Bandarban", "Rangamati", "Panchagarh", "Chapai Nawabganj",
+                                            "Natore", "Pabna", "Kuakata", "Dinajpur", "Siliguri", "Kathmandu"};
     public final String[] timePeriod = {"Time Period", "Morning(5:00 AM - 11:59 AM)", "Afternoon(12:00 PM - 5:59 PM)", "Night(6:00 PM - 11:59 PM)"};
     public final String[] boardingPoints = {"Select A Boarding Point", "Aarambag, Dhaka (10:00 PM)", "Panthapath, Dhaka (10:30 PM)", "Gabtoli, Dhaka (11:00 PM)", "Savar, Dhaka (11:30 PM)"};
     public final String[] droppingPoints = {"Select A Dropping Point", "Aarambag, Khagrachari (10:00 PM)", "Panthapath, Khagrachari (10:30 PM)", "Gabtoli, Khagrachari (11:00 PM)", "Savar, Khagrachari (11:30 PM)"};
@@ -50,7 +53,7 @@ public class ReservationPageController implements Initializable {
     public AnchorPane rootAnchor;
     public StackPane dialogStack, rootStack;
     public Label logOutInfo, tranLogInfo, cancelInfo, reserveInfo;
-    public Text reservation, page, coachType, totalFare, seatMapDetailsFare, coachTypeSeatMapText;
+    public Text reservation, page, coachType, totalFare, seatMapDetailsFare, coachTypeSeatMapText, coachStartingSeatMapText, coachNoSeatMapText, DestinationSeatMapText, tripTypeSeatMapText, reportingTimeSeatMapText, departureTimeSeatMapText;
     public ComboBox<String> fromComboBox, toComboBox, timePeriodComboBox, droppingPointComboBox, boardingPointComboBox;
     public CheckBox checkBoxNonAC, checkBoxBi, checkBoxMulti, checkBoxSleeper, checkBoxDD;
     public DatePicker dateOfJourney, dateOfReturn;
@@ -679,7 +682,7 @@ public class ReservationPageController implements Initializable {
     /**
      * this method shows the seat map to the user
      */
-    public void showSeatMap(String coachType, String coachNo) {
+    public void showSeatMap(String coachType, String coachNo, String from, String to, String fare, String tripType, String reportingTime, String departureTime) {
 
         //TODO search the database here to see if seats are booked or sold
         try {
@@ -708,6 +711,13 @@ public class ReservationPageController implements Initializable {
 
 
         coachTypeSeatMapText.setText(coachType);
+        coachNoSeatMapText.setText(coachNo);
+        coachStartingSeatMapText.setText(from);
+        DestinationSeatMapText.setText(to);
+        seatMapDetailsFare.setText(fare);
+        tripTypeSeatMapText.setText(tripType);
+        reportingTimeSeatMapText.setText(reportingTime);
+        departureTimeSeatMapText.setText(departureTime);
         proceedBtn.setDisable(true);
 
 //        soldSeatsList.add("A-1");

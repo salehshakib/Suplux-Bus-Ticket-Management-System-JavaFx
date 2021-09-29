@@ -236,8 +236,8 @@ public class HomeController implements Initializable {
                         //OTP is sent here
                         try {
                             ConnectorDB connectorDB = new ConnectorDB();
-                            String email = "www.shakib.ss@gmail.com";
-                            String sqlQuery = "select userEmail from userInformation where userEmail = '" + email +"'";
+                            //String email = signUpEmail.getText();
+                            String sqlQuery = "select userEmail from userInformation where userEmail = '" + signUpEmail.getText() +"'";
                             Statement statement = connectorDB.getConnection().createStatement();
                             ResultSet resultSet = statement.executeQuery(sqlQuery);
                             int row = resultSet.getRow();
@@ -249,12 +249,12 @@ public class HomeController implements Initializable {
                                 String subject = "User Verification OTP";
                                 String from = "sam404.iums@gmail.com";
 
-                                mailOTP.sendMail(message, subject, email, from);
+                                mailOTP.sendMail(message, subject, signUpEmail.getText(), from);
 
                                 SignUpController signUpController = new SignUpController();
 
 
-                                signUpController.userData(email, signUpPassword.getText(), verificationOTP);
+                                signUpController.userData(signUpEmail.getText(), signUpPassword.getText(), verificationOTP);
 
                                 row++;
 

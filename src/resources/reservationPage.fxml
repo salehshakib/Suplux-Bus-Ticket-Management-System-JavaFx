@@ -200,12 +200,12 @@
                                     </VBox>
                                     <VBox prefHeight="200.0" prefWidth="200.0">
                                        <children>
-                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="M4055">
+                                          <Text fx:id="coachNoSeatMapText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="M4055">
                                              <font>
                                                 <Font name="Microsoft YaHei Light" size="30.0" />
                                              </font>
                                           </Text>
-                                          <Text fill="WHITE" layoutX="10.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dhaka">
+                                          <Text fx:id="coachStartingSeatMapText" fill="WHITE" layoutX="10.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dhaka">
                                              <font>
                                                 <Font name="Microsoft YaHei Light" size="25.0" />
                                              </font>
@@ -262,7 +262,7 @@
                                                 <Font name="Microsoft YaHei Light" size="30.0" />
                                              </font>
                                           </Text>
-                                          <Text fill="WHITE" layoutX="10.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Khagrachari">
+                                          <Text fx:id="DestinationSeatMapText" fill="WHITE" layoutX="10.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Khagrachari">
                                              <font>
                                                 <Font name="Microsoft YaHei Light" size="25.0" />
                                              </font>
@@ -270,7 +270,7 @@
                                                 <Insets top="10.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <Text fill="WHITE" layoutX="10.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="International">
+                                          <Text fx:id="tripTypeSeatMapText" fill="WHITE" layoutX="10.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="International">
                                              <font>
                                                 <Font name="Microsoft YaHei Light" size="25.0" />
                                              </font>
@@ -309,12 +309,12 @@
                                     </VBox>
                                     <VBox prefHeight="200.0" prefWidth="200.0">
                                        <children>
-                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="08:45 PM, Wed 21 Dec, 2021">
+                                          <Text fx:id="reportingTimeSeatMapText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="08:45 PM, Wed 21 Dec, 2021">
                                              <font>
                                                 <Font name="Microsoft YaHei Light" size="25.0" />
                                              </font>
                                           </Text>
-                                          <Text fill="WHITE" layoutX="10.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="09:00 PM, Wed 21 Dec, 2021">
+                                          <Text fx:id="departureTimeSeatMapText" fill="WHITE" layoutX="10.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="09:00 PM, Wed 21 Dec, 2021">
                                              <font>
                                                 <Font name="Microsoft YaHei Light" size="25.0" />
                                              </font>
@@ -529,19 +529,6 @@
                                        <children>
                                           <Circle fill="DODGERBLUE" radius="10.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: green;" />
                                           <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected">
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                             <font>
-                                                <Font name="Microsoft YaHei Light" size="15.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                    </HBox>
-                                    <HBox layoutX="10.0" layoutY="85.0" prefHeight="100.0" prefWidth="200.0">
-                                       <children>
-                                          <Circle fill="#013e76" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
-                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Unavailable">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
