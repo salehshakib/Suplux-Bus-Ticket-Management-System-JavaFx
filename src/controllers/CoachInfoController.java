@@ -38,7 +38,7 @@ public class CoachInfoController implements Initializable {
         if(!isViewSeatButtonPressed){
 
 
-            rpc.showSeatMap(typeText.getText(), coachNoText.getText());
+            rpc.showSeatMap(typeText.getText(), coachNoText.getText(), fromText.getText(), toText.getText(), fareText.getText(), "LOCAL", reportingText.getText(), departureText.getText());
             isViewSeatButtonPressed = true;
         }
 
@@ -67,7 +67,7 @@ public class CoachInfoController implements Initializable {
         destinationText.setText(destination);
         typeText.setText(coachType);
         seatsText.setText(availSeats);
-        fareText.setText(fare);
+        fareText.setText("BDT " + fare);
 
     }
 
