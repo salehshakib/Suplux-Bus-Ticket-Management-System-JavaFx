@@ -23,16 +23,13 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import miscellaneous.mail.MailOTP;
 import net.codejava.sql.ConnectorDB;
 
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Objects;
 import java.util.ResourceBundle;
 

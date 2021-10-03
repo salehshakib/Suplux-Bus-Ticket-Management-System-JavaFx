@@ -45,6 +45,18 @@ public class ConfirmationPageController implements Initializable {
     private String bookOrPurchase;
     private String paymentMethod;
 
+    private ReservationPageController rpc;
+
+    /**
+     * this setter gets controller from ReservationPageController
+     */
+    public void setRpc(ReservationPageController rpc) {
+        this.rpc = rpc;
+    }
+
+    /**
+     * this method is updating the trip data of confirmation page
+     */
     public void updateTripData(String seat, String fare){
 
         seats.setText(seat);
@@ -469,36 +481,17 @@ public class ConfirmationPageController implements Initializable {
                         if(bookOrPurchase.equals("book")){
 
                             switch (paymentMethod) {
-                                case "bkash":
-
-                                    createInfoDialog("Ticket booking using Bkash was successful!!!");
-                                    break;
-                                case "rocket":
-
-                                    createInfoDialog("Ticket booking using Rocket was successful!!!");
-                                    break;
-                                case "nagad":
-
-                                    createInfoDialog("Ticket booking using Nagad was successful!!!");
-                                    break;
+                                case "bkash" -> createInfoDialog("Ticket booking using Bkash was successful!!!");
+                                case "rocket" -> createInfoDialog("Ticket booking using Rocket was successful!!!");
+                                case "nagad" -> createInfoDialog("Ticket booking using Nagad was successful!!!");
                             }
-
 
                         } else{
 
                             switch (paymentMethod) {
-                                case "bkash":
-
-                                    createInfoDialog("Ticket Purchasing using Bkash was successful!!!");
-                                    break;
-                                case "rocket":
-
-                                    createInfoDialog("Ticket Purchasing using Rocket was successful!!!");
-                                    break;
-                                case "nagad":
-
-                                    createInfoDialog("Ticket Purchasing using Nagad was successful!!!");
-                                    break;
+                                case "bkash" -> createInfoDialog("Ticket Purchasing using Bkash was successful!!!");
+                                case "rocket" -> createInfoDialog("Ticket Purchasing using Rocket was successful!!!");
+                                case "nagad" -> createInfoDialog("Ticket Purchasing using Nagad was successful!!!");
                             }
 
                         }
@@ -551,17 +544,27 @@ public class ConfirmationPageController implements Initializable {
 
                 //TODO fetch user data from the database here...
 
-                try {
-                    Parent dashboard = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/dashboard.fxml")));
+                if(ReservationPageController.isPassengerReturn.equals("1")){
 
-                    Scene dashboardScene = new Scene(dashboard);
+                    ReservationPageController.isPassengerReturn = "2";
+                    rpc.onClickBackToCoachInfoButton();
+                    bookTicketBtn.getScene().getWindow().hide();
 
-                    Stage window = (Stage) ((Node) ev.getSource()).getScene().getWindow();
-                    window.setScene(dashboardScene);
-                    window.show();
+                } else{
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    try {
+                        Parent dashboard = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/dashboard.fxml")));
+
+                        Scene dashboardScene = new Scene(dashboard);
+
+                        Stage window = (Stage) ((Node) ev.getSource()).getScene().getWindow();
+                        window.setScene(dashboardScene);
+                        window.show();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 }
 
             });
