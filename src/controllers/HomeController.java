@@ -55,6 +55,9 @@ public class HomeController implements Initializable {
     private static boolean stage = false;
     private static boolean isLoggedIn = false;
 
+//    public static String justEmail, justUserName, justUserGender;
+
+
     /**
      * this method is to close the application
      */
@@ -140,13 +143,19 @@ public class HomeController implements Initializable {
                             ConnectorDB connectorDB = new ConnectorDB();
                             String email = logInEmail.getText();
                             System.out.println(email);
-                            String sqlQuery = "select userPassword from userInformation where userEmail = '" + email +"'";
+                            String sqlQuery = "select * from userInformation where userEmail = '" + email +"'";
                             Statement statement = connectorDB.getConnection().createStatement();
                             ResultSet resultSet = statement.executeQuery(sqlQuery);
                             while (resultSet.next()){
                                 if(resultSet.getString("userPassword").equals(logInPassword.getText())){
                                     System.out.println(resultSet.getString("userPassword"));
                                     System.out.println("log IN success");
+                                    UserData userData = new UserData();
+                                    userData.setUserEmail(email);
+                                    String name = resultSet.getString("userLastName");
+                                    String gender = resultSet.getString("userGender");
+                                    userData.setUserLastName(name);
+                                    userData.setUserGender(gender);
                                     isLoggedIn = true;
                                 }
                                 else {
@@ -154,8 +163,7 @@ public class HomeController implements Initializable {
                                     isLoggedIn = false;
                                 }
                             }
-                            UserData userData = new UserData();
-                            userData.setUserEmail(email);
+
 
 
 
@@ -181,6 +189,7 @@ public class HomeController implements Initializable {
 
                 if(isLoggedIn){
                     try {
+
 
 
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/dashboard.fxml"));
@@ -240,8 +249,7 @@ public class HomeController implements Initializable {
                             String sqlQuery = "select userEmail from userInformation where userEmail = '" + signUpEmail.getText() +"'";
                             Statement statement = connectorDB.getConnection().createStatement();
                             ResultSet resultSet = statement.executeQuery(sqlQuery);
-                            int row = resultSet.getRow();
-                            if (row==0){
+                            if (!resultSet.next()){
                                 MailOTP mailOTP = new MailOTP();
                                 System.out.println("preparing to send message ...");
                                 verificationOTP = mailOTP.getRandomNumberString();
@@ -255,11 +263,13 @@ public class HomeController implements Initializable {
 
 
                                 signUpController.userData(signUpEmail.getText(), signUpPassword.getText(), verificationOTP);
+                                System.out.println(verificationOTP);
 
-                                row++;
+
 
                             }else {
-                                //todo if user already exist
+                                //todo if user already exist so fix this shit $_chudirvi("aumi')
+
                                 System.out.println("user already exist");
                             }
 

@@ -566,12 +566,11 @@ public class DashboardController implements Initializable {
                 if (resultSet.getString("userImage") != null){
                     System.out.println(resultSet.getString("userImage"));
 
-                    //TODO user image path is null so fix this shit @saleh
-
-                    Image img = new Image("/img/SteeringWheel.png", false);
+                    Image img = new Image("/upload/"+resultSet.getString("userImage"), false);
                     innerCircle.setFill(new ImagePattern(img));
-                }
 
+
+                }
             }
 
         } catch (SQLException e) {

@@ -4,9 +4,9 @@ public class UserData {
     public static String userEmail;
 //    private String userPassword;
 //    private String userFirstName;
-//    private String userLastName;
+    private static String userLastName;
 //    private String userPhoneNumber;
-//    private String userGender;
+    private static String userGender;
 //    private String userNid_BReg;
 //    private String userPassport;
 //    private String userImage;
@@ -22,4 +22,19 @@ public class UserData {
         this.userEmail = userEmail;
     }
 
+    public String getUserLastName() {
+        return userLastName;
+    }
+
+    public void setUserLastName(String userLastName) {
+        this.userLastName = userLastName;
+    }
+
+    public String getUserGender() {
+        return userGender;
+    }
+
+    public void setUserGender(String userGender) {
+        this.userGender = userGender;
+    }
 }

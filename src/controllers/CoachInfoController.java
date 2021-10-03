@@ -51,7 +51,7 @@ public class CoachInfoController implements Initializable {
     }
 
     /**
-     * TODO update this method's parameters and get values from the database
+     * update this method's parameters and get values from the database
      */
     public void updateInfo(String from, String to, String coachNo, String reportingTime, String boarding, String departureTime, String destination,String coachType, String availSeats, String fare){
 

@@ -16,7 +16,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <StackPane fx:id="rootStack" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DashboardController">
    <children>
       <AnchorPane prefHeight="837.0" prefWidth="1300.0" styleClass="base" stylesheets="@../stylestheets/styles.css">
@@ -40,9 +39,7 @@
                               <Font name="Microsoft YaHei Light" size="40.0" />
                            </font>
                         </Text>
-                        <Circle fx:id="outerCircle" fill="#1f93ff00" layoutX="-330.0" layoutY="253.0" radius="70.0" stroke="#007efc" strokeType="OUTSIDE" strokeWidth="3.0" />
-                        <Circle fx:id="innerCircle" layoutX="-330.0" layoutY="253.0" radius="70.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                        <SVGPath fx:id="userPic" content="M 224 256 c 70.7 0 128 -57.3 128 -128 S 294.7 0 224 0 S 96 57.3 96 128 s 57.3 128 128 128 Z m 89.6 32 h -16.7 c -22.2 10.2 -46.9 16 -72.9 16 s -50.6 -5.8 -72.9 -16 h -16.7 C 60.2 288 0 348.2 0 422.4 V 464 c 0 26.5 21.5 48 48 48 h 352 c 26.5 0 48 -21.5 48 -48 v -41.6 c 0 -74.2 -60.2 -134.4 -134.4 -134.4 Z" fill="#00172d" layoutX="-34.0" layoutY="1.0" scaleX="0.2" scaleY="0.2" visible="false" />
+                        <Circle fx:id="innerCircle" layoutX="-330.0" layoutY="253.0" radius="70.0" stroke="#007efc" strokeType="INSIDE" strokeWidth="3.0" />
                      </children>
                   </Pane>
                   <ScrollPane fx:id="dashScroll" hbarPolicy="NEVER" layoutY="370.0" prefHeight="467.0" prefWidth="1240.0" styleClass="base" stylesheets="@../stylestheets/styles.css" visible="false">

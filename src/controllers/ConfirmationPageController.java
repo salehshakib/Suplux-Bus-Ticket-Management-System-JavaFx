@@ -63,6 +63,33 @@ public class ConfirmationPageController implements Initializable {
         totalFare.setText(fare);
     }
 
+    // todo update constructor
+    public void updateTripData(String userName, String userGender, String cNo, String rTime, String boarding, String departTime, String dest, String cType, String seat, String fare){
+
+        if(userGender.equals("Female")){
+            passName.setText("Ms. " + userName);
+        } else {
+            passName.setText("Mr. "+ userName);
+        }
+
+        //todo if dhaka not selected swap from and to
+        coachNo.setText(cNo);
+        seats.setText(seat);
+        totalFare.setText(fare);
+
+        String[] part1 = rTime.split(",");
+
+        String[] part2 = departTime.split(",");
+        reportingTime.setText(part1[0]);
+        tripDate.setText(part1[2]);
+        boardingPoint.setText(boarding);
+        departureTime.setText(part2[0]);
+        destination.setText(dest);
+        coachType.setText(cType);
+
+
+    }
+
     /**
      *  this method is to close the application
      */
@@ -281,6 +308,7 @@ public class ConfirmationPageController implements Initializable {
                         paymentMethodText.setText("Select Your Booking Method:");
                         scaleIt(200, paymentOptionsHBox, 1, 2);
                         bookOrPurchase = "book";
+                        //todo insertion  for booking with due fare
                     }
                 });
                 blurPane.setEffect(blur);
@@ -335,6 +363,7 @@ public class ConfirmationPageController implements Initializable {
                         paymentMethodText.setText("Select Your Purchase Method:");
                         scaleIt(200, paymentOptionsHBox, 1, 2);
                         bookOrPurchase = "purchase";
+                        //todo insertion for purchase
                     }
                 });
                 blurPane.setEffect(blur);
@@ -456,7 +485,7 @@ public class ConfirmationPageController implements Initializable {
 
                 if(pdc.isConfirmButtonPressed()){
 
-                    //this task object is letting us to get the time for pushing the data to database
+                    //this task object is letting us get the time for pushing the data to database
                     Task<Void> task = new Task<>() {
                         @Override
                         public Void call() {
@@ -542,7 +571,7 @@ public class ConfirmationPageController implements Initializable {
 
                 blurPane.setEffect(null);
 
-                //TODO fetch user data from the database here...
+
 
                 if(ReservationPageController.isPassengerReturn.equals("1")){
 

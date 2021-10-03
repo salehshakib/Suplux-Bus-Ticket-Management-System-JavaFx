@@ -178,7 +178,7 @@ public class CancellationPageController implements Initializable {
      */
     public void onClickSearchButton(){
 
-        //this task object is letting us to get the time for fetching the data from database
+        //this task object is letting us get the time for fetching the data from database
         Task<Void> task = new Task<>() {
             @Override
             public Void call() {

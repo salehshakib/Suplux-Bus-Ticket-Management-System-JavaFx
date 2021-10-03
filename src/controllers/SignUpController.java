@@ -30,7 +30,9 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class SignUpController implements Initializable {
@@ -53,6 +55,7 @@ public class SignUpController implements Initializable {
     private String formEmail, formPassword, otp;
     private File proPic;
     private String imageFile;
+    private String fileName;
 
     public SignUpController() throws SQLException {
     }
@@ -83,30 +86,42 @@ public class SignUpController implements Initializable {
     * this method opens the fileChooser window when "Upload a Profile Image" button
     * is clicked so the user can select an image for profile picture
     */
-    public void onClickUploadAProfileImage() throws FileNotFoundException {
+    public void onClickUploadAProfileImage() throws IOException {
 
         imagePane.setStyle("-fx-border-color:  #007EfC");
 
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*jpeg"));
 
         proPic = fc.showOpenDialog(null);
 
         if(proPic != null){
 
             try {
-                String newPath = "upload/Profile Images";
+                String newPath = "src/upload/";
                 File directory = new File(newPath);
                 if(!directory.exists()){
                     directory.mkdirs();
                 }
-                File sourceFile = null;
-                File destinationFile = null;
-                String extension =  proPic.getAbsolutePath().substring(proPic.getAbsolutePath().lastIndexOf("\\")+1);
 
-                sourceFile = new File(proPic.getAbsolutePath());
-                destinationFile = new File(newPath+"/Profile Picture."+ extension);
+                LocalDate userIdCreatedDate = LocalDate.now();
+                Random random = new Random();
+                String randomNumber = Integer.toString(1123 + random.nextInt(9475)) + "-" + Integer.toString(1123 + random.nextInt(9475));
+
+
+                String profilePictureName =  userIdCreatedDate + "-" + randomNumber;
+                String extension =  proPic.getAbsolutePath().substring(proPic.getAbsolutePath().lastIndexOf("\\")+1);
+                extension = extension.substring(extension.lastIndexOf('.')+1);
+
+                File sourceFile = new File(proPic.getAbsolutePath());
+                fileName =profilePictureName + "."+ extension;
+                File destinationFile = new File(newPath+ profilePictureName + "."+ extension);
+                System.out.println(fileName);
+
+
                 imageFile = destinationFile.getAbsolutePath();
+
+                System.out.println(imageFile);
 
                 Files.copy(sourceFile.toPath(), destinationFile.toPath());
                 System.out.println(destinationFile.getAbsolutePath());
@@ -227,8 +242,13 @@ public class SignUpController implements Initializable {
                             String nid = nidField.getText();
                             String bReg = bRegField.getText();
 
-                            System.out.println(email + "\n" + gender + "\n" + firstName + "\n"+ lastName + "\n" + mobileNo + "\n"+ email + "\n"+ password + "\n" + otp);
+                            System.out.println(email + "\n" + gender + "\n" + firstName + "\n"+ lastName + "\n" + mobileNo + "\n"+ email + "\n"+ password + "\n" + otp + "\n" + fileName);
 
+                            if (bReg.equals("")){
+                                bReg = "NULL";
+                            } else {
+                                nid = "NULL";
+                            }
 
                             String sqlQuery = "INSERT INTO userInformation (userEmail," +
                                     "userPassword, " +
@@ -252,7 +272,7 @@ public class SignUpController implements Initializable {
                             preparedStatement.setString(7,nid);
                             preparedStatement.setString(8,bReg);
                             preparedStatement.setString(9,passport);
-                            preparedStatement.setString(10,imageFile);
+                            preparedStatement.setString(10,fileName);
 
                             preparedStatement.executeUpdate();
 
