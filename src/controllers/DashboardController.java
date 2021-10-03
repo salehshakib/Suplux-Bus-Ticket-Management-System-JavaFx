@@ -53,8 +53,7 @@ public class DashboardController implements Initializable {
     public ScrollPane dashScroll;
     public StackPane rootStack;
     public Text passenger, dashboard, userName;
-    public Circle innerCircle, outerCircle;
-    public SVGPath userPic;
+    public Circle innerCircle;
     public ProgressBar fetchProg;
 
 
@@ -567,8 +566,10 @@ public class DashboardController implements Initializable {
                 if (resultSet.getString("userImage") != null){
                     System.out.println(resultSet.getString("userImage"));
 
-                    /*Image img = new Image("E:\\Pictures\\Profile Pic\\Viper.jpg");
-                    innerCircle.setFill(new ImagePattern(img));*/
+                    //TODO user image path is null so fix this shit @saleh
+
+                    Image img = new Image("/img/SteeringWheel.png", false);
+                    innerCircle.setFill(new ImagePattern(img));
                 }
 
             }
@@ -587,7 +588,6 @@ public class DashboardController implements Initializable {
         translateIt(500, dashboard, -461, 1);
         translateIt(500, userName, 651, 1);
         translateIt(500, innerCircle, 520, 1);
-        translateIt(500, outerCircle, 520, 1);
 
 
         TranslateTransition scrollTransition = new TranslateTransition(Duration.millis(500), dashScroll);
@@ -596,7 +596,6 @@ public class DashboardController implements Initializable {
 
         scrollTransition.setOnFinished((er)->{
 
-            userPic.setVisible(true);
             dashScroll.setVisible(true);
 
             ScaleTransition reserveTransition = new ScaleTransition(Duration.millis(500), reservePane);
