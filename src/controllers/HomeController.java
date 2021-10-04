@@ -268,7 +268,7 @@ public class HomeController implements Initializable {
 
 
                             }else {
-                                //todo if user already exist so fix this shit $_chudirvi("aumi')
+                                //todo if user already exist so fix this shit set_cookie(mjaumi, val, 3d);
 
                                 System.out.println("user already exist");
                             }

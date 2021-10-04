@@ -22,9 +22,19 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import miscellaneous.java.UserData;
+import net.codejava.sql.ConnectorDB;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -46,6 +56,7 @@ public class ConfirmationPageController implements Initializable {
     private String paymentMethod;
 
     private ReservationPageController rpc;
+    public static boolean goingToDhaka = false;
 
     /**
      * this setter gets controller from ReservationPageController
@@ -57,13 +68,9 @@ public class ConfirmationPageController implements Initializable {
     /**
      * this method is updating the trip data of confirmation page
      */
-    public void updateTripData(String seat, String fare){
 
-        seats.setText(seat);
-        totalFare.setText(fare);
-    }
 
-    // todo update constructor
+
     public void updateTripData(String userName, String userGender, String cNo, String rTime, String boarding, String departTime, String dest, String cType, String seat, String fare){
 
         if(userGender.equals("Female")){
@@ -73,19 +80,21 @@ public class ConfirmationPageController implements Initializable {
         }
 
         //todo if dhaka not selected swap from and to
-        coachNo.setText(cNo);
-        seats.setText(seat);
-        totalFare.setText(fare);
+
+
 
         String[] part1 = rTime.split(",");
-
         String[] part2 = departTime.split(",");
         reportingTime.setText(part1[0]);
         tripDate.setText(part1[2]);
         boardingPoint.setText(boarding);
         departureTime.setText(part2[0]);
         destination.setText(dest);
+        coachNo.setText(cNo);
         coachType.setText(cType);
+        seats.setText(seat);
+        totalFare.setText(fare);
+
 
 
     }
@@ -308,7 +317,7 @@ public class ConfirmationPageController implements Initializable {
                         paymentMethodText.setText("Select Your Booking Method:");
                         scaleIt(200, paymentOptionsHBox, 1, 2);
                         bookOrPurchase = "book";
-                        //todo insertion  for booking with due fare
+
                     }
                 });
                 blurPane.setEffect(blur);
@@ -363,7 +372,7 @@ public class ConfirmationPageController implements Initializable {
                         paymentMethodText.setText("Select Your Purchase Method:");
                         scaleIt(200, paymentOptionsHBox, 1, 2);
                         bookOrPurchase = "purchase";
-                        //todo insertion for purchase
+
                     }
                 });
                 blurPane.setEffect(blur);
@@ -488,11 +497,143 @@ public class ConfirmationPageController implements Initializable {
                     //this task object is letting us get the time for pushing the data to database
                     Task<Void> task = new Task<>() {
                         @Override
-                        public Void call() {
+                        public Void call() throws ParseException, SQLException {
 
                             scaleIt(200, fetchProg, 1, 2);
 
                             //TODO generate UTK number and push the data of booking ticket to database here...
+
+                            String seat[] = seats.getText().split(", ");
+                            String seatNo[] = seat[0].split("-");
+
+                            LocalDateTime myDateObj = LocalDateTime.now();
+                            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("ddMMyyyyHHmm");
+                            DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+                            String utkNo = myDateObj.format(myFormatObj);
+                            String reservationDate = myDateObj.format(myFormatObj1);
+
+                            DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            DateFormat givenFormat = new SimpleDateFormat("dd MMM yyyy");
+
+                            Date date = givenFormat.parse(tripDate.getText());
+                            String newTripDate = targetFormat.format(date);
+
+
+                            utkNo += "-";
+                            utkNo += coachNo.getText();
+                            utkNo += seatNo[0] + seatNo[1];
+                            utkNo +="-";
+
+
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
+                            SimpleDateFormat newTargetFormat = new SimpleDateFormat("ddMMyyyy");
+                            date = simpleDateFormat.parse(tripDate.getText());
+                            String formatDate = newTargetFormat.format(date);
+                            if (departureTime.getText().substring(5, 7).equals("PM")){
+                                String hour[] = departureTime.getText().split(":");
+                                hour[1] = departureTime.getText().substring(3,5);
+                                int time = Integer.parseInt(hour[0]);
+                                time += 12;
+                                formatDate += Integer.toString(time)+hour[1];
+
+                            } else {
+                                String hour[] = departureTime.getText().split(":");
+                                formatDate += hour[0] + hour[1];
+                            }
+                            utkNo += formatDate;
+
+
+                            try {
+                                ConnectorDB connectorDB = new ConnectorDB();
+                                UserData userData = new UserData();
+                                PreparedStatement preparedStatement;
+
+                                for(String arr: seat){
+                                    String newCoachNo = coachNo.getText();
+
+
+
+                                    if (coachNo.getText().contains("-R")) {
+
+                                        newCoachNo = newCoachNo.substring(0, newCoachNo.length()-2);
+                                        String sqlQuery1 = "INSERT INTO Reservation (UTKNo," +
+                                                "userEmail, " +
+                                                "coachNo, " +
+                                                "bookedSeat, " +
+                                                "reservationDate, " +
+                                                "dateOfReturn, " +
+                                                "paymentMethod, " +
+                                                "duePayment) Values(?,?,?,?,?,?,?,?)";
+                                        preparedStatement = connectorDB.getConnection().prepareStatement(sqlQuery1);
+                                    } else{
+                                        String sqlQuery2 = "INSERT INTO Reservation (UTKNo," +
+                                                "userEmail, " +
+                                                "coachNo, " +
+                                                "bookedSeat, " +
+                                                "reservationDate, " +
+                                                "dateOfJourney, " +
+                                                "paymentMethod, " +
+                                                "duePayment) Values(?,?,?,?,?,?,?,?)";
+                                        preparedStatement = connectorDB.getConnection().prepareStatement(sqlQuery2);
+
+                                    }
+
+                                    preparedStatement.setString(1,utkNo);
+                                    preparedStatement.setString(2,userData.getUserEmail());
+
+                                    preparedStatement.setString(3,newCoachNo);
+                                    preparedStatement.setString(4,arr);
+                                    preparedStatement.setString(5,reservationDate);
+                                    preparedStatement.setString(6,newTripDate);
+                                    preparedStatement.setString(7,paymentMethod);
+                                    if(payableOrDue.contains("Payable")){
+                                        preparedStatement.setString(8,"0");
+                                    }else {
+                                        preparedStatement.setString(8,Integer.toString(payableOrDueFare));
+
+                                    }
+                                    preparedStatement.executeUpdate();
+                                }
+
+                                String sqlQuery3 = "INSERT INTO transactionInformation (transactionId," +
+                                        "userEmail, " +
+                                        "statusInfo) Values(?,?,?)";
+
+                                preparedStatement = connectorDB.getConnection().prepareStatement(sqlQuery3);
+                                preparedStatement.setString(1, utkNo);
+                                preparedStatement.setString(2, userData.getUserEmail());
+                                if (payableOrDue.contains("Payable")){
+                                    preparedStatement.setString(3, "Paid");
+                                } else {
+                                    preparedStatement.setString(3, "Booked");
+                                }
+
+                                preparedStatement.executeUpdate();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+
+
+
+
+
+
+
 
                             try {
                                 Thread.sleep(3000);
@@ -576,6 +717,13 @@ public class ConfirmationPageController implements Initializable {
                 if(ReservationPageController.isPassengerReturn.equals("1")){
 
                     ReservationPageController.isPassengerReturn = "2";
+
+                    if (ReservationPageController.downTripSelected){
+                        goingToDhaka = true;
+                        System.out.println("halum");
+                    }
+
+
                     rpc.onClickBackToCoachInfoButton();
                     bookTicketBtn.getScene().getWindow().hide();
 
