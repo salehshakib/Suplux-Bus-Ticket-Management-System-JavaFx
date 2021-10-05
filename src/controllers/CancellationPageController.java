@@ -18,9 +18,22 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import net.codejava.sql.ConnectorDB;
 
+import javax.swing.plaf.nimbus.State;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -37,6 +50,12 @@ public class CancellationPageController implements Initializable {
     public TextField UTKSearchField;
     public HBox ticketDetails;
     public ProgressBar fetchProg;
+    public boolean eligible = false;
+
+    //todo my variables
+    public String bookedSeat = "";
+    //public String utkNo,  status,  bookedSeats, journeyDate, cNo, cType, busFare, boarding, dest, reportTime, departTime;
+    public int i = 0;
 
     /**
      *  this method is to close the application
@@ -177,11 +196,13 @@ public class CancellationPageController implements Initializable {
      * this method is used to search the ticket details in the database
      */
     public void onClickSearchButton(){
+        bookedSeat = "";
 
         //this task object is letting us get the time for fetching the data from database
         Task<Void> task = new Task<>() {
             @Override
             public Void call() {
+
 
                 if(cancelWarningMsg.getScaleY() == 1){
 
@@ -191,6 +212,19 @@ public class CancellationPageController implements Initializable {
                 scaleIt(200, fetchProg, 1, 2);
 
                 //TODO search the database for ticket details here
+                try {
+                    i=0;
+                    ConnectorDB connectorDB = new ConnectorDB();
+                    String sqlQuery = "Select * from Reservation where UTKNo = '"+ UTKSearchField.getText() + "' ";
+                    Statement statement = connectorDB.getConnection().createStatement();
+                    ResultSet resultSet = statement.executeQuery(sqlQuery);
+
+                    while (resultSet.next()){
+                        i++;
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
 
                 try {
                     Thread.sleep(2000);
@@ -205,9 +239,57 @@ public class CancellationPageController implements Initializable {
         };
         task.setOnSucceeded(e -> {
 
-            if(UTKSearchField.getText().equals(UTKNumber.getText())){
-
+            if(i != 0){
                 ScaleTransition detailsTransition = new ScaleTransition(Duration.millis(300), ticketDetails);
+
+                try {
+                    ConnectorDB connectorDB = new ConnectorDB();
+                    String sqlQuery = "select * from Reservation join tripData on tripData.coachNo = Reservation.coachNo join transactionInformation on Reservation.UTKNo = transactionInformation.transactionId where UTKNo = '"+ UTKSearchField.getText() + "' ";
+                    Statement statement = connectorDB.getConnection().createStatement();
+                    ResultSet resultSet = statement.executeQuery(sqlQuery);
+                    while (resultSet.next()){
+                        UTKNumber.setText(resultSet.getString("UTKNo"));
+                        //System.out.println(UTKNumber.getText());
+                        reservationStatus.setText(resultSet.getString("statusInfo"));
+                        //System.out.println(reservationStatus.getText());
+                        if (UTKNumber.getText().contains("R")){
+                            tripDate.setText(resultSet.getString("dateOfReturn"));
+                            boardingPoint.setText(resultSet.getString("destination") );
+                            destination.setText(resultSet.getString("startingFrom"));
+                        } else {
+                            tripDate.setText(resultSet.getString("dateOfJourney"));
+                            boardingPoint.setText(resultSet.getString("boardingPoint") + ", "+ resultSet.getString("startingFrom") );
+                            destination.setText(resultSet.getString("destination"));
+                        }
+                        departureTime.setText(resultSet.getString("departureTime"));
+                        coachNumber.setText(resultSet.getString("coachNo"));
+                        coachType.setText(resultSet.getString("coachType"));
+                        bookedSeat += resultSet.getString("bookedSeat") + "  ";
+                        totalFare.setText(resultSet.getString("farePerSeat"));
+
+
+                    }
+
+                    seats.setText(bookedSeat);
+
+                    int hour = Integer.parseInt(departureTime.getText().substring(0,2));
+                    int min = Integer.parseInt(departureTime.getText().substring(3,5));
+                    String amPM = departureTime.getText().substring(5,7);
+                    if (min<15){
+                        hour--;
+                        min = 60 + min - 15;
+                    } else {
+                        min = min -15;
+                    }
+                    reportingTime.setText(new DecimalFormat("00").format(hour) + ":" + new DecimalFormat("00").format(min) + amPM);
+
+
+                    //System.out.println(seats.getText());
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+
 
                 if(ticketDetails.getScaleX() == 1){
 
@@ -245,6 +327,7 @@ public class CancellationPageController implements Initializable {
      */
     public void onKeyPressedSearchField(){
 
+
         if(searchErrorMsg.getScaleX() == 1){
 
             scaleIt(200, searchErrorMsg, 0, 3);
@@ -267,12 +350,60 @@ public class CancellationPageController implements Initializable {
         //this task object is letting us get the time for fetching the data from database
         Task<Void> task = new Task<>() {
             @Override
-            public Void call() {
+            public Void call() throws ParseException {
 
                 scaleIt(200, fetchProg, 1, 2);
 
                 //TODO here the database must be checked if the ticket is eligible for cancellation or not
-                //todo ekhan e reservationDate er sathe 2/3d er modde jodi cancle kora hoy taile show korbo
+                LocalDateTime myDateObj = LocalDateTime.now();
+                DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+                DateFormat givenFormat = new SimpleDateFormat("yyyy-MM-dd");
+                DateFormat targetFormat = new SimpleDateFormat("yyyyMMdd");
+
+                Date date = givenFormat.parse(tripDate.getText());
+                String tripDate = targetFormat.format(date);
+
+                String todayDate = myDateObj.format(myFormatObj);
+                System.out.println(todayDate);
+                System.out.println(tripDate);
+
+                if (Integer.parseInt(todayDate) < Integer.parseInt(tripDate)-1 ){
+                    System.out.println("cancelable");
+                    eligible = true;
+                    try {
+                        ConnectorDB connectorDB = new ConnectorDB();
+
+                        String sqlQuery1 = "update transactionInformation set statusInfo = 'Canceled' where transactionId = '"+ UTKNumber.getText() + "' ";
+                        System.out.println(sqlQuery1);
+                        Statement statement = connectorDB.getConnection().createStatement();
+                        ResultSet resultSet =statement.executeQuery(sqlQuery1);
+
+
+                        String sqlQuery = "delete from Reservation where UTKNo =  '" + UTKNumber.getText()+ "' ";
+
+                        statement = connectorDB.getConnection().createStatement();
+                        resultSet = statement.executeQuery(sqlQuery);
+
+
+//                    PreparedStatement preparedStatement = connectorDB.getConnection().prepareStatement(sqlQuery);
+//                    preparedStatement.setString(1, UTKNumber.getText());
+//                    preparedStatement.executeUpdate();
+
+
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+
+                } else {
+                    System.out.println("NOT ELIGIBLE");
+                }
+
+
+
+
+
+
 
                 try {
                     Thread.sleep(2000);
@@ -287,8 +418,13 @@ public class CancellationPageController implements Initializable {
         };
         task.setOnSucceeded(e -> {
 
-            if(UTKNumber.getText().equals("230720211158-M4055D3-240720212200")){
+            if(eligible){
 
+
+                //todo show dialouge box  and take user home
+
+
+            } else {
                 ScaleTransition warningTransition = new ScaleTransition(Duration.millis(200), cancelWarningMsg);
 
                 if(cancelWarningMsg.getScaleY() == 1){
@@ -298,7 +434,6 @@ public class CancellationPageController implements Initializable {
                 }
                 warningTransition.setToY(1);
                 warningTransition.play();
-
             }
 
         });

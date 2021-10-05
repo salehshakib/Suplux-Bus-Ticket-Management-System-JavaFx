@@ -100,6 +100,7 @@ public class ReservationPageController implements Initializable {
 
     public String startingFrom, dest,  coachNo, reportingTime, boarding, departureTime, cType, busFare, journeyDate, returnDate;
     public String userName, userGender;
+    public  int total =  0;
 
 
 
@@ -477,6 +478,7 @@ public class ReservationPageController implements Initializable {
                             }
                         }
                         if (downTripSelected){
+
                             returnDate = dateOfJourney.getEditor().getText();
                             Date date1 = null;
                             try {
@@ -722,7 +724,7 @@ public class ReservationPageController implements Initializable {
                 while (resultSet.next()){
                     if (resultSet.getString("statusInfo").equals("Paid")){
                         soldSeatsList.add(resultSet.getString("bookedSeat"));
-                    } else {
+                    } else if (resultSet.getString("statusInfo").equals("Booked")){
                         bookedSeatsList.add(resultSet.getString("bookedSeat"));
                     }
                 }
@@ -1018,7 +1020,7 @@ public class ReservationPageController implements Initializable {
                 String fareParSeat = seatMapDetailsFare.getText().substring(4);
                 String totalFareCount = totalFare.getText().substring(4);
 
-                int total = Integer.parseInt(totalFareCount) + Integer.parseInt(fareParSeat);
+               total = Integer.parseInt(totalFareCount) + Integer.parseInt(fareParSeat);
 
                 totalFare.setText("BDT " + total);
 
@@ -1230,6 +1232,7 @@ public class ReservationPageController implements Initializable {
             }
 
         } else if (isPassengerReturn.equals("2")){
+            total = 0;
             returnDate = dateOfReturn.getEditor().getText();
             Date date1 = null;
             try {
@@ -1689,6 +1692,8 @@ public class ReservationPageController implements Initializable {
                 UserData userData = new UserData();
 
                 cpc.updateTripData(userData.getUserLastName(), userData.getUserGender(), coachNoSeatMapText.getText(), reportingTimeSeatMapText.getText(), coachStartingSeatMapText.getText(), departureTimeSeatMapText.getText(), dest, coachTypeSeatMapText.getText(), seat.toString(), totalFare.getText());
+                totalFare.setText("BDT 0");
+                total = 0;
                 Stage window = new Stage();
                 window.initStyle(StageStyle.UNDECORATED);
                 window.initOwner(proceedBtn.getScene().getWindow());
