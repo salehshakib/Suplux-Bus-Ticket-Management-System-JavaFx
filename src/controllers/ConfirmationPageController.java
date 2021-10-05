@@ -539,6 +539,7 @@ public class ConfirmationPageController implements Initializable {
 
                             } else {
                                 String hour[] = departureTime.getText().split(":");
+                                hour[1] = departureTime.getText().substring(3,5);
                                 formatDate += hour[0] + hour[1];
                             }
                             utkNo += formatDate;

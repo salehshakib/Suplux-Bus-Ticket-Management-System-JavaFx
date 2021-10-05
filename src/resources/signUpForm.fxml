@@ -14,7 +14,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <StackPane fx:id="rootStack" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SignUpController">
    <children>
       <AnchorPane prefHeight="837.0" prefWidth="1300.0" styleClass="base" stylesheets="@../stylestheets/styles.css">
@@ -122,16 +121,6 @@
                            <Font name="Microsoft YaHei" size="15.0" />
                         </font>
                      </TextField>
-                     <Text fill="WHITE" layoutX="77.0" layoutY="560.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Passport Number: ">
-                        <font>
-                           <Font name="Microsoft YaHei Light" size="25.0" />
-                        </font>
-                     </Text>
-                     <TextField fx:id="formPassport" layoutX="330.0" layoutY="530.0" maxWidth="-Infinity" prefHeight="40.0" prefWidth="300.0" promptText="Enter your passport number" styleClass="field" stylesheets="@../stylestheets/styles.css">
-                        <font>
-                           <Font name="Microsoft YaHei" size="15.0" />
-                        </font>
-                     </TextField>
                      <Text fill="WHITE" layoutX="123.0" layoutY="635.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OTP Number: ">
                         <font>
                            <Font name="Microsoft YaHei Light" size="25.0" />
@@ -155,11 +144,6 @@
                            <Font name="Microsoft YaHei Light" size="20.0" />
                         </font>
                      </Button>
-                     <Text fill="WHITE" layoutX="650.0" layoutY="558.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(Optional)">
-                        <font>
-                           <Font name="Microsoft YaHei Light" size="20.0" />
-                        </font>
-                     </Text>
                      <Button fx:id="proceedBtn" layoutX="955.0" layoutY="800.0" mnemonicParsing="false" onAction="#onClickProceedButton" prefHeight="45.0" prefWidth="200.0" styleClass="btn_with_svg" stylesheets="@../stylestheets/styles.css" text="Proceed    " textAlignment="CENTER">
                         <font>
                            <Font name="Microsoft YaHei Light" size="20.0" />

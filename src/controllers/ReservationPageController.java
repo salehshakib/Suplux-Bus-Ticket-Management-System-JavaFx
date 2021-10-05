@@ -38,13 +38,34 @@ public class ReservationPageController implements Initializable {
 
     public static int selectedSeatCount = 0;
     private static ReservationPageController rpc;
-    public final String[] destinations = {"Dhaka", "Khulna", "Chittagong", "Cox's Bazar", "Kolkata", "Benapole", "Satkhira",
+    public final String[] destinations = {"Dhaka", "Khulna", "Chittagong", "Cox's Bazar", "Benapole", "Satkhira",
                                             "Barisal", "Sylhet", "Rajshahi", "Rangpur", "Saint Martin", "Jessore", "Bogura",
                                             "Khagrachari", "Bandarban", "Rangamati", "Panchagarh", "Chapai Nawabganj",
-                                            "Natore", "Pabna", "Kuakata", "Dinajpur", "Siliguri", "Kathmandu"};
+                                            "Natore", "Pabna", "Kuakata", "Dinajpur"};
     public final String[] timePeriod = {"Time Period", "Morning(5:00 AM - 11:59 AM)", "Afternoon(12:00 PM - 5:59 PM)", "Night(6:00 PM - 11:59 PM)"};
-    public final String[] boardingPoints = {"Select A Boarding Point", "Aarambag, Dhaka (10:00 PM)", "Panthapath, Dhaka (10:30 PM)", "Gabtoli, Dhaka (11:00 PM)", "Savar, Dhaka (11:30 PM)"};
-    public final String[] droppingPoints = {"Select A Dropping Point", "Aarambag, Khagrachari (10:00 PM)", "Panthapath, Khagrachari (10:30 PM)", "Gabtoli, Khagrachari (11:00 PM)", "Savar, Khagrachari (11:30 PM)"};
+    public final String[] dhakaPoints = {"Select A Boarding Point", "Aarambag, Dhaka", "Sayedabad, Dhaka", "Panthapath, Dhaka", "Gabtoli, Dhaka", "Savar, Dhaka"};
+    public final String[] khulnaPoints = {"Select A Boarding Point", "Royal mor, Khulna", "Notun Rasta, Khulna", "Daulatpur, Khulna", "Fulbari Gate, Khulna"};
+    public final String[] jessorePoints = {"Select A Boarding Point", "Monihar, Jessore", "Arabpur, Jessore", "New Market, Jessore"};
+    public final String[] satkhiraPoints = {"Select A Boarding Point", "Satkhira Counter, Satkhira"};
+    public final String[] benapolePoints = {"Select A Boarding Point", "Benapole Counter, Benapole"};
+    public final String[] chittagongPoints = {"Select A Boarding Point", "Dampara, Chittagong", "AK Khan, Chittagong"};
+    public final String[] coxPoints = {"Select A Boarding Point", "Jhowtola, Cox's Bazar", "Kolatole, Cox's Bazar"};
+    public final String[] martinPoints = {"Select A Boarding Point", "Counter, Saint Martin"};
+    public final String[] barisalPoints = {"Select A Boarding Point", "Counter, Barisal"};
+    public final String[] sylhetPoints = {"Select A Boarding Point", "counter, Sylhet"};
+    public final String[] rajPoints = {"Select A Boarding Point", "Counter, Rajshahi"};
+    public final String[] rangpurPoints = {"Select A Boarding Point", "Counter, Rangpur"};
+    public final String[] boguraPoints = {"Select A Boarding Point", "Counter, Bogura"};
+    public final String[] khagrachariPoints = {"Select A Boarding Point", "Counter, Khagrachari"};
+    public final String[] bandarbanPoints = {"Select A Boarding Point", "Counter, Bandarban"};
+    public final String[] rangamatiPoints = {"Select A Boarding Point", "Counter, Rangamati"};
+    public final String[] panchaPoints = {"Select A Boarding Point", "Counter, Pancha"};
+    public final String[] chapaiPoints = {"Select A Boarding Point", "Counter, Chapai"};
+    public final String[] natorePoints = {"Select A Boarding Point", "Counter, Natore"};
+    public final String[] pabnaPoints = {"Select A Boarding Point", "Counter, Pabna"};
+    public final String[] kuakataPoints = {"Select A Boarding Point", "Counter, Kuakata"};
+    public final String[] dinajPoints = {"Select A Boarding Point", "Counter, Dinajpur"};
+
     /**
      * variable initialization
      */
@@ -714,6 +735,58 @@ public class ReservationPageController implements Initializable {
             ConnectorDB connectorDB =  new ConnectorDB();
             Statement statement = connectorDB.getConnection().createStatement();
 
+            switch (from) {
+                case "Dhaka" -> boardingPointComboBox.getItems().addAll(dhakaPoints);
+                case "Khulna" -> boardingPointComboBox.getItems().addAll(khulnaPoints);
+                case "Benapole" -> boardingPointComboBox.getItems().addAll(benapolePoints);
+                case "Jessore" -> boardingPointComboBox.getItems().addAll(jessorePoints);
+                case "Satkhira" -> boardingPointComboBox.getItems().addAll(satkhiraPoints);
+                case "Chittagong" -> boardingPointComboBox.getItems().addAll(chittagongPoints);
+                case "Cox\"s Bazar" -> boardingPointComboBox.getItems().addAll(coxPoints);
+                case "Saint Martin" -> boardingPointComboBox.getItems().addAll(martinPoints);
+                case "Barisal" -> boardingPointComboBox.getItems().addAll(barisalPoints);
+                case "Sylhet" -> boardingPointComboBox.getItems().addAll(sylhetPoints);
+                case "Rajshahi" -> boardingPointComboBox.getItems().addAll(rajPoints);
+                case "Rangpur" -> boardingPointComboBox.getItems().addAll(rangpurPoints);
+                case "Bogura" -> boardingPointComboBox.getItems().addAll(boguraPoints);
+                case "Khagrachari" -> boardingPointComboBox.getItems().addAll(khagrachariPoints);
+                case "Bandarban" -> boardingPointComboBox.getItems().addAll(bandarbanPoints);
+                case "Rangamati" -> boardingPointComboBox.getItems().addAll(rangamatiPoints);
+                case "Panchagarh" -> boardingPointComboBox.getItems().addAll(panchaPoints);
+                case "Pabna" -> boardingPointComboBox.getItems().addAll(pabnaPoints);
+                case "Natore" -> boardingPointComboBox.getItems().addAll(natorePoints);
+                case "Chapai Nawabganj" -> boardingPointComboBox.getItems().addAll(chapaiPoints);
+                case "Kuakata" -> boardingPointComboBox.getItems().addAll(kuakataPoints);
+                case "Dinajpur" -> boardingPointComboBox.getItems().addAll(dinajPoints);
+            }
+
+            switch (to) {
+                case "Dhaka" -> droppingPointComboBox.getItems().addAll(dhakaPoints);
+                case "Khulna" -> droppingPointComboBox.getItems().addAll(khulnaPoints);
+                case "Benapole" -> droppingPointComboBox.getItems().addAll(benapolePoints);
+                case "Jessore" -> droppingPointComboBox.getItems().addAll(jessorePoints);
+                case "Satkhira" -> droppingPointComboBox.getItems().addAll(satkhiraPoints);
+                case "Chittagong" -> droppingPointComboBox.getItems().addAll(chittagongPoints);
+                case "Cox\"s Bazar" -> droppingPointComboBox.getItems().addAll(coxPoints);
+                case "Saint Martin" -> droppingPointComboBox.getItems().addAll(martinPoints);
+                case "Barisal" -> droppingPointComboBox.getItems().addAll(barisalPoints);
+                case "Sylhet" -> droppingPointComboBox.getItems().addAll(sylhetPoints);
+                case "Rajshahi" -> droppingPointComboBox.getItems().addAll(rajPoints);
+                case "Rangpur" -> droppingPointComboBox.getItems().addAll(rangpurPoints);
+                case "Bogura" -> droppingPointComboBox.getItems().addAll(boguraPoints);
+                case "Khagrachari" -> droppingPointComboBox.getItems().addAll(khagrachariPoints);
+                case "Bandarban" -> droppingPointComboBox.getItems().addAll(bandarbanPoints);
+                case "Rangamati" -> droppingPointComboBox.getItems().addAll(rangamatiPoints);
+                case "Panchagarh" -> droppingPointComboBox.getItems().addAll(panchaPoints);
+                case "Pabna" -> droppingPointComboBox.getItems().addAll(pabnaPoints);
+                case "Natore" -> droppingPointComboBox.getItems().addAll(natorePoints);
+                case "Chapai Nawabganj" -> droppingPointComboBox.getItems().addAll(chapaiPoints);
+                case "Kuakata" -> droppingPointComboBox.getItems().addAll(kuakataPoints);
+                case "Dinajpur" -> droppingPointComboBox.getItems().addAll(dinajPoints);
+            }
+
+            boardingPointComboBox.getSelectionModel().selectFirst();
+            droppingPointComboBox.getSelectionModel().selectFirst();
 
             if (coachNo.contains("-R")){
                 String newCoachNo = coachNo.substring(0, coachNo.length()-2);
@@ -1106,8 +1179,6 @@ public class ReservationPageController implements Initializable {
         selectedSeatString.clear();
         radioDeckVBox.setVisible(false);
         radioLower.setSelected(true);
-        boardingPointComboBox.getSelectionModel().selectFirst();
-        droppingPointComboBox.getSelectionModel().selectFirst();
         soldSeatsList.clear();
         bookedSeatsList.clear();
         bookedSeatsListDDUpper.clear();
@@ -1691,8 +1762,10 @@ public class ReservationPageController implements Initializable {
                 assert seat != null;
                 UserData userData = new UserData();
 
-                cpc.updateTripData(userData.getUserLastName(), userData.getUserGender(), coachNoSeatMapText.getText(), reportingTimeSeatMapText.getText(), coachStartingSeatMapText.getText(), departureTimeSeatMapText.getText(), dest, coachTypeSeatMapText.getText(), seat.toString(), totalFare.getText());
+                cpc.updateTripData(userData.getUserLastName(), userData.getUserGender(), coachNoSeatMapText.getText(), reportingTimeSeatMapText.getText(), boardingPointComboBox.getValue(), departureTimeSeatMapText.getText(), droppingPointComboBox.getValue(), coachTypeSeatMapText.getText(), seat.toString(), totalFare.getText());
                 totalFare.setText("BDT 0");
+                boardingPointComboBox.getItems().removeAll(boardingPointComboBox.getItems());
+                droppingPointComboBox.getItems().removeAll(droppingPointComboBox.getItems());
                 total = 0;
                 Stage window = new Stage();
                 window.initStyle(StageStyle.UNDECORATED);
@@ -1749,13 +1822,6 @@ public class ReservationPageController implements Initializable {
         checkBoxSleeper.selectedProperty().addListener((o, oldValue, newValue) -> {
             isSleeperSelected = checkBoxSleeper.isSelected();
         });
-
-
-        boardingPointComboBox.getItems().addAll(boardingPoints);
-        droppingPointComboBox.getItems().addAll(droppingPoints);
-
-        boardingPointComboBox.getSelectionModel().selectFirst();
-        droppingPointComboBox.getSelectionModel().selectFirst();
 
         selectedSeatCount = 0;
 
