@@ -390,13 +390,6 @@ public class CancellationPageController implements Initializable {
                         statement1.execute(sqlQuery);
 
 
-                        //resultSet = statement.executeQuery(sqlQuery);
-
-
-//                    PreparedStatement preparedStatement = connectorDB.getConnection().prepareStatement(sqlQuery);
-//                    preparedStatement.setString(1, UTKNumber.getText());
-//                    preparedStatement.executeUpdate();
-
 
                     } catch (SQLException ex) {
                         ex.printStackTrace();

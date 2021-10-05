@@ -20,10 +20,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import miscellaneous.java.UserData;
+import net.codejava.sql.ConnectorDB;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Objects;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class TransactionLogPageController implements Initializable {
@@ -197,20 +203,46 @@ public class TransactionLogPageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        UserData userData = new UserData();
+        int i =0;
 
         translateIt(500, transactionLog, -475, 1);
         translateIt(500, page, -199, 1);
         translateIt(500, transactionTab, 1455, 1);
+        ObservableList<TransactionData> data = FXCollections.observableArrayList( );
 
-        ObservableList<TransactionData> data =
-                FXCollections.observableArrayList(
-                        //TODO add transaction log data here
-                        new TransactionData("1","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold"),
-                        new TransactionData("2","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold"),
-                        new TransactionData("3","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold"),
-                        new TransactionData("4","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold"),
-                        new TransactionData("5","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold")
-                );
+
+
+        try {
+            ConnectorDB connectorDB = new ConnectorDB();
+            String sqlQuery = "Select * from Reservation join transactionInformation on Reservation.UTKNo = transactionInformation.transactionId where transactionInformation.userEmail = '"+ userData.getUserEmail()+"' ";
+            Statement statement = connectorDB.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
+            while (resultSet.next()){
+                if (resultSet.getString("transactionId").contains("-R")){
+                    data.add(new TransactionData(Integer.toString(i), resultSet.getString("transactionId"), resultSet.getString("reservationDate"), resultSet.getString("dateOfReturn"), resultSet.getString("statusInfo")));
+
+
+                } else {
+                    data.add(new TransactionData(Integer.toString(i), resultSet.getString("transactionId"), resultSet.getString("reservationDate"), resultSet.getString("dateOfJourney"), resultSet.getString("statusInfo")));
+
+
+                }
+                i++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+//                        new TransactionData("1","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold"),
+//                        new TransactionData("2","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold"),
+//                        new TransactionData("3","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold"),
+//                        new TransactionData("4","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold"),
+//                        new TransactionData("5","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold")
+
 
 
         serialCol.setCellValueFactory(new PropertyValueFactory<>("serialNo"));
@@ -246,6 +278,7 @@ public class TransactionLogPageController implements Initializable {
         private final SimpleStringProperty reservationDate;
         private final SimpleStringProperty JourneyDate;
         private final SimpleStringProperty status;
+
 
         private TransactionData(String serial, String utk, String revDate, String jourDate, String stat) {
 
