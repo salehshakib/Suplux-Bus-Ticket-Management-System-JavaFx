@@ -962,3 +962,39 @@
 
     -fx-fill: #000b1c;
 }
+
+.table-view{
+    -fx-background-color: transparent;
+}
+
+.table-view:focused{
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background{
+    -fx-background-color: #000b1c;
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell{
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-alignment: center;
+}
+
+.table-row-cell{
+    -fx-background-color: #007EFC, #001224;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+    -fx-border-color: #007EFC;
+    -fx-table-cell-border-color: #007EFC;
+}

@@ -374,16 +374,23 @@ public class CancellationPageController implements Initializable {
                     try {
                         ConnectorDB connectorDB = new ConnectorDB();
 
-                        String sqlQuery1 = "update transactionInformation set statusInfo = 'Canceled' where transactionId = '"+ UTKNumber.getText() + "' ";
+                        String sqlQuery1 = "Update transactionInformation set statusInfo = 'Cancelled' where transactionId = '"+ UTKNumber.getText() + "' ";
                         System.out.println(sqlQuery1);
-                        Statement statement = connectorDB.getConnection().createStatement();
-                        ResultSet resultSet =statement.executeQuery(sqlQuery1);
 
-
-                        String sqlQuery = "delete from Reservation where UTKNo =  '" + UTKNumber.getText()+ "' ";
+                        Statement statement;
 
                         statement = connectorDB.getConnection().createStatement();
-                        resultSet = statement.executeQuery(sqlQuery);
+                        statement.execute(sqlQuery1);
+
+
+                        String sqlQuery = "Delete from Reservation where UTKNo =  '" + UTKNumber.getText()+ "' ";
+                        Statement statement1;
+
+                        statement1 = connectorDB.getConnection().createStatement();
+                        statement1.execute(sqlQuery);
+
+
+                        //resultSet = statement.executeQuery(sqlQuery);
 
 
 //                    PreparedStatement preparedStatement = connectorDB.getConnection().prepareStatement(sqlQuery);

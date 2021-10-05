@@ -1,6 +1,10 @@
 package controllers;
 
+import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,6 +13,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -30,6 +37,8 @@ public class TransactionLogPageController implements Initializable {
     public Label logOutInfo, tranLogInfo, cancelInfo, reserveInfo;
     public Text transactionLog, page;
     public Button homeBtn;
+    public TableView<TransactionData> transactionTab;
+    public TableColumn<String, TransactionData> utkCol, revDateCol, jourDateCol, statCol, serialCol;
 
     /**
      *  this method is to close the application
@@ -183,8 +192,128 @@ public class TransactionLogPageController implements Initializable {
         }
     }
 
+    /**
+     * this method is initializing the scene
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        translateIt(500, transactionLog, -475, 1);
+        translateIt(500, page, -199, 1);
+        translateIt(500, transactionTab, 1455, 1);
+
+        ObservableList<TransactionData> data =
+                FXCollections.observableArrayList(
+                        //TODO add transaction log data here
+                        new TransactionData("1","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold"),
+                        new TransactionData("2","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold"),
+                        new TransactionData("3","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold"),
+                        new TransactionData("4","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold"),
+                        new TransactionData("5","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold")
+                );
+
+
+        serialCol.setCellValueFactory(new PropertyValueFactory<>("serialNo"));
+        utkCol.setCellValueFactory(new PropertyValueFactory<>("utkNoData"));
+        revDateCol.setCellValueFactory(new PropertyValueFactory<>("reservationDate"));
+        jourDateCol.setCellValueFactory(new PropertyValueFactory<>("JourneyDate"));
+        statCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        transactionTab.setItems(data);
+    }
+
+    public void translateIt(double duration, Node node, double translateTo, int type) {
+
+        TranslateTransition transition = new TranslateTransition(Duration.millis(duration), node);
+
+        if (type == 1) {
+
+            transition.setToX(translateTo);
+        } else if (type == 2) {
+
+            transition.setToY(translateTo);
+        }
+
+        transition.play();
+
+    }
+
+
+    public static class TransactionData {
+
+        private final SimpleStringProperty serialNo;
+        private final SimpleStringProperty utkNoData;
+        private final SimpleStringProperty reservationDate;
+        private final SimpleStringProperty JourneyDate;
+        private final SimpleStringProperty status;
+
+        private TransactionData(String serial, String utk, String revDate, String jourDate, String stat) {
+
+            this.serialNo = new SimpleStringProperty(serial);
+            this.utkNoData = new SimpleStringProperty(utk);
+            this.reservationDate = new SimpleStringProperty(revDate);
+            this.JourneyDate = new SimpleStringProperty(jourDate);
+            this.status = new SimpleStringProperty(stat);
+        }
+
+        public String getSerialNo() {
+            return serialNo.get();
+        }
+
+        public SimpleStringProperty serialNoProperty() {
+            return serialNo;
+        }
+
+        public void setSerialNo(String serialNo) {
+            this.serialNo.set(serialNo);
+        }
+
+        public String getUtkNoData() {
+            return utkNoData.get();
+        }
+
+        public SimpleStringProperty utkNoDataProperty() {
+            return utkNoData;
+        }
+
+        public void setUtkNoData(String utkNoData) {
+            this.utkNoData.set(utkNoData);
+        }
+
+        public String getReservationDate() {
+            return reservationDate.get();
+        }
+
+        public SimpleStringProperty reservationDateProperty() {
+            return reservationDate;
+        }
+
+        public void setReservationDate(String reservationDate) {
+            this.reservationDate.set(reservationDate);
+        }
+
+        public String getJourneyDate() {
+            return JourneyDate.get();
+        }
+
+        public SimpleStringProperty journeyDateProperty() {
+            return JourneyDate;
+        }
+
+        public void setJourneyDate(String journeyDate) {
+            this.JourneyDate.set(journeyDate);
+        }
+
+        public String getStatus() {
+            return status.get();
+        }
+
+        public SimpleStringProperty statusProperty() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status.set(status);
+        }
     }
 }
