@@ -31,9 +31,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicReference;
-
-
 
 public class HomeController implements Initializable {
 
@@ -54,6 +51,7 @@ public class HomeController implements Initializable {
 
     private static boolean stage = false;
     private static boolean isLoggedIn = false;
+    private boolean isEmailExists = true;
 
 //    public static String justEmail, justUserName, justUserGender;
 
@@ -265,14 +263,9 @@ public class HomeController implements Initializable {
                                 signUpController.userData(signUpEmail.getText(), signUpPassword.getText(), verificationOTP);
                                 System.out.println(verificationOTP);
 
+                                isEmailExists = false;
 
-
-                            }else {
-                                //todo if user already exist so fix this shit set_cookie(mjaumi, val, 3d);
-
-                                System.out.println("user already exist");
                             }
-
 
                         } catch (SQLException e) {
                             e.printStackTrace();
@@ -294,50 +287,83 @@ public class HomeController implements Initializable {
             };
             task.setOnSucceeded(e -> {
 
-                // OTP sent dialog box is generated here
                 BoxBlur blur = new BoxBlur(6, 6, 6);
-
                 FXMLLoader otp = new FXMLLoader(getClass().getResource("/resources/infoDialog.fxml"));
-                try {
 
-                    Region otpLoader = otp.load();
+                if(!isEmailExists){
 
-                    InfoDialogController idc = otp.getController();
-                    idc.setDialogBody("An E mail with OTP has been sent to your given E mail ID. Please, check it.");
-                    idc.setDialogButtonText("Okay, Thank you");
+                    // OTP sent dialog box is generated here
 
-                    JFXDialog otpDialog = new JFXDialog(rootStack, otpLoader, JFXDialog.DialogTransition.TOP);
+                    try {
 
-                    idc.setDialog(otpDialog);
-                    otpDialog.show();
-                    otpDialog.setOnDialogClosed((JFXDialogEvent event) -> {
+                        Region otpLoader = otp.load();
 
-                        rootPane.setEffect(null);
+                        InfoDialogController idc = otp.getController();
+                        idc.setDialogBody("An E mail with OTP has been sent to your given E mail ID. Please, check it.");
+                        idc.setDialogButtonText("Okay, Thank you");
 
-                        try {
+                        JFXDialog otpDialog = new JFXDialog(rootStack, otpLoader, JFXDialog.DialogTransition.TOP);
 
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/signUpForm.fxml"));
-                            Parent signUpPage = loader.load();
-                            Scene scene = new Scene(signUpPage);
+                        idc.setDialog(otpDialog);
+                        otpDialog.show();
+                        otpDialog.setOnDialogClosed((JFXDialogEvent event) -> {
 
-                            SignUpController suc = loader.getController();
+                            rootPane.setEffect(null);
 
-                            suc.getEmailAndPassword(signUpEmail.getText(), signUpPassword.getText(), verificationOTP);
+                            try {
 
-                            Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-                            window.setScene(scene);
-                            window.show();
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/signUpForm.fxml"));
+                                Parent signUpPage = loader.load();
+                                Scene scene = new Scene(signUpPage);
 
-                        } catch (IOException ioException) {
-                            ioException.printStackTrace();
-                        }
+                                SignUpController suc = loader.getController();
 
-                    });
-                    rootPane.setEffect(blur);
+                                suc.getEmailAndPassword(signUpEmail.getText(), signUpPassword.getText(), verificationOTP);
 
-                } catch (IOException ignored) {
+                                Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+                                window.setScene(scene);
+                                window.show();
 
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
+
+                        });
+                        rootPane.setEffect(blur);
+
+                    } catch (IOException ignored) {
+
+                    }
+                } else{
+
+                    // user already exists dialog box is generated here
+
+                    try {
+
+                        Region otpLoader = otp.load();
+
+                        InfoDialogController idc = otp.getController();
+                        idc.setDialogBody("User already exists. Try Logging in.");
+                        idc.setDialogButtonText("Okay, I underStand");
+
+                        JFXDialog otpDialog = new JFXDialog(rootStack, otpLoader, JFXDialog.DialogTransition.TOP);
+
+                        idc.setDialog(otpDialog);
+                        otpDialog.show();
+                        otpDialog.setOnDialogClosed((JFXDialogEvent event) -> {
+
+                            rootPane.setEffect(null);
+
+                        });
+                        rootPane.setEffect(blur);
+
+                        System.out.println("user already exist");
+
+                    } catch (IOException ignored) {
+
+                    }
                 }
+
 
             });
             new Thread(task).start();

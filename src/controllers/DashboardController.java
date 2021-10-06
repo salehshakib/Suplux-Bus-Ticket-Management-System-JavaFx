@@ -47,9 +47,9 @@ public class DashboardController implements Initializable {
     @FXML
     public Button crossButton;
 
-    public Pane rootPane, logOutBtn, transBtn, cancelBtn, reserveBtn, reservePane, cancelPane, ratingsPane, firstNamePane, lastNamePane, updateFirstNameBtn, updateLastNameBtn, updateGenderBtn, updatePhoneNoBtn, updateNIDBtn, updateBirthRegBtn, updatePassportBtn;
-    public Label logOutInfo, tranLogInfo, cancelInfo, reserveInfo, reserveLabel, cancelLabel, tripLabel, firstNameLabel, lastNameLabel, emailLabel, genderLabel, phoneNoLabel, NIDLabel, birthRegLabel, passportLabel;
-    public ProgressIndicator reserveProg, cancelProg, tripProg;
+    public Pane rootPane, logOutBtn, transBtn, cancelBtn, reserveBtn, reservePane, cancelPane, firstNamePane, lastNamePane, updateFirstNameBtn, updateLastNameBtn, updateGenderBtn, updatePhoneNoBtn, updateNIDBtn, updateBirthRegBtn;
+    public Label logOutInfo, tranLogInfo, cancelInfo, reserveInfo, reserveLabel, cancelLabel, tripLabel, firstNameLabel, lastNameLabel, emailLabel, genderLabel, phoneNoLabel, NIDLabel, birthRegLabel;
+    public ProgressIndicator reserveProg, cancelProg;
     public ScrollPane dashScroll;
     public StackPane rootStack;
     public Text passenger, dashboard, userName;
@@ -273,15 +273,6 @@ public class DashboardController implements Initializable {
 
         updateUserData("Update Birth Reg No", "Enter a birth reg number", "Birth Reg No");
         UpdateUserInfoDialogController.checkData(birthRegLabel.getText());
-    }
-
-    /**
-     * this method updates the passport number section
-     */
-    public void onClickUpdatePassportBtn(){
-
-        updateUserData("Update Passport No", "Enter a Passport Number", "Passport No");
-        UpdateUserInfoDialogController.checkData(passportLabel.getText());
     }
 
     /**
@@ -520,7 +511,6 @@ public class DashboardController implements Initializable {
             case "Phone No" -> phoneNoLabel.setText(data);
             case "NID No" -> NIDLabel.setText(data);
             case "Birth Reg No" -> birthRegLabel.setText(data);
-            case "Passport No" -> passportLabel.setText(data);
         }
     }
 
@@ -556,12 +546,6 @@ public class DashboardController implements Initializable {
                 if (resultSet.getString("userBReg") != null){
                     birthRegLabel.setText(resultSet.getString("userBReg"));
                 }
-                if (resultSet.getString("userPassport") != null){
-                    passportLabel.setText(resultSet.getString("userPassport"));
-                }
-                else {
-                    passportLabel.setText("N/A");
-                }
 
                 if (resultSet.getString("userImage") != null){
                     System.out.println(resultSet.getString("userImage"));
@@ -581,7 +565,6 @@ public class DashboardController implements Initializable {
 
         new ProgressThread(reserveProg, reserveLabel, 0.7, 1).start();
         new ProgressThread(cancelProg, cancelLabel, 0.3, 1).start();
-        new ProgressThread(tripProg, tripLabel, 0.85, 2).start();
 
         translateIt(500, passenger, -329, 1);
         translateIt(500, dashboard, -461, 1);
@@ -611,17 +594,8 @@ public class DashboardController implements Initializable {
 
                 cancelTransition.setOnFinished((et)->{
 
-                    ScaleTransition ratingTransition = new ScaleTransition(Duration.millis(500), ratingsPane);
-                    ratingTransition.setToX(1);
-                    ratingTransition.setToY(1);
-                    ratingTransition.play();
-
-                    ratingTransition.setOnFinished((ef)->{
-
-                        scaleIt(500, firstNamePane, 1, 3);
-                        scaleIt(500, lastNamePane, 1, 3);
-
-                    });
+                    scaleIt(500, firstNamePane, 1, 3);
+                    scaleIt(500, lastNamePane, 1, 3);
                 });
             });
         });

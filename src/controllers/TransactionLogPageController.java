@@ -204,7 +204,7 @@ public class TransactionLogPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         UserData userData = new UserData();
-        int i =0;
+        int i = 1;
 
         translateIt(500, transactionLog, -475, 1);
         translateIt(500, page, -199, 1);
@@ -215,21 +215,40 @@ public class TransactionLogPageController implements Initializable {
 
         try {
             ConnectorDB connectorDB = new ConnectorDB();
-            String sqlQuery = "Select * from Reservation join transactionInformation on Reservation.UTKNo = transactionInformation.transactionId where transactionInformation.userEmail = '"+ userData.getUserEmail()+"' ";
-            Statement statement = connectorDB.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery(sqlQuery);
-            while (resultSet.next()){
-                if (resultSet.getString("transactionId").contains("-R")){
-                    data.add(new TransactionData(Integer.toString(i), resultSet.getString("transactionId"), resultSet.getString("reservationDate"), resultSet.getString("dateOfReturn"), resultSet.getString("statusInfo")));
+            String sqlQuery2 = "Select * from transactionInformation where userEmail = '" + userData.getUserEmail()+"' ";
+            Statement statement1 = connectorDB.getConnection().createStatement();
+            ResultSet resultSet1 = statement1.executeQuery(sqlQuery2);
+            while (resultSet1.next()){
+                String sqlQuery = "Select * from Reservation where UTKNo = '" + resultSet1.getString("transactionId") + "' ";
 
+                Statement statement = connectorDB.getConnection().createStatement();
+                ResultSet resultSet = statement.executeQuery(sqlQuery);
+                if(resultSet.next()){
+                    System.out.println(resultSet1.getString("transactionId"));
+                    if (resultSet1.getString("transactionId").contains("-R")){
+                        data.add(new TransactionData(Integer.toString(i), resultSet.getString("UTKNo"), resultSet.getString("reservationDate"), resultSet.getString("dateOfReturn"), resultSet1.getString("statusInfo")));
+
+
+                    } else {
+                        data.add(new TransactionData(Integer.toString(i), resultSet.getString("UTKNo"), resultSet.getString("reservationDate"), resultSet.getString("dateOfJourney"), resultSet1.getString("statusInfo")));
+
+
+                    }
 
                 } else {
-                    data.add(new TransactionData(Integer.toString(i), resultSet.getString("transactionId"), resultSet.getString("reservationDate"), resultSet.getString("dateOfJourney"), resultSet.getString("statusInfo")));
-
+                    System.out.println(resultSet1.getString("transactionId"));
+                    data.add(new TransactionData(Integer.toString(i), resultSet1.getString("transactionId"), "", " ", resultSet1.getString("statusInfo")));
 
                 }
                 i++;
+
             }
+
+
+            String sqlQuery = "Select * from Reservation join transactionInformation on Reservation.UTKNo = transactionInformation.transactionId where transactionInformation.userEmail = '"+ userData.getUserEmail()+"' ";
+
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,8 @@
 package controllers;
 
 import com.gluonhq.charm.glisten.control.ProgressBar;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.events.JFXDialogEvent;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.concurrent.Task;
@@ -13,8 +15,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -44,12 +49,14 @@ public class CancellationPageController implements Initializable {
      */
     @FXML
     public Button crossButton, homeBtn, searchBtn, cancelTicketBtn;
-    public Pane logOutBtn, transBtn, reserveBtn;
+    public Pane logOutBtn, transBtn, reserveBtn, rootPane;
     public Label logOutInfo, tranLogInfo, cancelInfo, reserveInfo, searchErrorMsg, cancelWarningMsg;
     public Text cancellation, page, UTKNumber, tripDate, coachNumber, boardingPoint, reportingTime, seats, reservationStatus, totalFare, coachType, destination, departureTime;
     public TextField UTKSearchField;
     public HBox ticketDetails;
     public ProgressBar fetchProg;
+    public StackPane rootStack;
+
     public boolean eligible = false;
 
     //todo my variables
@@ -345,7 +352,7 @@ public class CancellationPageController implements Initializable {
     /**
      * this method will execute the cancellation process when cancel ticket button is clicked
      */
-    public void onClickCancelTicketButton(){
+    public void onClickCancelTicketButton(javafx.event.ActionEvent actionEvent){
 
         //this task object is letting us get the time for fetching the data from database
         Task<Void> task = new Task<>() {
@@ -400,11 +407,6 @@ public class CancellationPageController implements Initializable {
                 }
 
 
-
-
-
-
-
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -421,7 +423,48 @@ public class CancellationPageController implements Initializable {
             if(eligible){
 
 
-                //todo show dialouge box  and take user home
+                //todo show dialog box  and take user home
+
+                // trip cancelled successfully dialog box is generated here
+                BoxBlur blur = new BoxBlur(6, 6, 6);
+
+                FXMLLoader success = new FXMLLoader(getClass().getResource("/resources/infoDialog.fxml"));
+                try {
+
+                    Region errorLoader = success.load();
+
+                    InfoDialogController idc = success.getController();
+                    idc.setDialogBody("Trip cancelled successfully!!! Have a nice day.");
+                    idc.setDialogButtonText("Okay, Thank you");
+
+                    JFXDialog errorDialog = new JFXDialog(rootStack, errorLoader, JFXDialog.DialogTransition.TOP);
+
+                    idc.setDialog(errorDialog);
+                    errorDialog.show();
+                    errorDialog.setOnDialogClosed((JFXDialogEvent event) -> {
+
+                        rootPane.setEffect(null);
+
+                        try {
+
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/dashboard.fxml"));
+                            Parent home = loader.load();
+
+                            Scene homeScene = new Scene(home);
+
+                            Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+                            window.setScene(homeScene);
+                            window.show();
+
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    });
+                    rootPane.setEffect(blur);
+
+                } catch (IOException ignored) {
+
+                }
 
 
             } else {

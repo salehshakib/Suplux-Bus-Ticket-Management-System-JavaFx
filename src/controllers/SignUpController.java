@@ -44,7 +44,7 @@ public class SignUpController implements Initializable {
     public Button crossButton, profileImageUploadBtn, proceedBtn, backBtn;
     public RadioButton radioMale, radioFemale, radioOthers;
     public javafx.scene.image.ImageView profileImageView;
-    public TextField nidField, bRegField, formFirstName, formLastName, formMobile, formPassport, formOTP;
+    public TextField nidField, bRegField, formFirstName, formLastName, formMobile, formOTP;
     public ScrollPane signUpForm;
     public SVGPath rightArrowSvg;
     public Text signUp, form;
@@ -236,9 +236,7 @@ public class SignUpController implements Initializable {
                             else {
                                 gender = "Others";
                             }
-                            if(!formPassport.getText().isEmpty()){
-                                passport = formPassport.getText();
-                            }
+
                             String nid = nidField.getText();
                             String bReg = bRegField.getText();
 
@@ -271,7 +269,7 @@ public class SignUpController implements Initializable {
                             preparedStatement.setString(6,mobileNo);
                             preparedStatement.setString(7,nid);
                             preparedStatement.setString(8,bReg);
-                            preparedStatement.setString(9,passport);
+                            preparedStatement.setString(9, null);
                             preparedStatement.setString(10,fileName);
 
                             preparedStatement.executeUpdate();
@@ -306,7 +304,7 @@ public class SignUpController implements Initializable {
                     Region errorLoader = success.load();
 
                     InfoDialogController idc = success.getController();
-                    idc.setDialogBody("Account created successfully!!! Please, log in to your account");
+                    idc.setDialogBody("Account created successfully!!! Please, log in to your account.");
                     idc.setDialogButtonText("Okay, Thank you");
 
                     JFXDialog errorDialog = new JFXDialog(rootStack, errorLoader, JFXDialog.DialogTransition.TOP);
