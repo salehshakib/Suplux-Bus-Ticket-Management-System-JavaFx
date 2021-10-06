@@ -10,6 +10,23 @@ public class UserData {
 //    private String userNid_BReg;
 //    private String userPassport;
 //    private String userImage;
+    private int i,j;
+
+    public int getI() {
+        return i;
+    }
+
+    public void setI(int i) {
+        this.i = i;
+    }
+
+    public int getJ() {
+        return j;
+    }
+
+    public void setJ(int j) {
+        this.j = j;
+    }
 
     public UserData() {
     }

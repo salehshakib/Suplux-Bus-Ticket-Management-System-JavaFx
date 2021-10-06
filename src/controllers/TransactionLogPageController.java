@@ -209,9 +209,9 @@ public class TransactionLogPageController implements Initializable {
         translateIt(500, transactionLog, -475, 1);
         translateIt(500, page, -199, 1);
         translateIt(500, transactionTab, 1455, 1);
-        ObservableList<TransactionData> data = FXCollections.observableArrayList( );
+        ObservableList<TransactionData> data = FXCollections.observableArrayList();
 
-
+        int j =1;
 
         try {
             ConnectorDB connectorDB = new ConnectorDB();
@@ -232,12 +232,16 @@ public class TransactionLogPageController implements Initializable {
                     } else {
                         data.add(new TransactionData(Integer.toString(i), resultSet.getString("UTKNo"), resultSet.getString("reservationDate"), resultSet.getString("dateOfJourney"), resultSet1.getString("statusInfo")));
 
+                    }
 
+                    if(resultSet1.getString("statusInfo").equals("Cancelled")){
+
+                        j++;
                     }
 
                 } else {
                     System.out.println(resultSet1.getString("transactionId"));
-                    data.add(new TransactionData(Integer.toString(i), resultSet1.getString("transactionId"), "", " ", resultSet1.getString("statusInfo")));
+                    data.add(new TransactionData(Integer.toString(i), resultSet1.getString("transactionId"), "-", "-", resultSet1.getString("statusInfo")));
 
                 }
                 i++;
@@ -248,19 +252,9 @@ public class TransactionLogPageController implements Initializable {
             String sqlQuery = "Select * from Reservation join transactionInformation on Reservation.UTKNo = transactionInformation.transactionId where transactionInformation.userEmail = '"+ userData.getUserEmail()+"' ";
 
 
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-
-
-//                        new TransactionData("1","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold"),
-//                        new TransactionData("2","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold"),
-//                        new TransactionData("3","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold"),
-//                        new TransactionData("4","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold"),
-//                        new TransactionData("5","230720211158-M4055D3-240720212200", "23-07-2021", "24-07-2021", "Sold")
 
 
 

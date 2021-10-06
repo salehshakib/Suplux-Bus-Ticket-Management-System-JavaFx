@@ -24,7 +24,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -48,7 +47,7 @@ public class DashboardController implements Initializable {
     public Button crossButton;
 
     public Pane rootPane, logOutBtn, transBtn, cancelBtn, reserveBtn, reservePane, cancelPane, firstNamePane, lastNamePane, updateFirstNameBtn, updateLastNameBtn, updateGenderBtn, updatePhoneNoBtn, updateNIDBtn, updateBirthRegBtn;
-    public Label logOutInfo, tranLogInfo, cancelInfo, reserveInfo, reserveLabel, cancelLabel, tripLabel, firstNameLabel, lastNameLabel, emailLabel, genderLabel, phoneNoLabel, NIDLabel, birthRegLabel;
+    public Label logOutInfo, tranLogInfo, cancelInfo, reserveInfo, reserveLabel, cancelLabel, firstNameLabel, lastNameLabel, emailLabel, genderLabel, phoneNoLabel, NIDLabel, birthRegLabel;
     public ProgressIndicator reserveProg, cancelProg;
     public ScrollPane dashScroll;
     public StackPane rootStack;
@@ -524,6 +523,9 @@ public class DashboardController implements Initializable {
          * TODO into the progValue of the below constructors
          */
 
+        int totalTransactions = 0;
+        int cancelledTransactions = 0;
+
         UserData userData = new UserData();
 
         try {
@@ -561,10 +563,39 @@ public class DashboardController implements Initializable {
             e.printStackTrace();
         }
 
+        try {
+            ConnectorDB connectorDB = new ConnectorDB();
+            String sqlQuery2 = "Select * from transactionInformation where userEmail = '" + userData.getUserEmail()+"' ";
+            Statement statement1 = connectorDB.getConnection().createStatement();
+            ResultSet resultSet1 = statement1.executeQuery(sqlQuery2);
+
+            while (resultSet1.next()){
+
+                if(resultSet1.getString("statusInfo").equals("Cancelled")){
+
+                    cancelledTransactions++;
+                }
+                totalTransactions++;
+
+            }
 
 
-        new ProgressThread(reserveProg, reserveLabel, 0.7, 1).start();
-        new ProgressThread(cancelProg, cancelLabel, 0.3, 1).start();
+            String sqlQuery = "Select * from Reservation join transactionInformation on Reservation.UTKNo = transactionInformation.transactionId where transactionInformation.userEmail = '"+ userData.getUserEmail()+"' ";
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        double rate = (double) cancelledTransactions/totalTransactions;
+
+        System.out.println(cancelledTransactions);
+        System.out.println(totalTransactions);
+        System.out.println(rate);
+        System.out.println(1-rate);
+
+        new ProgressThread(reserveProg, reserveLabel, (1 - rate)).start();
+        new ProgressThread(cancelProg, cancelLabel, rate).start();
 
         translateIt(500, passenger, -329, 1);
         translateIt(500, dashboard, -461, 1);
@@ -646,20 +677,18 @@ public class DashboardController implements Initializable {
         public Label tempLabel;
         public double progValue;
         public double initialValue = 0;
-        public int type;
 
-        public ProgressThread(ProgressIndicator tempProg, Label tempLabel, double progValue, int type){
+        public ProgressThread(ProgressIndicator tempProg, Label tempLabel, double progValue){
 
             this.tempProg = tempProg;
             this.tempLabel = tempLabel;
             this.progValue = progValue;
-            this.type = type;
         }
 
         @Override
         public void run() {
 
-            while (progValue - initialValue > 0.00000001){
+            while (progValue - initialValue > 0.001){
 
                 try{
 
@@ -668,7 +697,7 @@ public class DashboardController implements Initializable {
                         Thread.sleep(2000);
                     } else{
 
-                        Thread.sleep(30);
+                        Thread.sleep(2);
                     }
                 }catch (InterruptedException ignored){
 
@@ -676,20 +705,11 @@ public class DashboardController implements Initializable {
 
                 Platform.runLater(()-> {
                     tempProg.setProgress(initialValue);
-
-                    if (type == 1){
-
-                        tempLabel.setText(Double.toString(Math.round(tempProg.getProgress() * 100)) + "%");
-                    } else{
-
-                        double value = Math.round(((tempProg.getProgress() * 10) / 2) * 10);
-                        tempLabel.setText(value/ 10 + "/5");
-                    }
+                    tempLabel.setText(Math.floor(tempProg.getProgress() * 100) + "%");
 
                 });
 
-                initialValue +=0.02;
-
+                initialValue +=0.002;
             }
         }
     }

@@ -1802,6 +1802,9 @@ public class ReservationPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        isPassengerReturn = "0";
+        downTripSelected = false;
+
         checkBoxNonAC.selectedProperty().addListener((o, oldValue, newValue) -> {
 
             isNonAcSelected = checkBoxNonAC.isSelected();

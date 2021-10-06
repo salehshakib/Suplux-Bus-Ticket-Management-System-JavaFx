@@ -49,7 +49,7 @@ public class CreatePDF {
         try {
             UserData userData = new UserData();
 
-            String fileName = "D:\\javaProject\\generate_pdf\\"+ utkNo + ".pdf";
+            String fileName = "E:\\CSE 3104\\Project\\SupluxBusTicketManagementSystem\\Generated Ticket\\"+ utkNo + ".pdf";
 
             String image = "image/logo.jpg";
 
@@ -169,12 +169,12 @@ public class CreatePDF {
             document.close();
             System.out.println("pdf Created");
             System.out.println("preparing to send message ...");
-            String message = "<html>Hello there, <br> Your Ticket is attached here......<br></html>";
+
             String subject = "User Ticket.";
             String to = userData.getUserEmail();
             String from = "sam404.iums@gmail.com";
 
-            sendMail(message, subject, to, from);
+            sendMail(subject, to, from);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -183,12 +183,14 @@ public class CreatePDF {
     }
 
 
-    private void sendMail(String message, String subject, String to, String from) {
+    private void sendMail(String subject, String to, String from) {
 
         String host = "smtp.gmail.com";
 
         //get the system properties
         Properties properties = System.getProperties();
+
+        String message = "<html>Hello there, <br> Your Ticket is attached here......<br>Download and preserve this ticket. Thank you for traveling with SUPLUX PARIBAHAN. </html>";
 
 
         properties.put("mail.smtp.host", host);
@@ -225,11 +227,11 @@ public class CreatePDF {
             Multipart emailContent = new MimeMultipart();
             MimeBodyPart textBodyPart = new MimeBodyPart();
 
-            textBodyPart.setText("Download or print this ticket.");
+            textBodyPart.setContent(message,"text/html");
 
 
             MimeBodyPart pdfAttachment = new MimeBodyPart();
-            pdfAttachment.attachFile("D:\\javaProject\\generate_pdf\\" + utkNo +".pdf");
+            pdfAttachment.attachFile("E:\\CSE 3104\\Project\\SupluxBusTicketManagementSystem\\Generated Ticket\\" + utkNo +".pdf");
 
             emailContent.addBodyPart(textBodyPart);
             emailContent.addBodyPart(pdfAttachment);
