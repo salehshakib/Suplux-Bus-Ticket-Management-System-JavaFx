@@ -254,6 +254,7 @@ public class CancellationPageController implements Initializable {
                     String sqlQuery = "select * from Reservation join tripData on tripData.coachNo = Reservation.coachNo join transactionInformation on Reservation.UTKNo = transactionInformation.transactionId where UTKNo = '"+ UTKSearchField.getText() + "' ";
                     Statement statement = connectorDB.getConnection().createStatement();
                     ResultSet resultSet = statement.executeQuery(sqlQuery);
+                    int k =0;
                     while (resultSet.next()){
                         UTKNumber.setText(resultSet.getString("UTKNo"));
                         //System.out.println(UTKNumber.getText());
@@ -273,9 +274,12 @@ public class CancellationPageController implements Initializable {
                         coachType.setText(resultSet.getString("coachType"));
                         bookedSeat += resultSet.getString("bookedSeat") + "  ";
                         totalFare.setText(resultSet.getString("farePerSeat"));
+                        k++;
 
 
                     }
+                    totalFare.setText(Integer.toString(Integer.parseInt(totalFare.getText()) * k));
+
 
                     seats.setText(bookedSeat);
 

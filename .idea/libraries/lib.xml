@@ -8,14 +8,19 @@
       <root url="file://C:/Program Files/Java/jdk-12.0.1/javafx-sdk-16/lib" />
       <root url="jar://$PROJECT_DIR$/sqljdbc_9.4.0.0_enu/sqljdbc_9.4/enu/mssql-jdbc-9.4.0.jre16.jar!/" />
       <root url="file://$USER_HOME$/Downloads/javax.mail/javax.mail" />
+      <root url="file://D:/java itext7/iText7-Core-7.1.13-only-jars" />
+      <root url="jar://D:/java itext7/slf4j-api-1.7.30.jar!/" />
+      <root url="jar://D:/java itext7/slf4j-simple-1.7.30.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="file://D:/javaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib" />
       <root url="file://C:/Program Files/Java/jdk-12.0.1/javafx-sdk-16/lib" />
+      <root url="file://$MAVEN_REPOSITORY$/com/itextpdf" />
     </SOURCES>
     <jarDirectory url="file://C:/Program Files/Java/jdk-12.0.1/javafx-sdk-16/lib" recursive="false" />
     <jarDirectory url="file://$USER_HOME$/Downloads/javax.mail/javax.mail" recursive="false" />
+    <jarDirectory url="file://D:/java itext7/iText7-Core-7.1.13-only-jars" recursive="false" />
     <jarDirectory url="file://D:/javaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib" recursive="false" />
     <jarDirectory url="file://C:/Program Files/Java/jdk-12.0.1/javafx-sdk-16/lib" recursive="false" type="SOURCES" />
     <jarDirectory url="file://D:/javaFX/openjfx-16_windows-x64_bin-sdk/javafx-sdk-16/lib" recursive="false" type="SOURCES" />
