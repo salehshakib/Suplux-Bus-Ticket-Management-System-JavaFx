@@ -22,10 +22,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import miscellaneous.createPdf.CreatePDF;
 import miscellaneous.java.UserData;
 import net.codejava.sql.ConnectorDB;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.CacheRequest;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -57,6 +61,7 @@ public class ConfirmationPageController implements Initializable {
 
     private ReservationPageController rpc;
     public static boolean goingToDhaka = false;
+    public String utkNo = "";
 
     /**
      * this setter gets controller from ReservationPageController
@@ -510,7 +515,7 @@ public class ConfirmationPageController implements Initializable {
                             DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("ddMMyyyyHHmm");
                             DateTimeFormatter myFormatObj1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-                            String utkNo = myDateObj.format(myFormatObj);
+                            utkNo = myDateObj.format(myFormatObj);
                             String reservationDate = myDateObj.format(myFormatObj1);
 
                             DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -614,6 +619,9 @@ public class ConfirmationPageController implements Initializable {
 
 
 
+//                                createPDF.makePDF();
+
+
 
 
 
@@ -628,12 +636,11 @@ public class ConfirmationPageController implements Initializable {
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
-
-
-
-
-
-
+//                            } catch (MalformedURLException e) {
+//                                e.printStackTrace();
+//                            } catch (FileNotFoundException e) {
+//                                e.printStackTrace();
+//                            }
 
 
                             try {
@@ -648,6 +655,9 @@ public class ConfirmationPageController implements Initializable {
                         }
                     };
                     task.setOnSucceeded(e -> {
+                        CreatePDF createPDF = new CreatePDF(passName.getText(), seats.getText(), boardingPoint.getText(), reportingTime.getText(), coachNo.getText(), tripDate.getText(), totalFare.getText(), destination.getText(), departureTime.getText(), coachType.getText(), utkNo);
+
+
 
                         if(bookOrPurchase.equals("book")){
 
